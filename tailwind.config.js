@@ -14,6 +14,16 @@ module.exports = {
         UrbanistMedium: ["Urbanist-Medium", "sans-serif"],
         UrbanistSemiBold: ["Urbanist-SemiBold", "sans-serif"],
       },
+      colors:{
+        pink:{
+          200: "#FFE2FB",
+          400: "#FFCBC4",
+          500: "#FADEDA",
+          600:"#F498A0",
+          700: "#F598B7",
+          900: "#A84242",
+        },
+      }
     },
   },
   plugins: [],
