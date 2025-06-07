@@ -18,6 +18,7 @@ module.exports = {
         pink:{
           200: "#FCF6F1",
           400: "#FADEDA",
+          700: "#F598B7",
         },
         brown:{
           800:"#4F3422"
