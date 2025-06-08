@@ -21,6 +21,7 @@ module.exports = {
           300: "#FFCBC4",
           400: "#FADEDA",
           700: "#F598B7",
+          800: "#F699B4"
         },
         brown:{
           800:"#4F3422"

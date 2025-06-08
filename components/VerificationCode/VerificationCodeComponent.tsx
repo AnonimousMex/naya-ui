@@ -111,7 +111,7 @@ const VerificationCodeComponent = ({
               <BackButton onPress={() => router.push("/(auth)/welcome")} />
             </View>
 
-            <Text className="text-4xl font-extrabold text-brown-700 text-center mb-2 text-pink-300">
+            <Text className="text-4xl font-extrabold text-brown-700 text-center mb-2 text-pink-800">
               {title}
             </Text>
 
