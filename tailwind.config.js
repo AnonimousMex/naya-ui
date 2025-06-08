@@ -16,7 +16,9 @@ module.exports = {
       },
       colors:{
         pink:{
+          30: "#F2F5EB",
           200: "#FCF6F1",
+          300: "#FFCBC4",
           400: "#FADEDA",
           700: "#F598B7",
         },
