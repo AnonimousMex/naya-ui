@@ -6,10 +6,11 @@ import {
   ActivityIndicator,
   StyleProp,
   ViewStyle,
+  Dimensions,
 } from "react-native";
 import { IMAGES } from "@/constants/images";
 
-type TSubmitButton = {
+type TMainButton = {
   mainText: string;
   onPress: () => void;
   disabled?: boolean;
@@ -18,37 +19,64 @@ type TSubmitButton = {
   style?: StyleProp<ViewStyle>;
 };
 
-const SubmitButton = ({
+const MainButton = ({
   mainText,
   onPress,
   disabled = false,
   isLoading = false,
   className = "",
   style,
-}: TSubmitButton) => {
+}: TMainButton) => {
+  const { width } = Dimensions.get("window");
+  const buttonPadding = width < 390 ? 12 : 16;
+
   return (
-    <View className="flex-1 items-center justify-center">
+    <View style={{ width: "100%", alignItems: "center" }}>
       <TouchableOpacity
         className={`bg-pink-400 rounded-full flex-row items-center justify-center ${
           disabled || isLoading ? "opacity-70" : ""
         } ${className}`}
         onPress={onPress}
         disabled={disabled || isLoading}
-        style={style}
+        style={[
+          {
+            paddingHorizontal: buttonPadding,
+            paddingVertical: buttonPadding * 0.75,
+            minWidth: width * 0.6, // 60% del ancho de pantalla como mínimo
+          },
+          style,
+        ]}
       >
         {isLoading ? (
           <ActivityIndicator size="small" color="#FFFFFF" />
         ) : (
-          <>
-            <Text className="text-brown-800 text-xl font-UrbanistExtraBold ml-9 top-[-2px]">
+          <View className="flex-row items-center" style={{ flexShrink: 1 }}>
+            <Text
+              className="text-brown-800 font-UrbanistExtraBold"
+              style={{
+                fontSize: width < 390 ? 16 : 20,
+                lineHeight: 24,
+                marginRight: 8,
+                flexShrink: 1,
+              }}
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
               {mainText}
             </Text>
-            <Image source={IMAGES.ARROW_RIGHT} className="w-10 h-10 ml-4" />
-          </>
+            <Image
+              source={IMAGES.ARROW_RIGHT}
+              style={{
+                width: width < 390 ? 24 : 32,
+                height: width < 390 ? 24 : 32,
+                resizeMode: "contain",
+              }}
+            />
+          </View>
         )}
       </TouchableOpacity>
     </View>
   );
 };
 
-export default SubmitButton;
+export default MainButton;

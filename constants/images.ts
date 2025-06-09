@@ -1,11 +1,48 @@
+import emailIcon from "@/assets/icons/email-icon.png";
+import eyeOpenIcon from "@/assets/icons/eye-open-icon.png";
+import eyeClosedIcon from "@/assets/icons/eye-closed-icon.png";
+import backLeftIcon from "@/assets/icons/back-left-icon.png";
+import successIcon from "@/assets/icons/succes-icon.png";
+import warningIcon from "@/assets/icons/warning-icon.png";
+import errorIcon from "@/assets/icons/error-icon.png";
+import lockIcon from "@/assets/icons/lock-icon.png";
+import gearIcon from "@/assets/icons/gear-icon.png";
+import notificationIcon from "@/assets/icons/notification-icon.png";
+import backIconWhite from "@/assets/icons/back-white-icon.png";
+
 import cloudsImage from "@/assets/images/home/clouds.png";
 import arrowRight from "@/assets/images/arrow-right.png";
 import nayaLogo from "@/assets/images/home/naya-logo.png";
 import nayaSlogan from "@/assets/images/naya-slogan.png";
+import happyCat1 from "@/assets/images/animals/happy/happy-cat/happy-cat-1.png";
+import happyLion1 from "@/assets/images/animals/happy/happy-lion/happy-lion-1.png";
+import happyBuny1 from "@/assets/images/animals/happy/happy-bunny/happy-bunny-1.png";
+import happyAxolotl1 from "@/assets/images/animals/happy/happy-axolotl/happy-axolotl-1.png";
+
+export const ICONS = {
+  EMAIL_ICON: emailIcon,
+  EYE_OPEN_ICON: eyeOpenIcon,
+  EYE_CLOSED: eyeClosedIcon,
+  RETURN_LEFT_ICON: backLeftIcon,
+  SUCCESS_IMAGE: successIcon,
+  WARNING_IMAGE: warningIcon,
+  ERROR_IMAGE: errorIcon,
+  LOCK_ICON: lockIcon,
+  SUCCESS_ICON: successIcon,
+  WARNING_ICON: warningIcon,
+  ERROR_ICON: errorIcon,
+  GEAR_ICON: gearIcon,
+  NOTIFICATION_ICON: notificationIcon,
+  BACK_WHITE_ICON: backIconWhite,
+};
 
 export const IMAGES = {
   CLOUDS_IMAGE: cloudsImage,
   ARROW_RIGHT: arrowRight,
   NAYA_LOGO: nayaLogo,
   NAYA_SLOGAN: nayaSlogan,
+  HAPPY_CAT_1: happyCat1,
+  HAPPY_AXOLOTL_1: happyAxolotl1,
+  HAPPY_LION_1: happyLion1,
+  HAPPY_BUNNY_1: happyBuny1,
 };

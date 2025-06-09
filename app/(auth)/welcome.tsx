@@ -1,12 +1,14 @@
-import { Text, View, Image, TouchableOpacity } from "react-native";
+import { Text, View, Image, TouchableOpacity, Dimensions } from "react-native";
 import { IMAGES } from "@/constants/images";
 import { MainButton } from "@/components/MainButton";
 import { CloudBackground } from "@/components/MainPanesComponents/CloudBackground";
 import { useScreenDimensions } from "@/utils/dimensions";
+import { router } from "expo-router";
 
 const Welcome = () => {
   const { logoWidth, logoHeight, sloganWidth, sloganHeight } =
     useScreenDimensions();
+  const { width } = Dimensions.get("window");
 
   return (
     <View className="flex-1 justify-center items-center bg-pink-200">
@@ -25,6 +27,7 @@ const Welcome = () => {
           }}
         />
         <Image
+          className="mb-6"
           source={IMAGES.NAYA_SLOGAN}
           style={{
             width: sloganWidth,
@@ -33,13 +36,17 @@ const Welcome = () => {
           }}
         />
         <TouchableOpacity className="w-80 py-3 rounded-full border items-center mt-24">
-          <Text className="text-lg font-bold text-brown-700">Registrarme</Text>
+          <Text
+            className="text-lg font-bold text-brown-700"
+            style={{ fontSize: width < 390 ? 16 : 20 }}
+          >
+            Registrarme
+          </Text>
         </TouchableOpacity>
         <MainButton
           mainText="Continuar"
-          onPress={() => {}}
-          className="w-80 py-3 mt-24"
-          style={{ height: 50 }}
+          onPress={() => router.push("/(auth)/activate-account")}
+          className="w-80 py-3 mt-6"
         />
       </View>
     </View>
