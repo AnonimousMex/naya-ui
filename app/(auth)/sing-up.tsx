@@ -11,7 +11,8 @@ import {
   Image, 
   KeyboardAvoidingView, 
   Platform, 
-  Pressable
+  Pressable,
+  View
 } from 'react-native'
 import { singUpSchema } from '@/schemas/authSchema';
 import { singUpDefaultValues } from '@/constants/defaultValues/auth';
@@ -20,6 +21,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import PasswordFields from '@/components/SingUp/PasswordFields';
 import { ERROR_TEXTS } from '@/constants/errors/errorTexts';
 import { validatePasswordMatch } from '@/utils/auth';
+import { BackButton } from '@/components/BackButton';
+import { router } from 'expo-router';
 
 function SingUp() {
   const { sloganWidth, sloganHeight } =
@@ -57,10 +60,13 @@ function SingUp() {
       className="flex-1 bg-pink-200" 
       behavior={Platform.OS === "ios" ? "padding" : "height"}>
         <CloudBackground />
-        <SafeAreaView className="">
-          <ScrollView className="mt-10 px-7" showsVerticalScrollIndicator={false}>
+        <SafeAreaView>
+          <ScrollView className="mt-8 px-7" showsVerticalScrollIndicator={false}>
+            <View className="items-start">
+                <BackButton onPress={() => router.push("/(auth)/welcome")} />
+            </View>
             <Image
-              className='mt-8 mb-8 self-center'
+              className='mt-4 mb-8 self-center'
               source={IMAGES.NAYA_SLOGAN}
               style={{
                 width: sloganWidth,
