@@ -35,7 +35,9 @@ const Welcome = () => {
             resizeMode: "contain",
           }}
         />
-        <TouchableOpacity className="w-80 py-3 rounded-full border items-center mt-24">
+        <TouchableOpacity className="w-80 py-3 rounded-full border items-center mt-24"
+          onPress={() => router.push("/(auth)/sing-up")}
+          >
           <Text
             className="text-lg font-bold text-brown-700"
             style={{ fontSize: width < 390 ? 16 : 20 }}

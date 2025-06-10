@@ -1,6 +1,7 @@
 import emailIcon from "@/assets/icons/email-icon.png";
 import eyeOpenIcon from "@/assets/icons/eye-open-icon.png";
 import eyeClosedIcon from "@/assets/icons/eye-closed-icon.png";
+import personIcon from "@/assets/icons/person-icon.png";
 import backLeftIcon from "@/assets/icons/back-left-icon.png";
 import successIcon from "@/assets/icons/succes-icon.png";
 import warningIcon from "@/assets/icons/warning-icon.png";
@@ -20,14 +21,15 @@ import happyBuny1 from "@/assets/images/animals/happy/happy-bunny/happy-bunny-1.
 import happyAxolotl1 from "@/assets/images/animals/happy/happy-axolotl/happy-axolotl-1.png";
 
 export const ICONS = {
-  EMAIL_ICON: emailIcon,
+  EMAIL_ICON : emailIcon,
+  EYE_CLOSED_ICON: eyeClosedIcon,
   EYE_OPEN_ICON: eyeOpenIcon,
-  EYE_CLOSED: eyeClosedIcon,
+  PERSON_ICON: personIcon,
+  LOCK_ICON: lockIcon,
   RETURN_LEFT_ICON: backLeftIcon,
   SUCCESS_IMAGE: successIcon,
   WARNING_IMAGE: warningIcon,
   ERROR_IMAGE: errorIcon,
-  LOCK_ICON: lockIcon,
   SUCCESS_ICON: successIcon,
   WARNING_ICON: warningIcon,
   ERROR_ICON: errorIcon,
