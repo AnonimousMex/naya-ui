@@ -25,6 +25,9 @@ module.exports = {
         },
         brown:{
           800:"#4F3422"
+        },
+        danger: {
+          500: "#F56565"
         }
       }
     },

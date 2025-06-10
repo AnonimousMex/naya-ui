@@ -14,6 +14,11 @@ import cloudsImage from "@/assets/images/home/clouds.png";
 import arrowRight from "@/assets/images/arrow-right.png";
 import nayaLogo from "@/assets/images/home/naya-logo.png";
 import nayaSlogan from "@/assets/images/naya-slogan.png";
+import emailIcon from "@/assets/icons/email-icon.png";
+import eyeClosedIcon from "@/assets/icons/eye-closed-icon.png";
+import eyeOpenIcon from "@/assets/icons/eye-open-icon.png";
+import personIcon from "@/assets/icons/person-icon.png";
+import lockIcon from "@/assets/icons/lock-icon.png";
 import happyCat1 from "@/assets/images/animals/happy/happy-cat/happy-cat-1.png";
 import happyLion1 from "@/assets/images/animals/happy/happy-lion/happy-lion-1.png";
 import happyBuny1 from "@/assets/images/animals/happy/happy-bunny/happy-bunny-1.png";
@@ -45,4 +50,12 @@ export const IMAGES = {
   HAPPY_AXOLOTL_1: happyAxolotl1,
   HAPPY_LION_1: happyLion1,
   HAPPY_BUNNY_1: happyBuny1,
+};
+
+export const ICONS = {
+  EMAIL_ICON : emailIcon,
+  EYE_CLOSED_ICON: eyeClosedIcon,
+  EYE_OPEN_ICON: eyeOpenIcon,
+  PERSON_ICON: personIcon,
+  LOCK_ICON: lockIcon,
 };
