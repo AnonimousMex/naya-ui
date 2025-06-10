@@ -14,6 +14,9 @@ export const useScreenDimensions = () => {
   const cloudOffsetLeft = isSmall ? -60 : -80;
   const cloudOffsetTop = isSmall ? 10 : 20;
 
+  const axolotlLoginWidth = width * 0.9;
+  const axolotlLoginHeight = height * 0.3;
+
   return {
     width,
     height,
@@ -24,5 +27,7 @@ export const useScreenDimensions = () => {
     sloganHeight,
     cloudOffsetLeft,
     cloudOffsetTop,
+    axolotlLoginHeight,
+    axolotlLoginWidth,
   };
 };
