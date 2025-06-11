@@ -20,13 +20,14 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { ERROR_TEXTS } from '@/constants/errors/errorTexts';
 import { BackButton } from '@/components/BackButton';
 import { router } from 'expo-router';
-import Snackbar from "@/components/Snackbar/Snackbar";
 import React, { useState } from "react";
+import { useSnackbar } from "@/hooks/useSnackbar";
 
 function Login() {
 
     const { sloganWidth, sloganHeight, axolotlLoginHeight, axolotlLoginWidth } =
         useScreenDimensions();
+    const { showSnackbar } = useSnackbar();
 
     const formMethods = useForm<TSignInSchema>({
         resolver: zodResolver(signInSchema),
@@ -55,9 +56,10 @@ function Login() {
 
 
     const onInvalidForm = () => {
-        setSnackbarMessage("Revisa los campos marcados");
-        setSnackbarType("warning");
-        setVisible(true);
+    showSnackbar({
+            type: "warning",
+            message: `Revisa todos los campos marcados`,
+          });
     }
 
 
@@ -139,14 +141,7 @@ function Login() {
                         }}
                     />
                 </ScrollView>
-            </SafeAreaView>
-            <Snackbar
-                message={snackbarMessage}
-                visible={visible}
-                type={snackbarType}
-                onDismiss={() => setVisible(false)}
-                duration={3000}
-            />
+            </SafeAreaView>         
         </KeyboardAvoidingView>
     )
 }
