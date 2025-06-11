@@ -50,8 +50,8 @@ function Login() {
 
     const onInvalidForm = () => {
         showSnackbar({
-            type: "error",
-            message: `Revisa to`,
+            type: "warning",
+            message: `Completa todos los campos marcados`,
         });
     }
 
