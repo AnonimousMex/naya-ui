@@ -24,6 +24,7 @@ import happyCatHead from "@/assets/images/animals/happy/happy-cat/happy-cat-head
 import happyLionHead from "@/assets/images/animals/happy/happy-lion/happy-lion-head.png";
 import happyBunnyHead from "@/assets/images/animals/happy/happy-bunny/happy-bunny-head.png";
 import happyPandaHead from "@/assets/images/animals/happy/happy-panda/happy-panda-head.png";
+import happyAxolotl2 from "@/assets/images/animals/happy/happy-axolotl/happy-axolotl-2.png";
 
 export const ICONS = {
   EMAIL_ICON : emailIcon,
@@ -50,6 +51,7 @@ export const IMAGES = {
   NAYA_SLOGAN: nayaSlogan,
   HAPPY_CAT_1: happyCat1,
   HAPPY_AXOLOTL_1: happyAxolotl1,
+  HAPPY_AXOLOTL_2: happyAxolotl2,
   HAPPY_LION_1: happyLion1,
   HAPPY_BUNNY_1: happyBuny1,
   HAPPY_AXOLOTL_HEAD: happyAxolotlHead,

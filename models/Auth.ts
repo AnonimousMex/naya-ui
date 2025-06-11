@@ -1,4 +1,5 @@
 import { singUpSchema } from "@/schemas/authSchema";
+import { signInSchema } from "@/schemas/authSchema";
 import * as z from "zod";
 
 
@@ -10,3 +11,4 @@ export type TSignUp = {
 }
 
 export type TSignUpSchema = z.infer<typeof singUpSchema>;
+export type TSignInSchema = z.infer<typeof signInSchema>;
