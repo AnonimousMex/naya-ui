@@ -11,7 +11,6 @@ import {
   Image, 
   KeyboardAvoidingView, 
   Platform, 
-  Pressable,
   View
 } from 'react-native'
 import { singUpSchema } from '@/schemas/authSchema';
@@ -23,6 +22,7 @@ import { ERROR_TEXTS } from '@/constants/errors/errorTexts';
 import { validatePasswordMatch } from '@/utils/auth';
 import { BackButton } from '@/components/BackButton';
 import { router } from 'expo-router';
+import { useSnackbar } from '@/hooks/useSnackbar';
 
 function SingUp() {
   const { sloganWidth, sloganHeight } =
@@ -35,6 +35,7 @@ function SingUp() {
   })
 
   const {control, handleSubmit, setError } = formMethods;
+  const { showSnackbar } = useSnackbar();
 
   const handleOnSubmit = (data: TSignUpSchema) => {
     if (!validatePasswordMatch(data.password, data.confirmPassword)) {
@@ -44,15 +45,15 @@ function SingUp() {
       setError("confirmPassword", {
         message: ERROR_TEXTS.INVALID_PASSWORDS_MATCH_FIELD,
       });
-      // showSnackbar({
-      //   message: ERROR_TEXTS.INVALID_PASSWORDS_MATCH_ALERT,
-      //   type: "error",
-      // });
+      showSnackbar({
+        message: ERROR_TEXTS.INVALID_PASSWORDS_MATCH_ALERT,
+        type: "error",
+      });
       return;
     }
   }
   const onInvalidForm = () => {
-    // showSnackbar({ type: "warning" });
+    showSnackbar({ type: "warning" });
   }
 
   return (
