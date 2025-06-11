@@ -48,8 +48,8 @@ const Welcome = () => {
         </TouchableOpacity>
         <MainButton
           mainText="Continuar"
-          onPress={() => router.push("/(auth)/activate-account")}
-          className="w-full py-3 mt-6"
+          onPress={() => router.push("/(auth)/sign-in")}
+          className="w-80 py-3 mt-6"
         />
       </View>
     </View>

@@ -19,6 +19,12 @@ import happyCat1 from "@/assets/images/animals/happy/happy-cat/happy-cat-1.png";
 import happyLion1 from "@/assets/images/animals/happy/happy-lion/happy-lion-1.png";
 import happyBuny1 from "@/assets/images/animals/happy/happy-bunny/happy-bunny-1.png";
 import happyAxolotl1 from "@/assets/images/animals/happy/happy-axolotl/happy-axolotl-1.png";
+import happyAxolotlHead from "@/assets/images/animals/happy/happy-axolotl/happy-axolotl-head.png";
+import happyCatHead from "@/assets/images/animals/happy/happy-cat/happy-cat-head.png";
+import happyLionHead from "@/assets/images/animals/happy/happy-lion/happy-lion-head.png";
+import happyBunnyHead from "@/assets/images/animals/happy/happy-bunny/happy-bunny-head.png";
+import happyPandaHead from "@/assets/images/animals/happy/happy-panda/happy-panda-head.png";
+import happyAxolotl2 from "@/assets/images/animals/happy/happy-axolotl/happy-axolotl-2.png";
 
 export const ICONS = {
   EMAIL_ICON : emailIcon,
@@ -45,6 +51,12 @@ export const IMAGES = {
   NAYA_SLOGAN: nayaSlogan,
   HAPPY_CAT_1: happyCat1,
   HAPPY_AXOLOTL_1: happyAxolotl1,
+  HAPPY_AXOLOTL_2: happyAxolotl2,
   HAPPY_LION_1: happyLion1,
   HAPPY_BUNNY_1: happyBuny1,
+  HAPPY_AXOLOTL_HEAD: happyAxolotlHead,
+  HAPPY_CAT_HEAD: happyCatHead,
+  HAPPY_LION_HEAD: happyLionHead,
+  HAPPY_BUNNY_HEAD: happyBunnyHead,
+  HAPPY_PANDA_HEAD: happyPandaHead,
 };
