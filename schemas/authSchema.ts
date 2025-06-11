@@ -29,7 +29,7 @@ export const singUpSchema = z
         )
 
     })
-export const loginSchema = z.object({
+export const signInSchema = z.object({
     email: REQUIRED_FIELD
         .regex(REGEX_PATTERNS.EMAIL, ERROR_TEXTS.INVALID_EMAIL_FIELD)
         .max(40, MAX_LENGTH_MESSAGE(40)),

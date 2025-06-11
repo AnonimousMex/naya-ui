@@ -1,7 +1,6 @@
 import { CloudBackground } from '@/components/MainPanesComponents/CloudBackground';
 import { ICONS, IMAGES } from '@/constants/images';
 import { useScreenDimensions } from '@/utils/dimensions';
-import React from 'react'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { FormProvider, useForm } from 'react-hook-form';
 import { MainButton } from "@/components/MainButton";
@@ -9,46 +8,56 @@ import {
     ScrollView,
     Image,
     KeyboardAvoidingView,
-    Platform,    
+    Platform,
     View,
     Text
 } from 'react-native'
-import { TLoginSchema } from '@/models/Auth';
-import { loginSchema } from '@/schemas/authSchema';
-import { loginDefaultValues } from '@/constants/defaultValues/auth';
+import { TSignInSchema } from '@/models/Auth';
+import { signInSchema } from '@/schemas/authSchema';
+import { signInDefaultValues } from '@/constants/defaultValues/auth';
 import InputField from '@/components/InputField/InputField';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ERROR_TEXTS } from '@/constants/errors/errorTexts';
 import { BackButton } from '@/components/BackButton';
 import { router } from 'expo-router';
+import Snackbar from "@/components/Snackbar/Snackbar";
+import React, { useState } from "react";
 
 function Login() {
-     
+
     const { sloganWidth, sloganHeight, axolotlLoginHeight, axolotlLoginWidth } =
         useScreenDimensions();
 
- const formMethods = useForm<TLoginSchema>({
-  resolver: zodResolver(loginSchema), 
-  mode: "onSubmit",
-  defaultValues: loginDefaultValues,  
-});
+    const formMethods = useForm<TSignInSchema>({
+        resolver: zodResolver(signInSchema),
+        mode: "onSubmit",
+        defaultValues: signInDefaultValues,
+    });
 
 
     const { control, handleSubmit, setError } = formMethods;
     const localPassword = "Naya1234*"
-    const handleOnSubmit = (data: TLoginSchema) => {
+    const [visible, setVisible] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState("");
+    const [snackbarType, setSnackbarType] = useState<"success" | "warning" | "error">("success");
 
-        console.log("handleOnSubmit called with data:", data);
+    const handleOnSubmit = (data: TSignInSchema) => {
+
         if (data.password !== localPassword) {
             setError("password", {
                 message: ERROR_TEXTS.INVALID_PASSWORDS_MATCH_FIELD,
-            });            
+            });
             return;
-        }        
+        }
+        router.push("/(auth)/activate-account")
+
     }
 
-    const onInvalidForm = (errors: any) => {
-        console.log("Form errors:", errors);
+
+    const onInvalidForm = () => {
+        setSnackbarMessage("Revisa los campos marcados");
+        setSnackbarType("warning");
+        setVisible(true);
     }
 
 
@@ -93,7 +102,7 @@ function Login() {
                         <Text
                             className="font-UrbanistBold text-pink-700 underline text-s text-right p-2"
                             onPress={() => {
-                                router.push("/(auth)/login");
+                                router.push("/(auth)/sign-in");
                             }}
                         >
                             Olvidé mi contraseña
@@ -102,7 +111,6 @@ function Login() {
                         <MainButton
                             mainText="Iniciar Sesión"
                             onPress={() => {
-                                console.log("Button pressed");
                                 handleSubmit(handleOnSubmit, onInvalidForm)();
                             }}
                             className="w-80 py-3 mt-11 mb-10"
@@ -123,15 +131,22 @@ function Login() {
                     </FormProvider>
                     <Image
                         className='mb-0 self-center'
-                        source={IMAGES.HAPPY_AXOLOTL_HALF}
-                        style={{          
+                        source={IMAGES.HAPPY_AXOLOTL_2}
+                        style={{
                             width: axolotlLoginWidth,
-                            height: axolotlLoginHeight,         
+                            height: axolotlLoginHeight,
                             resizeMode: "contain",
                         }}
                     />
                 </ScrollView>
             </SafeAreaView>
+            <Snackbar
+                message={snackbarMessage}
+                visible={visible}
+                type={snackbarType}
+                onDismiss={() => setVisible(false)}
+                duration={3000}
+            />
         </KeyboardAvoidingView>
     )
 }
