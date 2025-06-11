@@ -105,13 +105,13 @@ const VerificationCodeComponent = ({
     >
       <CloudBackground />
       <SafeAreaView>
-        <ScrollView className="mt-28" showsVerticalScrollIndicator={false}>
+        <ScrollView className="mt-20" showsVerticalScrollIndicator={false}>
           <View className="px-10">
-            <View className="items-start mb-6">
+            <View className="items-start mb-10">
               <BackButton onPress={() => router.push("/(auth)/welcome")} />
             </View>
 
-            <Text className="text-4xl font-extrabold text-brown-700 text-center mb-2 text-pink-800">
+            <Text className="text-4xl font-extrabold text-brown-700 text-center mb-8 text-pink-800">
               {title}
             </Text>
 
