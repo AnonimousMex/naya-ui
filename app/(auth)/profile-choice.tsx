@@ -44,11 +44,6 @@ const ProfileChoice = () => {
   const buttonPaddingClassName = isSpecialLayoutCondition ? "mb-8" : "mb-3";
   const finalButtonClassName = `${baseButtonClassName} ${buttonPaddingClassName}`;
 
-  const handleSelectAvatar = () => {
-    console.log("Selected Avatar:", selected.key);
-    // router.push("/naya-home");
-  };
-
   return (
     <KeyboardAvoidingView
       className="flex-1 bg-pink-200"
@@ -108,7 +103,7 @@ const ProfileChoice = () => {
         <View className="absolute bottom-8 left-0 right-0 pt-1 items-center px-6">
           <MainButton
             mainText="Seleccionar"
-            onPress={handleSelectAvatar}
+            onPress={() => router.push("/(auth)/welcome")}
             className={finalButtonClassName}
           />
         </View>

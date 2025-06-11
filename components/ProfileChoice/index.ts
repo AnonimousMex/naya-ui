@@ -1,3 +1,1 @@
-import ProfileAvatarButton from "./ProfileAvatarButton";
-
-export { ProfileAvatarButton };
+export { default as ProfileAvatarButton } from "./ProfileAvatarButton";
