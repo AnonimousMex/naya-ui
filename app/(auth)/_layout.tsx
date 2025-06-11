@@ -7,6 +7,7 @@ export default function Layout() {
       <Stack.Screen name="activate-account" options={{ headerShown: false }} />
       <Stack.Screen name="sing-up" options={{ headerShown: false }} />
       <Stack.Screen name="sign-in" options={{ headerShown: false }} />
+      <Stack.Screen name="profile-choice" options={{ headerShown: false }} />
     </Stack>
   );
 }
