@@ -20,7 +20,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { ERROR_TEXTS } from '@/constants/errors/errorTexts';
 import { BackButton } from '@/components/BackButton';
 import { router } from 'expo-router';
-import React, { useState } from "react";
+import React from "react";
 import { useSnackbar } from "@/hooks/useSnackbar";
 
 function Login() {
@@ -35,15 +35,10 @@ function Login() {
         defaultValues: signInDefaultValues,
     });
 
-
     const { control, handleSubmit, setError } = formMethods;
     const localPassword = "Naya1234*"
-    const [visible, setVisible] = useState(false);
-    const [snackbarMessage, setSnackbarMessage] = useState("");
-    const [snackbarType, setSnackbarType] = useState<"success" | "warning" | "error">("success");
 
     const handleOnSubmit = (data: TSignInSchema) => {
-
         if (data.password !== localPassword) {
             setError("password", {
                 message: ERROR_TEXTS.INVALID_PASSWORDS_MATCH_FIELD,
@@ -51,17 +46,14 @@ function Login() {
             return;
         }
         router.push("/(auth)/activate-account")
-
     }
-
 
     const onInvalidForm = () => {
-    showSnackbar({
-            type: "warning",
-            message: `Revisa todos los campos marcados`,
-          });
+        showSnackbar({
+            type: "error",
+            message: `Revisa to`,
+        });
     }
-
 
     return (
         <KeyboardAvoidingView
@@ -83,7 +75,6 @@ function Login() {
                         }}
                     />
                     <FormProvider {...formMethods}>
-
                         <InputField
                             name="email"
                             label='Email'
@@ -109,7 +100,6 @@ function Login() {
                         >
                             Olvidé mi contraseña
                         </Text>
-
                         <MainButton
                             mainText="Iniciar Sesión"
                             onPress={() => {
@@ -129,7 +119,6 @@ function Login() {
                                 Registrarme
                             </Text>
                         </Text>
-
                     </FormProvider>
                     <Image
                         className='mb-0 self-center'
@@ -141,7 +130,7 @@ function Login() {
                         }}
                     />
                 </ScrollView>
-            </SafeAreaView>         
+            </SafeAreaView>
         </KeyboardAvoidingView>
     )
 }
