@@ -1,8 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { View, Image, Text, ImageSourcePropType } from "react-native";
+import {
+  View,
+  Image,
+  Text,
+  ImageSourcePropType,
+  TouchableOpacity,
+} from "react-native";
+
 import { IMAGES } from "@/constants/images";
 
-const InsigniaComponent = () => {
+interface InsigniaComponentProps {
+  onMedalPress?: (title: string, imageIndex: number) => void;
+}
+
+const InsigniaComponent: React.FC<InsigniaComponentProps> = ({
+  onMedalPress,
+}) => {
   const medals: ImageSourcePropType[] = [
     IMAGES.MEDAL_1,
     IMAGES.MEDAL_2,
@@ -24,14 +37,18 @@ const InsigniaComponent = () => {
   ];
 
   const [medalItems, setMedalItems] = useState<
-    { image: ImageSourcePropType; title: string }[]
+    { image: ImageSourcePropType; title: string; imageIndex: number }[]
   >([]);
 
   useEffect(() => {
-    const generated = Array.from({ length: titles.length }, (_, i) => ({
-      image: medals[Math.floor(Math.random() * medals.length)],
-      title: titles[i],
-    }));
+    const generated = Array.from({ length: titles.length }, (_, i) => {
+      const index = Math.floor(Math.random() * medals.length);
+      return {
+        image: medals[index],
+        title: titles[i],
+        imageIndex: index,
+      };
+    });
     setMedalItems(generated);
   }, []);
 
@@ -39,7 +56,15 @@ const InsigniaComponent = () => {
     <View className="bg-white px-7 pt-14 pb-10 rounded-t-[50px] rounded-b-[50px]">
       <View className="flex-row flex-wrap justify-between mx-4">
         {medalItems.map((item, index) => (
-          <View key={index} className="w-[41%] mb-6 items-center">
+          <TouchableOpacity
+            key={index}
+            className="w-[41%] mb-6 items-center"
+            onPress={() => {
+              if (onMedalPress) {
+                onMedalPress(item.title, item.imageIndex);
+              }
+            }}
+          >
             <View className="w-full h-36 bg-purple-400 rounded-full items-center justify-center overflow-hidden">
               <View className="rounded-full bg-purple-200 items-center justify-center p-3">
                 <Image
@@ -52,7 +77,7 @@ const InsigniaComponent = () => {
             <Text className="text-black font-semibold text-lg mt-2 text-center">
               {item.title}
             </Text>
-          </View>
+          </TouchableOpacity>
         ))}
       </View>
     </View>
