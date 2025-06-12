@@ -23,6 +23,9 @@ module.exports = {
           700: "#F598B7",
           800: "#F699B4"
         },
+        blue:{
+          900: "#303C58"
+        },
         brown:{
           800:"#4F3422"
         },
@@ -32,6 +35,10 @@ module.exports = {
         gray:{
           730: "#736B66"
         },
+        purple:{
+          200: "#DEE3FF",
+          400: "#D6CFFA"
+        }
       }
     },
   },
