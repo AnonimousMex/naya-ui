@@ -3,7 +3,6 @@ import { View, SafeAreaView, ScrollView, Modal } from "react-native";
 import { HeaderTitleComponent } from "@/components/HeaderTitleComponent";
 import { MainButton } from "@/components/MainButton";
 import { router } from "expo-router";
-import { BackButton } from "@/components/BackButton";
 import { InsigniaComponent } from "@/components/InsigniaComponent";
 import { InsigniaDescriptionComponent } from "@/components/InsigniaDescription";
 
@@ -39,7 +38,7 @@ const Insignias = () => {
 
           <MainButton
             mainText="Ver logros"
-            onPress={() => router.push("/(auth)/welcome")}
+            onPress={() => router.push("/(mainPages)/achievements")}
             className="w-80 py-3 mt-8 mb-16"
             style={{ height: 50 }}
           />

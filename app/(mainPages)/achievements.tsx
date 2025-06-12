@@ -1,21 +1,25 @@
-import { Text, View, Image, TouchableOpacity, Dimensions } from "react-native";
-import { IMAGES } from "@/constants/images";
-import { MainButton } from "@/components/MainButton";
-import { useScreenDimensions } from "@/utils/dimensions";
+import { View, SafeAreaView, ScrollView } from "react-native";
+import { HeaderTitleComponent } from "@/components/HeaderTitleComponent";
+import { BackButton } from "@/components/BackButton";
+import { router } from "expo-router";
+import { AchievementsComponent } from "@/components/AchievementsComponent";
 
-const Welcome = () => {
-  const { logoWidth, logoHeight, sloganWidth, sloganHeight } =
-    useScreenDimensions();
-  const { width } = Dimensions.get("window");
-
+const Achievements = () => {
   return (
-    <View className="flex-1 justify-center items-center bg-pink-200">
-      <View
-        style={{ width: logoWidth }}
-        className="justify-center items-center mt-16"
-      ></View>
-    </View>
+    <SafeAreaView className="flex-1 bg-pink-200">
+      <View className="flex-1">
+        <ScrollView
+          contentContainerStyle={{ paddingBottom: 10 }}
+          showsVerticalScrollIndicator
+        >
+          <View className="mt-16 px-7 mb-8">
+            <HeaderTitleComponent mainText="Mis Logros" />
+          </View>
+          <AchievementsComponent />
+        </ScrollView>
+      </View>
+    </SafeAreaView>
   );
 };
 
-export default Welcome;
+export default Achievements;
