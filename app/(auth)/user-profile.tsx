@@ -87,7 +87,6 @@ const UserProfile = () => {
           Soy un Ajolote chido, me gusta estar con mis amigos soy divertido y me
           gusta sonreír.
         </Text>
-
         <UserStatsRow badges={12} streak={5} exp={2300} />
 
         <View
