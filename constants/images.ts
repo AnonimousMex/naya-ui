@@ -26,6 +26,24 @@ import happyBunnyHead from "@/assets/images/animals/happy/happy-bunny/happy-bunn
 import happyPandaHead from "@/assets/images/animals/happy/happy-panda/happy-panda-head.png";
 import happyAxolotl2 from "@/assets/images/animals/happy/happy-axolotl/happy-axolotl-2.png";
 
+// Story Path Assets
+import storyPathBackground from "@/assets/images/storyPath/background_path.png";
+
+// Unlocked Story Buttons
+import storyButtonAxolotlUnlocked from "@/assets/images/storyPath/unlocked-button/axolotl_button.png";
+import storyButtonBunnyUnlocked from "@/assets/images/storyPath/unlocked-button/bunny_button.png";
+import storyButtonCatUnlocked from "@/assets/images/storyPath/unlocked-button/cat_button.png";
+import storyButtonLionUnlocked from "@/assets/images/storyPath/unlocked-button/lion_button.png";
+import storyButtonPandaUnlocked from "@/assets/images/storyPath/unlocked-button/panda_button.png";
+
+// Locked Story Buttons
+import storyButtonAxolotlLocked from "@/assets/images/storyPath/locked-button/axolotl_button_locked.png";
+import storyButtonBunnyLocked from "@/assets/images/storyPath/locked-button/bunny_button_locked.png";
+import storyButtonCatLocked from "@/assets/images/storyPath/locked-button/cat_button_locked.png";
+import storyButtonLionLocked from "@/assets/images/storyPath/locked-button/lion_button_locked.png";
+import storyButtonPandaLocked from "@/assets/images/storyPath/locked-button/panda_button_locked.png";
+
+
 export const ICONS = {
   EMAIL_ICON : emailIcon,
   EYE_CLOSED_ICON: eyeClosedIcon,
@@ -59,4 +77,18 @@ export const IMAGES = {
   HAPPY_LION_HEAD: happyLionHead,
   HAPPY_BUNNY_HEAD: happyBunnyHead,
   HAPPY_PANDA_HEAD: happyPandaHead,
+  // Story Path Images
+  STORY_PATH_BACKGROUND: storyPathBackground,
+
+  STORY_BUTTON_AXOLOTL_UNLOCKED: storyButtonAxolotlUnlocked,
+  STORY_BUTTON_BUNNY_UNLOCKED: storyButtonBunnyUnlocked,
+  STORY_BUTTON_CAT_UNLOCKED: storyButtonCatUnlocked,
+  STORY_BUTTON_LION_UNLOCKED: storyButtonLionUnlocked,
+  STORY_BUTTON_PANDA_UNLOCKED: storyButtonPandaUnlocked,
+
+  STORY_BUTTON_AXOLOTL_LOCKED: storyButtonAxolotlLocked,
+  STORY_BUTTON_BUNNY_LOCKED: storyButtonBunnyLocked,
+  STORY_BUTTON_CAT_LOCKED: storyButtonCatLocked,
+  STORY_BUTTON_LION_LOCKED: storyButtonLionLocked,
+  STORY_BUTTON_PANDA_LOCKED: storyButtonPandaLocked,
 };
