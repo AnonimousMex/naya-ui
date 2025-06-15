@@ -28,9 +28,15 @@ import happyLionHead from "@/assets/images/animals/happy/happy-lion/happy-lion-h
 import happyBunnyHead from "@/assets/images/animals/happy/happy-bunny/happy-bunny-head.png";
 import happyPandaHead from "@/assets/images/animals/happy/happy-panda/happy-panda-head.png";
 import happyAxolotl2 from "@/assets/images/animals/happy/happy-axolotl/happy-axolotl-2.png";
+import medal1 from "@/assets/images/insignias/medal-1.png";
+import medal2 from "@/assets/images/insignias/medal-2.png";
+import medal3 from "@/assets/images/insignias/medal-3.png";
+import medal4 from "@/assets/images/insignias/medal-4.png";
+import rocket1 from "@/assets/images/achievements/rocket-1.png";
+import rocket2 from "@/assets/images/achievements/rocket-2.png";
 
 export const ICONS = {
-  EMAIL_ICON : emailIcon,
+  EMAIL_ICON: emailIcon,
   EYE_CLOSED_ICON: eyeClosedIcon,
   EYE_OPEN_ICON: eyeOpenIcon,
   PERSON_ICON: personIcon,
@@ -65,4 +71,10 @@ export const IMAGES = {
   HAPPY_LION_HEAD: happyLionHead,
   HAPPY_BUNNY_HEAD: happyBunnyHead,
   HAPPY_PANDA_HEAD: happyPandaHead,
+  MEDAL_1: medal1,
+  MEDAL_2: medal2,
+  MEDAL_3: medal3,
+  MEDAL_4: medal4,
+  ROCKET_1: rocket1,
+  ROCKET_2: rocket2,
 };

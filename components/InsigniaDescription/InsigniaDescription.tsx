@@ -1,0 +1,54 @@
+import React from "react";
+import { View, Image, Text } from "react-native";
+import { IMAGES } from "@/constants/images";
+import { MainButton } from "@/components/MainButton";
+
+interface Props {
+  title: string;
+  medalImageIndex: number;
+  onClose: () => void;
+}
+
+const InsigniaDescriptionComponent: React.FC<Props> = ({
+  title,
+  medalImageIndex,
+  onClose,
+}) => {
+  const medals = [
+    IMAGES.MEDAL_1,
+    IMAGES.MEDAL_2,
+    IMAGES.MEDAL_3,
+    IMAGES.MEDAL_4,
+  ];
+  const selectedImage = medals[medalImageIndex] || IMAGES.MEDAL_1;
+
+  return (
+    <View className="flex-1 relative items-center justify-center bg-white">
+      <View className="absolute w-[90%] h-[60%] bg-white rounded-t-[90px] rounded-b-[90px] items-center justify-start pt-40 px-6">
+        <Text className="text-purple-800 font-UrbanistExtraBold text-5xl leading-[60px] mb-4">
+          {title || "Medalla"}
+        </Text>
+        <Text className="text-center text-xl text-gray-730 font-UrbanistMedium mb-8">
+          🎉Medalla de jugador por {title || "varios"} días consecutivos.🎉
+        </Text>
+        <MainButton
+          mainText="Continuar"
+          onPress={onClose}
+          className="w-[50%] py-3 mt-6"
+        />
+      </View>
+
+      <View className="absolute top-[5%] w-64 h-64 bg-purple-400 rounded-full items-center justify-center overflow-hidden z-10">
+        <View className="w-52 h-52 bg-purple-200 rounded-full items-center justify-center">
+          <Image
+            source={selectedImage}
+            className="w-40 h-40"
+            resizeMode="contain"
+          />
+        </View>
+      </View>
+    </View>
+  );
+};
+
+export default InsigniaDescriptionComponent;
