@@ -24,7 +24,7 @@ import { BackButton } from "@/components/BackButton";
 import { router } from "expo-router";
 import { useSnackbar } from "@/hooks/useSnackbar";
 
-function SingUp() {
+function SignUp() {
   const { sloganWidth, sloganHeight } = useScreenDimensions();
 
   const formMethods = useForm<TSignUpSchema>({
@@ -107,4 +107,4 @@ function SingUp() {
   );
 }
 
-export default SingUp;
+export default SignUp;
