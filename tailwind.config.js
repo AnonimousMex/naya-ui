@@ -27,6 +27,7 @@ module.exports = {
           900: "#303C58"
         },
         brown:{
+          50: "#FCF6F1",
           800:"#4F3422"
         },
         danger: {
