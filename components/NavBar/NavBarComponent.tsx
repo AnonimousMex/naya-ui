@@ -14,8 +14,8 @@ const NavbarComponent = () => {
     return (
         <>
             <View className='h-20'/> 
-            <View className='absolute bottom-0 left-0 right-0 bg-slate-100' >
-                <View className='flex-row justify-around items-center h-[5rem] mx-4'>
+            <View className='absolute bottom-0 left-0 right-0 bg-white' >
+                <View className='flex-row justify-around items-center h-[6rem] mx-4'>
                     <TouchableOpacity 
                         onPress={() => {
                             router.push("/(auth)/welcome")

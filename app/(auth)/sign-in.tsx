@@ -95,7 +95,7 @@ function Login() {
             <Text
               className="font-UrbanistBold text-pink-700 underline text-s text-right p-2"
               onPress={() => {
-                router.push("/(auth)/activate-account");
+                router.push("/(mainPages)/home");
               }}
             >
               Olvidé mi contraseña
@@ -112,7 +112,7 @@ function Login() {
               ¿No tienes una cuenta todavia? {""}
               <Text
                 className="text-pink-700 underline text-s"
-                onPress={() => router.push("/(auth)/sing-up")}
+                onPress={() => router.push("/(auth)/sign-up")}
               >
                 Registrarme
               </Text>
