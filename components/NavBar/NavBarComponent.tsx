@@ -18,7 +18,7 @@ const NavbarComponent = () => {
                 <View className='flex-row justify-around items-center h-[6rem] mx-4'>
                     <TouchableOpacity 
                         onPress={() => {
-                            router.push("/(auth)/welcome")
+                            router.push("/(mainPages)/home")
                         }}
                     >
                         <View className='roudend-full mb-4'>
@@ -36,7 +36,7 @@ const NavbarComponent = () => {
                     </TouchableOpacity>
                     <TouchableOpacity
                         onPress={() => {
-                            router.push("/(auth)/welcome")
+                            router.push("/(mainPages)/insignias")
                         }}
                     >
                         <View className='roudend-full mb-4'>

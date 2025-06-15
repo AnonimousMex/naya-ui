@@ -5,6 +5,7 @@ import { MainButton } from "@/components/MainButton";
 import { router } from "expo-router";
 import { InsigniaComponent } from "@/components/InsigniaComponent";
 import { InsigniaDescriptionComponent } from "@/components/InsigniaDescription";
+import { NavbarComponent } from "@/components/NavBar";
 
 const Insignias = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -24,7 +25,7 @@ const Insignias = () => {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-pink-200">
+    <SafeAreaView className="flex-1 w-full h-full bg-pink-200">
       <View className="flex-1">
         <ScrollView
           contentContainerStyle={{ paddingBottom: 10 }}
@@ -64,6 +65,7 @@ const Insignias = () => {
           )}
         </View>
       </Modal>
+      <NavbarComponent/>
     </SafeAreaView>
   );
 };
