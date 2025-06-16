@@ -7,7 +7,6 @@ import {
   Pressable,
 } from "react-native";
 import { IMAGES } from "@/constants/images";
-import { BackButton } from "@/components/BackButton";
 import { router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { UserStatsRow } from "@/components/UserStatistics";
@@ -21,6 +20,7 @@ const UserProfile = () => {
   const userName = "Rodrigo";
   const bgColor = "bg-pink-700"
   const userImage = IMAGES.HAPPY_AXOLOTL_1;
+  const userDescription = "Soy un Ajolote chido, me gusta estar con mis amigos soy divertido y me gusta sonreír."
   const isTablet = width >= 520;
   const dynamicHeight = isTablet ? height * 0.6 : height * 0.4;
 
@@ -51,10 +51,7 @@ const UserProfile = () => {
       <View
         className={`relative ${bgColor}`}
         style={{ height: dynamicHeight }}
-      >
-        <View className="absolute top-3 left-4 z-10">
-          <BackButton onPress={() => router.push("/(auth)/welcome")} />
-        </View>
+      >      
         <View className="absolute top-3 left-0 right-0 items-center z-0">
           <Text
             className="text-white font-UrbanistBold text-4xl"
@@ -84,8 +81,7 @@ const UserProfile = () => {
       </View>
       <View className="flex-1 bg-white rounded-t-3xl px-6 pt-6">
         <Text className="text-center font-UrbanistBold text-gray-730 text-sm mb-4 mt-2">
-          Soy un Ajolote chido, me gusta estar con mis amigos soy divertido y me
-          gusta sonreír.
+         {userDescription}
         </Text>
         <UserStatsRow badges={12} streak={5} exp={2300} />
 
