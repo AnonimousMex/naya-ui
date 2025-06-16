@@ -10,9 +10,10 @@ import lockIcon from "@/assets/icons/lock-icon.png";
 import gearIcon from "@/assets/icons/gear-icon.png";
 import notificationIcon from "@/assets/icons/notification-icon.png";
 import backIconWhite from "@/assets/icons/back-white-icon.png";
-import homeIcon from "@/assets/icons/home-icon.png"
-import rewardNavIcon from "@/assets/icons/reward-icon.png"
-import bookNavIcon from "@/assets/icons/book-nav-icon.png"
+import homeIcon from "@/assets/icons/home-icon.png";
+import rewardNavIcon from "@/assets/icons/reward-icon.png";
+import bookNavIcon from "@/assets/icons/book-nav-icon.png";
+import helpIcon from "@/assets/icons/help-icon.png";
 
 import cloudsImage from "@/assets/images/home/clouds.png";
 import arrowRight from "@/assets/images/arrow-right.png";
@@ -54,6 +55,7 @@ export const ICONS = {
   HOME_ICON: homeIcon,
   REWARD_NAV_ICON: rewardNavIcon,
   BOOK_NAV_ICON: bookNavIcon,
+  HELP_ICON: helpIcon,
 };
 
 export const IMAGES = {

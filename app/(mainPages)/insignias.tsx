@@ -5,6 +5,7 @@ import { MainButton } from "@/components/MainButton";
 import { router } from "expo-router";
 import { InsigniaComponent } from "@/components/InsigniaComponent";
 import { InsigniaDescriptionComponent } from "@/components/InsigniaDescription";
+import { NavbarComponent } from "@/components/NavBar";
 
 const Insignias = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -64,6 +65,7 @@ const Insignias = () => {
           )}
         </View>
       </Modal>
+      <NavbarComponent />
     </SafeAreaView>
   );
 };
