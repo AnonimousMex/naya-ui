@@ -27,6 +27,8 @@ module.exports = {
           900: "#303C58"
         },
         brown:{
+          20: "#E4B18E",
+          50: "#FCF6F1",
           800:"#4F3422"
         },
         danger: {
@@ -43,7 +45,7 @@ module.exports = {
         },
         red:{
           800: "#FF6868"
-        }
+        },
         black: {
           520: '#00000084', 
         },
@@ -56,7 +58,9 @@ module.exports = {
           100: "#D1DDD0"
         },
         yellow:{
-          100: "#E8D9A9"
+          10: "rgba(248, 230, 60, 0.17)",
+          100: "#E8D9A9",
+          500: "#FFEA2D"
         },
       }
     },

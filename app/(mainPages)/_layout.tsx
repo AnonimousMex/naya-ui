@@ -5,6 +5,7 @@ export default function Layout() {
     <Stack>
       <Stack.Screen name="insignias" options={{ headerShown: false }} />
       <Stack.Screen name="achievements" options={{ headerShown: false }} />
+      <Stack.Screen name="user-profile" options={{ headerShown: false }} />
     </Stack>
   );
 }

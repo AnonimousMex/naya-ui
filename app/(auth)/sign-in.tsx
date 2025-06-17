@@ -112,7 +112,7 @@ function Login() {
               ¿No tienes una cuenta todavia? {""}
               <Text
                 className="text-pink-700 underline text-s"
-                onPress={() => router.push("/(auth)/sing-up")}
+                onPress={() => router.push("/(auth)/sign-up")}
               >
                 Registrarme
               </Text>
