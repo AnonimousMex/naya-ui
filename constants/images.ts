@@ -13,7 +13,6 @@ import backIconWhite from "@/assets/icons/back-white-icon.png";
 import homeIcon from "@/assets/icons/home-icon.png"
 import rewardNavIcon from "@/assets/icons/reward-icon.png"
 import bookNavIcon from "@/assets/icons/book-nav-icon.png"
-
 import cloudsImage from "@/assets/images/home/clouds.png";
 import arrowRight from "@/assets/images/arrow-right.png";
 import nayaLogo from "@/assets/images/home/naya-logo.png";
@@ -28,6 +27,11 @@ import happyLionHead from "@/assets/images/animals/happy/happy-lion/happy-lion-h
 import happyBunnyHead from "@/assets/images/animals/happy/happy-bunny/happy-bunny-head.png";
 import happyPandaHead from "@/assets/images/animals/happy/happy-panda/happy-panda-head.png";
 import happyAxolotl2 from "@/assets/images/animals/happy/happy-axolotl/happy-axolotl-2.png";
+import medalIcon from "@/assets/icons/medal-icon.png";
+import helpIcon from  "@/assets/icons/help-icon.png";
+import logOutIcon from  "@/assets/icons/logout-icon.png";
+import streakIcon from "@/assets/icons/streak-icon.png";
+import expIcon from "@/assets/icons/exp-icon.png";
 import emorganizaImage from "@/assets/images/home/homepage/emorganiza-image.png"
 import memocionesImage from "@/assets/images/home/homepage/memociones-image.png"
 import pandaSpiaImage from "@/assets/images/home/homepage/panda-spia-image.png"
@@ -77,6 +81,11 @@ export const IMAGES = {
   HAPPY_LION_HEAD: happyLionHead,
   HAPPY_BUNNY_HEAD: happyBunnyHead,
   HAPPY_PANDA_HEAD: happyPandaHead,
+  MEDAL_ICON: medalIcon,
+  HELP_ICON: helpIcon,
+  LOGOUT_ICON: logOutIcon,
+  STREAK_ICON: streakIcon,
+  EXP_ICON: expIcon,
   EMORGANIZA_IMAGE: emorganizaImage,
   MEMOCIONES_IMAGE: memocionesImage,
   PANDA_SPIA_IMAGE: pandaSpiaImage,
