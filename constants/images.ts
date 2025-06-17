@@ -10,9 +10,9 @@ import lockIcon from "@/assets/icons/lock-icon.png";
 import gearIcon from "@/assets/icons/gear-icon.png";
 import notificationIcon from "@/assets/icons/notification-icon.png";
 import backIconWhite from "@/assets/icons/back-white-icon.png";
-import homeIcon from "@/assets/icons/home-icon.png"
-import rewardNavIcon from "@/assets/icons/reward-icon.png"
-import bookNavIcon from "@/assets/icons/book-nav-icon.png"
+import homeIcon from "@/assets/icons/home-icon.png";
+import rewardNavIcon from "@/assets/icons/reward-icon.png";
+import bookNavIcon from "@/assets/icons/book-nav-icon.png";
 import cloudsImage from "@/assets/images/home/clouds.png";
 import arrowRight from "@/assets/images/arrow-right.png";
 import nayaLogo from "@/assets/images/home/naya-logo.png";
@@ -28,8 +28,8 @@ import happyBunnyHead from "@/assets/images/animals/happy/happy-bunny/happy-bunn
 import happyPandaHead from "@/assets/images/animals/happy/happy-panda/happy-panda-head.png";
 import happyAxolotl2 from "@/assets/images/animals/happy/happy-axolotl/happy-axolotl-2.png";
 import medalIcon from "@/assets/icons/medal-icon.png";
-import helpIcon from  "@/assets/icons/help-icon.png";
-import logOutIcon from  "@/assets/icons/logout-icon.png";
+import helpIcon from "@/assets/icons/help-icon.png";
+import logOutIcon from "@/assets/icons/logout-icon.png";
 import streakIcon from "@/assets/icons/streak-icon.png";
 import expIcon from "@/assets/icons/exp-icon.png";
 import emorganizaImage from "@/assets/images/home/homepage/emorganiza-image.png"
@@ -64,6 +64,7 @@ export const ICONS = {
   HOME_ICON: homeIcon,
   REWARD_NAV_ICON: rewardNavIcon,
   BOOK_NAV_ICON: bookNavIcon,
+  HELP_ICON: helpIcon,
 };
 
 export const IMAGES = {

@@ -8,7 +8,6 @@ export default function Layout() {
       <Stack.Screen name="sign-up" options={{ headerShown: false }} />
       <Stack.Screen name="sign-in" options={{ headerShown: false }} />
       <Stack.Screen name="profile-choice" options={{ headerShown: false }} />
-      <Stack.Screen name="user-profile" options={{ headerShown: false }} />
     </Stack>
   );
 }

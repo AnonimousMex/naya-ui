@@ -39,6 +39,7 @@ const AchievementsComponent = () => {
           bgColor={bgColors[index % bgColors.length]}
           image={images[index % images.length]}
           description={achievement.description}
+          className="mb-4"
         />
       ))}
     </View>
