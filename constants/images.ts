@@ -10,7 +10,9 @@ import lockIcon from "@/assets/icons/lock-icon.png";
 import gearIcon from "@/assets/icons/gear-icon.png";
 import notificationIcon from "@/assets/icons/notification-icon.png";
 import backIconWhite from "@/assets/icons/back-white-icon.png";
-
+import homeIcon from "@/assets/icons/home-icon.png";
+import rewardNavIcon from "@/assets/icons/reward-icon.png";
+import bookNavIcon from "@/assets/icons/book-nav-icon.png";
 import cloudsImage from "@/assets/images/home/clouds.png";
 import arrowRight from "@/assets/images/arrow-right.png";
 import nayaLogo from "@/assets/images/home/naya-logo.png";
@@ -25,6 +27,17 @@ import happyLionHead from "@/assets/images/animals/happy/happy-lion/happy-lion-h
 import happyBunnyHead from "@/assets/images/animals/happy/happy-bunny/happy-bunny-head.png";
 import happyPandaHead from "@/assets/images/animals/happy/happy-panda/happy-panda-head.png";
 import happyAxolotl2 from "@/assets/images/animals/happy/happy-axolotl/happy-axolotl-2.png";
+import medalIcon from "@/assets/icons/medal-icon.png";
+import helpIcon from "@/assets/icons/help-icon.png";
+import logOutIcon from "@/assets/icons/logout-icon.png";
+import streakIcon from "@/assets/icons/streak-icon.png";
+import expIcon from "@/assets/icons/exp-icon.png";
+import medal1 from "@/assets/images/insignias/medal-1.png";
+import medal2 from "@/assets/images/insignias/medal-2.png";
+import medal3 from "@/assets/images/insignias/medal-3.png";
+import medal4 from "@/assets/images/insignias/medal-4.png";
+import rocket1 from "@/assets/images/achievements/rocket-1.png";
+import rocket2 from "@/assets/images/achievements/rocket-2.png";
 
 // Story Path Assets
 import storyPathBackground from "@/assets/images/storyPath/background_path.png";
@@ -45,7 +58,7 @@ import storyButtonPandaLocked from "@/assets/images/storyPath/locked-button/pand
 
 
 export const ICONS = {
-  EMAIL_ICON : emailIcon,
+  EMAIL_ICON: emailIcon,
   EYE_CLOSED_ICON: eyeClosedIcon,
   EYE_OPEN_ICON: eyeOpenIcon,
   PERSON_ICON: personIcon,
@@ -60,6 +73,10 @@ export const ICONS = {
   GEAR_ICON: gearIcon,
   NOTIFICATION_ICON: notificationIcon,
   BACK_WHITE_ICON: backIconWhite,
+  HOME_ICON: homeIcon,
+  REWARD_NAV_ICON: rewardNavIcon,
+  BOOK_NAV_ICON: bookNavIcon,
+  HELP_ICON: helpIcon,
 };
 
 export const IMAGES = {
@@ -77,6 +94,17 @@ export const IMAGES = {
   HAPPY_LION_HEAD: happyLionHead,
   HAPPY_BUNNY_HEAD: happyBunnyHead,
   HAPPY_PANDA_HEAD: happyPandaHead,
+  MEDAL_ICON: medalIcon,
+  HELP_ICON: helpIcon,
+  LOGOUT_ICON: logOutIcon,
+  STREAK_ICON: streakIcon,
+  EXP_ICON: expIcon,
+  MEDAL_1: medal1,
+  MEDAL_2: medal2,
+  MEDAL_3: medal3,
+  MEDAL_4: medal4,
+  ROCKET_1: rocket1,
+  ROCKET_2: rocket2,
   // Story Path Images
   STORY_PATH_BACKGROUND: storyPathBackground,
 

@@ -42,7 +42,7 @@ const MainButton = ({
           {
             paddingHorizontal: buttonPadding,
             paddingVertical: buttonPadding * 0.75,
-            minWidth: width * 0.6, // 60% del ancho de pantalla como mínimo
+            minWidth: width * 0.6,
           },
           style,
         ]}
