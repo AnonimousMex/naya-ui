@@ -1,5 +1,6 @@
 import React from 'react';
 import { Image, TouchableOpacity, ImageSourcePropType } from 'react-native';
+import Animated, { useSharedValue, useAnimatedStyle, withSequence, withTiming, runOnJS } from 'react-native-reanimated';
 
 interface StoryButtonProps { 
   id: number;
@@ -20,22 +21,42 @@ const StoryButton: React.FC<StoryButtonProps> = ({
   onPress,
   style,
 }) => {
+  const shake = useSharedValue(0);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: shake.value }],
+  }));
+
+  const handlePress = () => {
+    shake.value = withSequence(
+      withTiming(8, { duration: 40 }),
+      withTiming(-8, { duration: 40 }),
+      withTiming(8, { duration: 40 }),
+      withTiming(0, { duration: 40 }, (finished) => {
+        if (finished) runOnJS(onPress)(id);
+      })
+    );
+  };
+
   return (
-    <TouchableOpacity
-      key={id}
-      style={style} 
-      onPress={() => onPress(id)}
-      disabled={!isUnlocked} 
-      className="absolute"
-    >
-      <Image
-        source={isUnlocked ? sourceUnlocked : sourceLocked}
-        className="w-full h-full"
-        resizeMode="contain"
-        accessibilityLabel={name}
-      />
-    </TouchableOpacity>
+    <Animated.View style={[animatedStyle, style]} className="absolute">
+      <TouchableOpacity
+        key={id}
+        onPress={handlePress}
+        disabled={!isUnlocked}
+        activeOpacity={1}
+        style={{ width: '100%', height: '100%' }}
+      >
+        <Image
+          source={isUnlocked ? sourceUnlocked : sourceLocked}
+          className="w-full h-full"
+          resizeMode="contain"
+          accessibilityLabel={name}
+          style={{ opacity: 1 }}
+        />
+      </TouchableOpacity>
+    </Animated.View>
   );
 };
 
-export default StoryButton; 
+export default StoryButton;
