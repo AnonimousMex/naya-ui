@@ -1,8 +1,10 @@
-import { Stack } from "expo-router";
+import { Stack, useFocusEffect } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useFonts } from "expo-font";
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import { SnackbarProvider } from "@/context";
+import * as NavigationBar from "expo-navigation-bar";
+import { StatusBar } from "react-native";
 import "react-native-reanimated";
 import "../global.css";
 
@@ -23,12 +25,27 @@ export default function RootLayout() {
     }
   }, [loaded]);
 
+  // 🔁 Asegurar siempre botones oscuros en Android
+  useFocusEffect(
+    useCallback(() => {
+      const setupBars = async () => {
+        await NavigationBar.setBackgroundColorAsync("#FFF27C");
+        await NavigationBar.setButtonStyleAsync("dark");
+      };
+
+      setupBars();
+
+      return () => {};
+    }, []),
+  );
+
   if (!loaded) {
     return null;
   }
 
   return (
     <SnackbarProvider>
+      <StatusBar barStyle="dark-content" backgroundColor="#FFF27C" />
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />

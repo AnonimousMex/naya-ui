@@ -1,4 +1,11 @@
-import { Text, View, Image, TouchableOpacity, Dimensions } from "react-native";
+import {
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  Dimensions,
+  StatusBar,
+} from "react-native";
 import { IMAGES } from "@/constants/images";
 import { MainButton } from "@/components/MainButton";
 import { CloudBackground } from "@/components/MainPanesComponents/CloudBackground";
@@ -48,7 +55,7 @@ const Welcome = () => {
         </TouchableOpacity>
         <MainButton
           mainText="Continuar"
-          onPress={() => router.push("/(therapistPages)/test-results")}
+          onPress={() => router.push("/(mainPages)/achievements")}
           className="w-80 py-3 mt-6"
         />
       </View>

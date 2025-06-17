@@ -29,7 +29,6 @@ const Insignias = () => {
 
   return (
     <SafeAreaView className="flex-1 bg-slate-100">
-      <StatusBar barStyle="dark-content" backgroundColor="#FFF27C" />
       <View className="flex-1">
         <ScrollView
           contentContainerStyle={{ paddingBottom: 30 }} //this is the navbar space
