@@ -13,7 +13,6 @@ import backIconWhite from "@/assets/icons/back-white-icon.png";
 import homeIcon from "@/assets/icons/home-icon.png";
 import rewardNavIcon from "@/assets/icons/reward-icon.png";
 import bookNavIcon from "@/assets/icons/book-nav-icon.png";
-import helpIcon from "@/assets/icons/help-icon.png";
 import cloudsImage from "@/assets/images/home/clouds.png";
 import arrowRight from "@/assets/images/arrow-right.png";
 import nayaLogo from "@/assets/images/home/naya-logo.png";

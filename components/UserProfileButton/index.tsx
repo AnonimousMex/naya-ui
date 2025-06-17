@@ -1,1 +1,0 @@
-export { default as UserProfileButton } from "./UserProfileButton";
