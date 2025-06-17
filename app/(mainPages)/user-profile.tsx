@@ -51,7 +51,6 @@ const UserProfile = () => {
 
   return (
     <SafeAreaViewContext className="flex-1 bg-slate-100">
-      <StatusBar barStyle="dark-content" backgroundColor="#FFF27C" />
       <ScrollView
         contentContainerStyle={{ paddingBottom: 80 }}
         showsVerticalScrollIndicator

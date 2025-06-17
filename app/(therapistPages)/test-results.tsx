@@ -42,7 +42,6 @@ const TestResults = () => {
 
   return (
     <SafeAreaView className="bg-slate-100 flex-1">
-      <StatusBar barStyle="dark-content" backgroundColor="#FFF27C" />
       <ScrollView scrollEventThrottle={16}>
         <View
           className={`relative ${bgColor}`}
