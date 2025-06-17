@@ -37,6 +37,7 @@ export default function RootLayout() {
           name="(therapistPages)"
           options={{ headerShown: false }}
         />
+        <Stack.Screen name="(parentsPages)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
       </Stack>
     </SnackbarProvider>
