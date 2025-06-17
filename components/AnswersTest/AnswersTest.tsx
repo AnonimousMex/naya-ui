@@ -1,5 +1,7 @@
 import { View } from "react-native";
 import { AnswerDisplayComponent } from "../AnswerDisplayComponent";
+import { MainButton } from "../MainButton";
+import { router } from "expo-router";
 
 const AnswersTest = () => {
   return (

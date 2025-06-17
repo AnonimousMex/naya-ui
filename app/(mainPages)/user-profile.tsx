@@ -5,10 +5,11 @@ import {
   Dimensions,
   Text,
   Pressable,
+  StatusBar,
 } from "react-native";
 import { IMAGES } from "@/constants/images";
 import { router } from "expo-router";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView as SafeAreaViewContext } from "react-native-safe-area-context";
 import { UserStatsRow } from "@/components/UserStatistics";
 import UserProfileButtonsColumn, {
   UserProfileButton,
@@ -49,8 +50,12 @@ const UserProfile = () => {
   ];
 
   return (
-    <SafeAreaView edges={["top"]} className={`flex-1 ${bgColor}`}>
-      <ScrollView>
+    <SafeAreaViewContext className="flex-1 bg-slate-100">
+      <StatusBar barStyle="dark-content" backgroundColor="#FFF27C" />
+      <ScrollView
+        contentContainerStyle={{ paddingBottom: 80 }}
+        showsVerticalScrollIndicator
+      >
         <View
           className={`relative ${bgColor}`}
           style={{ height: dynamicHeight }}
@@ -82,10 +87,12 @@ const UserProfile = () => {
             </View>
           </View>
         </View>
+
         <View className="flex-1 bg-white rounded-t-3xl px-6 pt-6">
           <Text className="text-center font-UrbanistBold text-gray-730 text-sm mb-4 mt-2">
             {userDescription}
           </Text>
+
           <UserStatsRow badges={12} streak={5} exp={2300} />
 
           <View
@@ -96,6 +103,7 @@ const UserProfile = () => {
               marginVertical: 16,
             }}
           />
+
           <View className="w-full flex-row justify-end mt-[-10]">
             <Pressable
               onPress={() => router.push("/(auth)/welcome")}
@@ -117,12 +125,18 @@ const UserProfile = () => {
               </View>
             </Pressable>
           </View>
+
           <UserProfileButtonsColumn options={options} />
         </View>
       </ScrollView>
 
-      <NavbarComponent />
-    </SafeAreaView>
+      <SafeAreaViewContext
+        edges={["bottom"]}
+        className="bg-slate-100 absolute bottom-0 left-0 right-0 z-50"
+      >
+        <NavbarComponent />
+      </SafeAreaViewContext>
+    </SafeAreaViewContext>
   );
 };
 
