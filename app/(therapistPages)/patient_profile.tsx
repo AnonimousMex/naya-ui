@@ -98,11 +98,13 @@ const PatientProfile= () => {
               bg="bg-brown-800"
               name="Citas"
               icon={ICONS.CALENDAR_ICON}
+              onPress={() => {router.push("/(auth)/welcome")}}
             />
             <ButtonPatientProfile
               bg="bg-blue-400"
               name="Resultados"
               icon={ICONS.PLAY_ICON}
+              onPress={() => {router.push("/(parentsPages)/test-results")}}
             />
             
           </View>
