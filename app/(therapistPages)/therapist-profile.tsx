@@ -5,7 +5,7 @@ import { router } from "expo-router";
 import { NavbarComponent } from "@/components/NavBar";
 import { ProfileButtonComponent } from "@/components/ProfileButtonsComponent";
 
-const TheraphistProfile = () => {
+const TherapistProfile = () => {
     const userEmail = "fermed@naya.com"
     const profileButtons = [
         {
@@ -80,4 +80,4 @@ const TheraphistProfile = () => {
     );
 };
 
-export default TheraphistProfile;
+export default TherapistProfile;
