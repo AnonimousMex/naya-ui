@@ -25,11 +25,9 @@ export default function RootLayout() {
     }
   }, [loaded]);
 
-  // 🔁 Asegurar siempre botones oscuros en Android
   useFocusEffect(
     useCallback(() => {
       const setupBars = async () => {
-        await NavigationBar.setBackgroundColorAsync("#FFF27C");
         await NavigationBar.setButtonStyleAsync("dark");
       };
 
