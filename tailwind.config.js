@@ -17,6 +17,7 @@ module.exports = {
       colors:{
         pink:{
           30: "#F2F5EB",
+          50: "#FADEDA",
           200: "#FCF6F1",
           300: "#FFCBC4",
           400: "#FADEDA",
@@ -35,10 +36,13 @@ module.exports = {
           500: "#F56565"
         },
         gray:{
+          70: "#5A554E",
+          60: "#736B66",
           730: "#736B66"
         },
         blue:{
-          689: "#6893FF"
+          689: "#6893FF",
+          80: "#303C58",
         },
         orange:{
           300: "#FF9335"
@@ -50,6 +54,8 @@ module.exports = {
           520: '#00000084', 
         },
         purple:{
+          10: "#F6F1FF",
+          20: "#DDD1FF",
           200: "#DEE3FF",
           400: "#D6CFFA",
           800: "#570074"

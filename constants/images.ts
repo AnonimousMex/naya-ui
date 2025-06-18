@@ -38,6 +38,11 @@ import medal3 from "@/assets/images/insignias/medal-3.png";
 import medal4 from "@/assets/images/insignias/medal-4.png";
 import rocket1 from "@/assets/images/achievements/rocket-1.png";
 import rocket2 from "@/assets/images/achievements/rocket-2.png";
+import sandClockIcon from "@/assets/icons/sand-clock-icon.png";
+import goIcon from "@/assets/icons/go_icon.png";
+import defaultWomanTherapist from "@/assets/images/default_woman_therapist.png";
+import calendarIcon from "@/assets/icons/calendar_icon.png";
+import peopleIcon from "@/assets/icons/people_icon.png";
 
 export const ICONS = {
   EMAIL_ICON: emailIcon,
@@ -59,6 +64,10 @@ export const ICONS = {
   REWARD_NAV_ICON: rewardNavIcon,
   BOOK_NAV_ICON: bookNavIcon,
   HELP_ICON: helpIcon,
+  SAND_CLOCK_ICON: sandClockIcon,
+  GO_ICON: goIcon,
+  CALENDAR_ICON: calendarIcon,
+  PEOPLE_ICON: peopleIcon,
 };
 
 export const IMAGES = {
@@ -87,4 +96,5 @@ export const IMAGES = {
   MEDAL_4: medal4,
   ROCKET_1: rocket1,
   ROCKET_2: rocket2,
+  DEFAULT_WOMAN_THERAPIST: defaultWomanTherapist,
 };
