@@ -1,4 +1,11 @@
-import { Text, View, Image, TouchableOpacity, Dimensions } from "react-native";
+import {
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  Dimensions,
+  StatusBar,
+} from "react-native";
 import { IMAGES } from "@/constants/images";
 import { MainButton } from "@/components/MainButton";
 import { CloudBackground } from "@/components/MainPanesComponents/CloudBackground";
