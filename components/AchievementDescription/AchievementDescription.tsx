@@ -5,15 +5,19 @@ type AchievementDescriptionProps = {
   bgColor?: string;
   image: keyof typeof IMAGES;
   description: string;
+  className?: string;
 };
 
 const AchievementDescription = ({
   bgColor = "#DEE3FF",
   image,
   description,
+  className,
 }: AchievementDescriptionProps) => {
   return (
-    <View className="pb-10 flex-row items-center">
+    <View
+      className={`p-4 flex-row items-center bg-brown-50 rounded-[50px] ${className}`}
+    >
       <View
         className="rounded-t-[50px] rounded-b-[50px] p-5"
         style={{ backgroundColor: bgColor }}
