@@ -43,7 +43,7 @@ export default function RootLayout() {
 
   return (
     <SnackbarProvider>
-      <StatusBar barStyle="dark-content" backgroundColor="#FFF27C" />
+      <StatusBar barStyle="dark-content" backgroundColor="transparent" />
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />

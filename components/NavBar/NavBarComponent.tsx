@@ -8,7 +8,7 @@ const NavbarComponent = () => {
   const bg = "bg-red-900";
 
   return (
-    <View className="bg-white w-full">
+    <View className="bg-slate-100 w-full">
       <View className="flex-row justify-around items-center h-[4rem] mx-4">
         <TouchableOpacity onPress={() => router.push("/(mainPages)/home")}>
           <View className="rounded-full">
