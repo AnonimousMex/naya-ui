@@ -38,6 +38,9 @@ import medal3 from "@/assets/images/insignias/medal-3.png";
 import medal4 from "@/assets/images/insignias/medal-4.png";
 import rocket1 from "@/assets/images/achievements/rocket-1.png";
 import rocket2 from "@/assets/images/achievements/rocket-2.png";
+import backRightIcon from "@/assets/icons/back-right-icon.png";
+import verifiedIcon from "@/assets/icons/verified-icon.png";
+import webIcon from "@/assets/icons/web-icon.png";
 
 export const ICONS = {
   EMAIL_ICON: emailIcon,
@@ -59,6 +62,9 @@ export const ICONS = {
   REWARD_NAV_ICON: rewardNavIcon,
   BOOK_NAV_ICON: bookNavIcon,
   HELP_ICON: helpIcon,
+  BACK_RIGHT_ICON: backRightIcon,
+  VERIFIED_ICON: verifiedIcon,
+  WEB_ICON: webIcon,
 };
 
 export const IMAGES = {
