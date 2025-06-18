@@ -17,7 +17,7 @@ const PatientCard: React.FC<PatientCardProps> = ({
 }) => {
   return (
     <View
-      className="bg-white rounded-[20px] p-4 mb-4 shadow-md"
+      className="bg-white rounded-[20px] p-4 mb-4"
       style={width ? { width } : {}}
     >
       <View

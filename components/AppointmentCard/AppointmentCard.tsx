@@ -4,7 +4,7 @@ import { ICONS } from "@/constants/images";
 
 const AppointmentCard = () => {
   return (
-    <View className="bg-white rounded-[20px] px-5 py-5 flex-row items-center mt-3 shadow-sm">
+    <View className="bg-white rounded-[20px] px-5 py-5 flex-row items-center mt-3">
       <View className="bg-purple-10 rounded-[16px] p-4 mr-4">
         <Image source={ICONS.SAND_CLOCK_ICON} className="w-7 h-8" />
       </View>
