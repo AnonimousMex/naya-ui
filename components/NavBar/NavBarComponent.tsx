@@ -16,7 +16,7 @@ const NavbarComponent = () => {
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => router.push("/(mainPages)/insignias")}>
+        <TouchableOpacity onPress={() => router.push("/(therapistPages)/patient_profile")}>
           <View className="rounded-full">
             <Image source={ICONS.BOOK_NAV_ICON} className={widthAndHeight} />
           </View>
