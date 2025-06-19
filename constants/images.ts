@@ -38,6 +38,18 @@ import medal3 from "@/assets/images/insignias/medal-3.png";
 import medal4 from "@/assets/images/insignias/medal-4.png";
 import rocket1 from "@/assets/images/achievements/rocket-1.png";
 import rocket2 from "@/assets/images/achievements/rocket-2.png";
+import storyPathBackground from "@/assets/images/storyPath/background_path.png";
+import storyButtonAxolotlUnlocked from "@/assets/images/storyPath/unlocked-button/axolotl_button.png";
+import storyButtonBunnyUnlocked from "@/assets/images/storyPath/unlocked-button/bunny_button.png";
+import storyButtonCatUnlocked from "@/assets/images/storyPath/unlocked-button/cat_button.png";
+import storyButtonLionUnlocked from "@/assets/images/storyPath/unlocked-button/lion_button.png";
+import storyButtonPandaUnlocked from "@/assets/images/storyPath/unlocked-button/panda_button.png";
+import storyButtonAxolotlLocked from "@/assets/images/storyPath/locked-button/axolotl_button_locked.png";
+import storyButtonBunnyLocked from "@/assets/images/storyPath/locked-button/bunny_button_locked.png";
+import storyButtonCatLocked from "@/assets/images/storyPath/locked-button/cat_button_locked.png";
+import storyButtonLionLocked from "@/assets/images/storyPath/locked-button/lion_button_locked.png";
+import storyButtonPandaLocked from "@/assets/images/storyPath/locked-button/panda_button_locked.png";
+
 import sandClockIcon from "@/assets/icons/sand-clock-icon.png";
 import goIcon from "@/assets/icons/go_icon.png";
 import defaultWomanTherapist from "@/assets/images/default_woman_therapist.png";
@@ -96,5 +108,16 @@ export const IMAGES = {
   MEDAL_4: medal4,
   ROCKET_1: rocket1,
   ROCKET_2: rocket2,
+  STORY_PATH_BACKGROUND: storyPathBackground,
+  STORY_BUTTON_AXOLOTL_UNLOCKED: storyButtonAxolotlUnlocked,
+  STORY_BUTTON_BUNNY_UNLOCKED: storyButtonBunnyUnlocked,
+  STORY_BUTTON_CAT_UNLOCKED: storyButtonCatUnlocked,
+  STORY_BUTTON_LION_UNLOCKED: storyButtonLionUnlocked,
+  STORY_BUTTON_PANDA_UNLOCKED: storyButtonPandaUnlocked,
+  STORY_BUTTON_AXOLOTL_LOCKED: storyButtonAxolotlLocked,
+  STORY_BUTTON_BUNNY_LOCKED: storyButtonBunnyLocked,
+  STORY_BUTTON_CAT_LOCKED: storyButtonCatLocked,
+  STORY_BUTTON_LION_LOCKED: storyButtonLionLocked,
+  STORY_BUTTON_PANDA_LOCKED: storyButtonPandaLocked,
   DEFAULT_WOMAN_THERAPIST: defaultWomanTherapist,
 };
