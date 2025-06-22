@@ -13,6 +13,14 @@ import backIconWhite from "@/assets/icons/back-white-icon.png";
 import homeIcon from "@/assets/icons/home-icon.png";
 import rewardNavIcon from "@/assets/icons/reward-icon.png";
 import bookNavIcon from "@/assets/icons/book-nav-icon.png";
+import backRightIcon from "@/assets/icons/back-right-icon.png";
+import verifiedIcon from "@/assets/icons/verified-icon.png";
+import webIcon from "@/assets/icons/web-icon.png";
+import medalIcon from "@/assets/icons/medal-icon.png";
+import helpIcon from "@/assets/icons/help-icon.png";
+import logOutIcon from "@/assets/icons/logout-icon.png";
+import streakIcon from "@/assets/icons/streak-icon.png";
+import expIcon from "@/assets/icons/exp-icon.png";
 import cloudsImage from "@/assets/images/home/clouds.png";
 import arrowRight from "@/assets/images/arrow-right.png";
 import nayaLogo from "@/assets/images/home/naya-logo.png";
@@ -27,20 +35,13 @@ import happyLionHead from "@/assets/images/animals/happy/happy-lion/happy-lion-h
 import happyBunnyHead from "@/assets/images/animals/happy/happy-bunny/happy-bunny-head.png";
 import happyPandaHead from "@/assets/images/animals/happy/happy-panda/happy-panda-head.png";
 import happyAxolotl2 from "@/assets/images/animals/happy/happy-axolotl/happy-axolotl-2.png";
-import medalIcon from "@/assets/icons/medal-icon.png";
-import helpIcon from "@/assets/icons/help-icon.png";
-import logOutIcon from "@/assets/icons/logout-icon.png";
-import streakIcon from "@/assets/icons/streak-icon.png";
-import expIcon from "@/assets/icons/exp-icon.png";
 import medal1 from "@/assets/images/insignias/medal-1.png";
 import medal2 from "@/assets/images/insignias/medal-2.png";
 import medal3 from "@/assets/images/insignias/medal-3.png";
 import medal4 from "@/assets/images/insignias/medal-4.png";
 import rocket1 from "@/assets/images/achievements/rocket-1.png";
 import rocket2 from "@/assets/images/achievements/rocket-2.png";
-import backRightIcon from "@/assets/icons/back-right-icon.png";
-import verifiedIcon from "@/assets/icons/verified-icon.png";
-import webIcon from "@/assets/icons/web-icon.png";
+
 
 export const ICONS = {
   EMAIL_ICON: emailIcon,

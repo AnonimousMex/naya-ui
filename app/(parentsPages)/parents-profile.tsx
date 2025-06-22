@@ -30,11 +30,11 @@ const ParentsProfile = () => {
     ]
 
     return (
-        <SafeAreaViewContext className="flex-1 bg-[#F8F5F1]">
+        <SafeAreaViewContext className="flex-1 bg-white-800">
             <ScrollView
                 showsVerticalScrollIndicator
             >
-                <View className="bg-[#2D375B] px-4 pt-5 pb-20 rounded-b-[15] relative">
+                <View className="bg-blue-300 px-4 pt-5 pb-20 rounded-b-[15] relative">
                     <View className="flex-row items-center justify-between mt-5 mb-5 px-0">
                         <Text className="text-white text-4xl font-UrbanistBold">
                             Mi perfil
