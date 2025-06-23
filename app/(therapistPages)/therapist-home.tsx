@@ -5,7 +5,7 @@ import AppointmentCard from "@/components/AppointmentCard";
 import PatientCard from "@/components/PatientCard";
 import { IMAGES } from "@/constants/images";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { TherapistNavBarComponent } from "@/components/TherapistNavBar";
+import NavbarComponent from "@/components/NavBar/NavBarComponent";
 
 const patients = [
   { name: "Hilary Arroyo Martinez", avatar: IMAGES.HAPPY_AXOLOTL_HEAD, circleColor: "#C8B8B4" },
@@ -61,7 +61,7 @@ const TherapistHome = () => {
         edges={["bottom"]}
         className="bg-white absolute bottom-0 left-0 right-0 z-50"
       >
-        <TherapistNavBarComponent />
+        <NavbarComponent isTherapist />
       </SafeAreaView>
     </View>
   );
