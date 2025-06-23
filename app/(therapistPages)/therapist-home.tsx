@@ -1,7 +1,6 @@
 import React from "react";
 import { View, ScrollView, Text, TouchableOpacity, Dimensions } from "react-native";
 import TherapistTopBar from "@/components/TherapistTopBar";
-import AppointmentCard from "@/components/AppointmentCard";
 import PatientCard from "@/components/PatientCard";
 import { IMAGES } from "@/constants/images";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -39,7 +38,6 @@ const TherapistHome = () => {
               </Text>
             </TouchableOpacity>
           </View>
-          <AppointmentCard />
           <View className="flex-row justify-between items-center mb-2 mt-8">
             <Text className="text-brown-800 font-bold text-lg font-UrbanistBold">
               Mis pacientes
