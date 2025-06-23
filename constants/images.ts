@@ -50,6 +50,11 @@ import storyButtonCatLocked from "@/assets/images/storyPath/locked-button/cat_bu
 import storyButtonLionLocked from "@/assets/images/storyPath/locked-button/lion_button_locked.png";
 import storyButtonPandaLocked from "@/assets/images/storyPath/locked-button/panda_button_locked.png";
 
+import sandClockIcon from "@/assets/icons/sand-clock-icon.png";
+import goIcon from "@/assets/icons/go_icon.png";
+import defaultWomanTherapist from "@/assets/images/default_woman_therapist.png";
+import calendarIcon from "@/assets/icons/calendar_icon.png";
+import peopleIcon from "@/assets/icons/people_icon.png";
 
 export const ICONS = {
   EMAIL_ICON: emailIcon,
@@ -71,6 +76,10 @@ export const ICONS = {
   REWARD_NAV_ICON: rewardNavIcon,
   BOOK_NAV_ICON: bookNavIcon,
   HELP_ICON: helpIcon,
+  SAND_CLOCK_ICON: sandClockIcon,
+  GO_ICON: goIcon,
+  CALENDAR_ICON: calendarIcon,
+  PEOPLE_ICON: peopleIcon,
 };
 
 export const IMAGES = {
@@ -110,4 +119,5 @@ export const IMAGES = {
   STORY_BUTTON_CAT_LOCKED: storyButtonCatLocked,
   STORY_BUTTON_LION_LOCKED: storyButtonLionLocked,
   STORY_BUTTON_PANDA_LOCKED: storyButtonPandaLocked,
+  DEFAULT_WOMAN_THERAPIST: defaultWomanTherapist,
 };
