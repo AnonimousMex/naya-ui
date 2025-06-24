@@ -3,7 +3,7 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 import { ICONS } from "@/constants/images";
 import { useRouter } from "expo-router";
 
-interface PatientCardProps {
+interface PersonCardProps {
   name: string;
   avatar: any;
   width?: number;
@@ -11,7 +11,7 @@ interface PatientCardProps {
   type?: "patient" | "therapist";
 }
 
-const PatientCard: React.FC<PatientCardProps> = ({
+const PersonCard: React.FC<PersonCardProps> = ({
   name,
   avatar,
   width,
@@ -64,4 +64,4 @@ const PatientCard: React.FC<PatientCardProps> = ({
   );
 };
 
-export default PatientCard;
+export default PersonCard;

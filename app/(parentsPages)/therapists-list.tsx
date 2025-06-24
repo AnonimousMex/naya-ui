@@ -1,7 +1,7 @@
 import React from "react";
 import { View, ScrollView, Text, TouchableOpacity, Dimensions } from "react-native";
 import BlueTopBar from "@/components/BlueTopBar";
-import PatientCard from "@/components/PatientCard";
+import PersonCard from "@/components/PersonCard";
 import { IMAGES } from "@/constants/images";
 import { SafeAreaView } from "react-native-safe-area-context";
 import NavbarComponent from "@/components/NavBar/NavBarComponent";
@@ -45,7 +45,7 @@ const TherapistHome = () => {
         <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 32 }}>
           <View className="flex-row flex-wrap justify-between">
             {patients.map((p) => (
-              <PatientCard
+              <PersonCard
                 key={p.name}
                 name={p.name}
                 avatar={p.avatar}
