@@ -18,15 +18,18 @@ module.exports = {
         pink:{
           30: "#F2F5EB",
           50: "#FADEDA",
+          80: "#FAE1DF",
           200: "#FCF6F1",
           300: "#FFCBC4",
           400: "#FADEDA",
           700: "#F598B7",
-          800: "#F699B4"
+          800: "#F699B4",
+          90: "#D05B5B",
         },
         blue:{
           900: "#303C58",
-          600: "#2C2966"
+          600: "#2C2966",
+          80: "#232B3B" 
         },
         brown:{
           20: "#E4B18E",
@@ -64,7 +67,8 @@ module.exports = {
           800: "#570074"
         },
         green:{
-          100: "#D1DDD0"
+          100: "#D1DDD0",
+          500: "#CEFF72",
         },
         yellow:{
           10: "rgba(248, 230, 60, 0.17)",
@@ -72,6 +76,7 @@ module.exports = {
           500: "#FFEA2D"
         },
         white:{
+          DEFAULT: "#FFFFFF",
           800: "#F8F5F1"
         }
       }
