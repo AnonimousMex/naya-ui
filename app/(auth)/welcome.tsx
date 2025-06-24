@@ -44,7 +44,7 @@ const Welcome = () => {
         />
         <TouchableOpacity
           className="w-full py-3 rounded-full border items-center mt-24"
-          onPress={() => router.push("/(mainPages)/insignias")}
+          onPress={() => router.push("/(parentsPages)/therapists-list")}
         >
           <Text
             className="text-lg font-bold text-brown-700"

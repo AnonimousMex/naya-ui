@@ -7,6 +7,7 @@ interface PatientCardProps {
   avatar: any;
   width?: number;
   circleColor?: string;
+  type?: "patient" | "therapist";
 }
 
 const PatientCard: React.FC<PatientCardProps> = ({
@@ -14,6 +15,7 @@ const PatientCard: React.FC<PatientCardProps> = ({
   avatar,
   width,
   circleColor = "#FAD4D4",
+  type = "patient",
 }) => {
   return (
     <View
@@ -42,7 +44,7 @@ const PatientCard: React.FC<PatientCardProps> = ({
       </Text>
       <TouchableOpacity className="bg-orange-300 rounded-full py-2 px-4 mt-3 flex-row items-center self-stretch justify-center">
         <Text className="text-white font-extrabold text-sm mr-2">
-          Ver paciente
+          {type === "therapist" ? "Ver terapeuta" : "Ver paciente"}
         </Text>
         <Image source={ICONS.GO_ICON} style={{ width: 15, height: 15 }} />
       </TouchableOpacity>
