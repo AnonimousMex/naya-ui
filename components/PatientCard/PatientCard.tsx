@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { ICONS } from "@/constants/images";
+import { useRouter } from "expo-router";
 
 interface PatientCardProps {
   name: string;
@@ -17,6 +18,14 @@ const PatientCard: React.FC<PatientCardProps> = ({
   circleColor = "#FAD4D4",
   type = "patient",
 }) => {
+  const router = useRouter();
+  const handlePress = () => {
+    if (type === "therapist") {
+      router.push("/(therapistPages)/therapist-profile");
+    } else {
+      router.push("/(mainPages)/user-profile");
+    }
+  };
   return (
     <View
       className="bg-white rounded-[20px] p-4 mb-4"
@@ -42,7 +51,10 @@ const PatientCard: React.FC<PatientCardProps> = ({
       >
         {name}
       </Text>
-      <TouchableOpacity className="bg-orange-300 rounded-full py-2 px-4 mt-3 flex-row items-center self-stretch justify-center">
+      <TouchableOpacity
+        className="bg-orange-300 rounded-full py-2 px-4 mt-3 flex-row items-center self-stretch justify-center"
+        onPress={handlePress}
+      >
         <Text className="text-white font-extrabold text-sm mr-2">
           {type === "therapist" ? "Ver terapeuta" : "Ver paciente"}
         </Text>
