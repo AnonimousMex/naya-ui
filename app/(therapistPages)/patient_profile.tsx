@@ -54,13 +54,14 @@ const PatientProfile= () => {
           <View className="flex-1 justify-end items-center">
             <Image
               source={userImage}
-              className="mb-[-20] w-64 h-64"
+              className=" w-64 h-64"
               style={{ resizeMode: "contain" }}
             />
           </View>
         </View>
 
-        <View className="flex-1 bg-white rounded-t-3xl px-6 pt-6 ">
+        <View 
+          className="flex-1 bg-white rounded-t-3xl px-6 pt-6">
           <View className="flex justify-center items-center mb-4">
             <NextDateView
               patientName="Rodrigo vega Espinoza"
@@ -97,7 +98,7 @@ const PatientProfile= () => {
             <ButtonPatientProfile
               bg="bg-brown-800"
               name="Citas"
-              icon={ICONS.CALENDAR_ICON}
+              icon={ICONS.CALENDAR_WHITE_ICON}
               onPress={() => {router.push("/(auth)/welcome")}}
             />
             <ButtonPatientProfile

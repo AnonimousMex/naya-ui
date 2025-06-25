@@ -17,10 +17,9 @@ const ButtonPatientProfile =({bg, name, icon, onPress}: TButtonPatientProfile) =
 
   return (
     <TouchableOpacity onPress={onPress}>
-      <View className={`${bg} px-8 py-4 rounded-full flex-row justify-center items-center max-w-[50%]`}>
+      <View className={`${bg} px-8 py-4 rounded-full flex-row justify-center items-center max-w-[100%]`}>
           <Text 
-              className='text-white font-UrbanistExtraBold text-2xl'
-              adjustsFontSizeToFit={true}  
+              className='text-white-800 font-UrbanistExtraBold text-2xl'
               numberOfLines={1}    
               minimumFontScale={0.9}
           >

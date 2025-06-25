@@ -63,6 +63,7 @@ import sandClockIcon from "@/assets/icons/sand-clock-icon.png";
 import goIcon from "@/assets/icons/go_icon.png";
 import defaultWomanTherapist from "@/assets/images/default_woman_therapist.png";
 import calendarIcon from "@/assets/icons/calendar_icon.png";
+import calendarWhiteIcon from "@/assets/icons/calendar-white-icon.png";
 import peopleIcon from "@/assets/icons/people_icon.png";
 
 import timerIcon from "@/assets/icons/timer-date-icon.png"
@@ -94,6 +95,7 @@ export const ICONS = {
   SAND_CLOCK_ICON: sandClockIcon,
   GO_ICON: goIcon,
   CALENDAR_ICON: calendarIcon,
+  CALENDAR_WHITE_ICON: calendarWhiteIcon,
   PEOPLE_ICON: peopleIcon,
   TIMER_ICON: timerIcon,
   PLAY_ICON: playIcon,
