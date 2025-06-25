@@ -35,11 +35,6 @@ import happyLionHead from "@/assets/images/animals/happy/happy-lion/happy-lion-h
 import happyBunnyHead from "@/assets/images/animals/happy/happy-bunny/happy-bunny-head.png";
 import happyPandaHead from "@/assets/images/animals/happy/happy-panda/happy-panda-head.png";
 import happyAxolotl2 from "@/assets/images/animals/happy/happy-axolotl/happy-axolotl-2.png";
-import medalIcon from "@/assets/icons/medal-icon.png";
-import helpIcon from "@/assets/icons/help-icon.png";
-import logOutIcon from "@/assets/icons/logout-icon.png";
-import streakIcon from "@/assets/icons/streak-icon.png";
-import expIcon from "@/assets/icons/exp-icon.png";
 import emorganizaImage from "@/assets/images/home/homepage/emorganiza-image.png"
 import memocionesImage from "@/assets/images/home/homepage/memociones-image.png"
 import pandaSpiaImage from "@/assets/images/home/homepage/panda-spia-image.png"
