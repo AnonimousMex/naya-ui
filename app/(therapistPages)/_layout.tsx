@@ -5,6 +5,8 @@ export default function Layout() {
     <Stack>
       <Stack.Screen name="patient_profile" options={{ headerShown: false }} />
       <Stack.Screen name="test-results" options={{ headerShown: false }} />
+      <Stack.Screen name="therapist-profile" options={{ headerShown: false }} />
+      <Stack.Screen name="therapist-home" options={{ headerShown: false }} />
     </Stack>
   );
 }

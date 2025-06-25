@@ -35,16 +35,9 @@ function Login() {
   });
 
   const { control, handleSubmit, setError } = formMethods;
-  const localPassword = "Naya1234*";
-
+  
   const handleOnSubmit = (data: TSignInSchema) => {
-    if (data.password !== localPassword) {
-      setError("password", {
-        message: ERROR_TEXTS.INVALID_PASSWORDS_MATCH_FIELD,
-      });
-      return;
-    }
-    router.push("/(auth)/activate-account");
+      return ;
   };
 
   const onInvalidForm = () => {
@@ -95,7 +88,7 @@ function Login() {
             <Text
               className="font-UrbanistBold text-pink-700 underline text-s text-right p-2"
               onPress={() => {
-                router.push("/(auth)/activate-account");
+                router.push("/(mainPages)/home");
               }}
             >
               Olvidé mi contraseña
@@ -103,7 +96,8 @@ function Login() {
             <MainButton
               mainText="Iniciar Sesión"
               onPress={() => {
-                handleSubmit(handleOnSubmit, onInvalidForm)();
+                // handleSubmit(handleOnSubmit, onInvalidForm)();
+                router.push("/(auth)/activate-account");
               }}
               className="w-80 py-3 mt-11 mb-10"
               style={{ height: 50 }}

@@ -13,6 +13,14 @@ import backIconWhite from "@/assets/icons/back-white-icon.png";
 import homeIcon from "@/assets/icons/home-icon.png";
 import rewardNavIcon from "@/assets/icons/reward-icon.png";
 import bookNavIcon from "@/assets/icons/book-nav-icon.png";
+import backRightIcon from "@/assets/icons/back-right-icon.png";
+import verifiedIcon from "@/assets/icons/verified-icon.png";
+import webIcon from "@/assets/icons/web-icon.png";
+import medalIcon from "@/assets/icons/medal-icon.png";
+import helpIcon from "@/assets/icons/help-icon.png";
+import logOutIcon from "@/assets/icons/logout-icon.png";
+import streakIcon from "@/assets/icons/streak-icon.png";
+import expIcon from "@/assets/icons/exp-icon.png";
 import cloudsImage from "@/assets/images/home/clouds.png";
 import arrowRight from "@/assets/images/arrow-right.png";
 import nayaLogo from "@/assets/images/home/naya-logo.png";
@@ -27,19 +35,37 @@ import happyLionHead from "@/assets/images/animals/happy/happy-lion/happy-lion-h
 import happyBunnyHead from "@/assets/images/animals/happy/happy-bunny/happy-bunny-head.png";
 import happyPandaHead from "@/assets/images/animals/happy/happy-panda/happy-panda-head.png";
 import happyAxolotl2 from "@/assets/images/animals/happy/happy-axolotl/happy-axolotl-2.png";
-import medalIcon from "@/assets/icons/medal-icon.png";
-import helpIcon from "@/assets/icons/help-icon.png";
-import logOutIcon from "@/assets/icons/logout-icon.png";
-import streakIcon from "@/assets/icons/streak-icon.png";
-import expIcon from "@/assets/icons/exp-icon.png";
+import emorganizaImage from "@/assets/images/home/homepage/emorganiza-image.png"
+import memocionesImage from "@/assets/images/home/homepage/memociones-image.png"
+import pandaSpiaImage from "@/assets/images/home/homepage/panda-spia-image.png"
+import suenaAlgoImage from "@/assets/images/home/homepage/suenaalgo_image.png"
+import backgroundDetetiveImage from "@/assets/images/home/homepage/background-detective-image.png"
+import backgroundSuenaAlgoImage from "@/assets/images/home/homepage/background-suena-algo-image.png"
 import medal1 from "@/assets/images/insignias/medal-1.png";
 import medal2 from "@/assets/images/insignias/medal-2.png";
 import medal3 from "@/assets/images/insignias/medal-3.png";
 import medal4 from "@/assets/images/insignias/medal-4.png";
 import rocket1 from "@/assets/images/achievements/rocket-1.png";
 import rocket2 from "@/assets/images/achievements/rocket-2.png";
+import storyPathBackground from "@/assets/images/storyPath/background_path.png";
+import storyButtonAxolotlUnlocked from "@/assets/images/storyPath/unlocked-button/axolotl_button.png";
+import storyButtonBunnyUnlocked from "@/assets/images/storyPath/unlocked-button/bunny_button.png";
+import storyButtonCatUnlocked from "@/assets/images/storyPath/unlocked-button/cat_button.png";
+import storyButtonLionUnlocked from "@/assets/images/storyPath/unlocked-button/lion_button.png";
+import storyButtonPandaUnlocked from "@/assets/images/storyPath/unlocked-button/panda_button.png";
+import storyButtonAxolotlLocked from "@/assets/images/storyPath/locked-button/axolotl_button_locked.png";
+import storyButtonBunnyLocked from "@/assets/images/storyPath/locked-button/bunny_button_locked.png";
+import storyButtonCatLocked from "@/assets/images/storyPath/locked-button/cat_button_locked.png";
+import storyButtonLionLocked from "@/assets/images/storyPath/locked-button/lion_button_locked.png";
+import storyButtonPandaLocked from "@/assets/images/storyPath/locked-button/panda_button_locked.png";
+
+import sandClockIcon from "@/assets/icons/sand-clock-icon.png";
+import goIcon from "@/assets/icons/go_icon.png";
+import defaultWomanTherapist from "@/assets/images/default_woman_therapist.png";
+import calendarIcon from "@/assets/icons/calendar_icon.png";
+import peopleIcon from "@/assets/icons/people_icon.png";
+
 import timerIcon from "@/assets/icons/timer-date-icon.png"
-import calendarIcon from "@/assets/icons/calendar-icon.png"
 import playIcon from "@/assets/icons/play-icon.png"
 
 export const ICONS = {
@@ -62,8 +88,14 @@ export const ICONS = {
   REWARD_NAV_ICON: rewardNavIcon,
   BOOK_NAV_ICON: bookNavIcon,
   HELP_ICON: helpIcon,
-  TIMER_ICON: timerIcon,
+  BACK_RIGHT_ICON: backRightIcon,
+  VERIFIED_ICON: verifiedIcon,
+  WEB_ICON: webIcon,
+  SAND_CLOCK_ICON: sandClockIcon,
+  GO_ICON: goIcon,
   CALENDAR_ICON: calendarIcon,
+  PEOPLE_ICON: peopleIcon,
+  TIMER_ICON: timerIcon,
   PLAY_ICON: playIcon,
 };
 
@@ -87,10 +119,28 @@ export const IMAGES = {
   LOGOUT_ICON: logOutIcon,
   STREAK_ICON: streakIcon,
   EXP_ICON: expIcon,
+  EMORGANIZA_IMAGE: emorganizaImage,
+  MEMOCIONES_IMAGE: memocionesImage,
+  PANDA_SPIA_IMAGE: pandaSpiaImage,
+  SUENA_ALGO_IMAGE: suenaAlgoImage,
+  BACKGROUND_DETECTIVE_IMAGE: backgroundDetetiveImage,
+  BACKGROUND_SUENA_ALGO_IMAGE: backgroundSuenaAlgoImage,
   MEDAL_1: medal1,
   MEDAL_2: medal2,
   MEDAL_3: medal3,
   MEDAL_4: medal4,
   ROCKET_1: rocket1,
   ROCKET_2: rocket2,
+  STORY_PATH_BACKGROUND: storyPathBackground,
+  STORY_BUTTON_AXOLOTL_UNLOCKED: storyButtonAxolotlUnlocked,
+  STORY_BUTTON_BUNNY_UNLOCKED: storyButtonBunnyUnlocked,
+  STORY_BUTTON_CAT_UNLOCKED: storyButtonCatUnlocked,
+  STORY_BUTTON_LION_UNLOCKED: storyButtonLionUnlocked,
+  STORY_BUTTON_PANDA_UNLOCKED: storyButtonPandaUnlocked,
+  STORY_BUTTON_AXOLOTL_LOCKED: storyButtonAxolotlLocked,
+  STORY_BUTTON_BUNNY_LOCKED: storyButtonBunnyLocked,
+  STORY_BUTTON_CAT_LOCKED: storyButtonCatLocked,
+  STORY_BUTTON_LION_LOCKED: storyButtonLionLocked,
+  STORY_BUTTON_PANDA_LOCKED: storyButtonPandaLocked,
+  DEFAULT_WOMAN_THERAPIST: defaultWomanTherapist,
 };
