@@ -4,6 +4,7 @@ export default function Layout() {
   return (
     <Stack>
       <Stack.Screen name="test-results" options={{ headerShown: false }} />
+      <Stack.Screen name="parents-profile" options={{ headerShown: false }} />
     </Stack>
   );
 }
