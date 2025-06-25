@@ -101,7 +101,7 @@ const PatientProfile= () => {
               onPress={() => {router.push("/(auth)/welcome")}}
             />
             <ButtonPatientProfile
-              bg="bg-blue-400"
+              bg="bg-blue-80"
               name="Resultados"
               icon={ICONS.PLAY_ICON}
               onPress={() => {router.push("/(parentsPages)/test-results")}}
