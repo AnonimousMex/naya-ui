@@ -29,7 +29,6 @@ export default function RootLayout() {
   useFocusEffect(
     useCallback(() => {
       const setupBars = async () => {
-        await NavigationBar.setBackgroundColorAsync("#FFF27C");
         await NavigationBar.setButtonStyleAsync("dark");
       };
 

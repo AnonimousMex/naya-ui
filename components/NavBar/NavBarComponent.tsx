@@ -22,9 +22,7 @@ const NavbarComponent = () => {
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          onPress={() => router.push("/(mainPages)/achievements")}
-        >
+        <TouchableOpacity onPress={() => router.push("/(mainPages)/insignias")}>
           <View className="rounded-full">
             <Image source={ICONS.REWARD_NAV_ICON} className={widthAndHeight} />
           </View>
