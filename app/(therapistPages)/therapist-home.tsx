@@ -5,6 +5,7 @@ import PatientCard from "@/components/PatientCard";
 import { IMAGES } from "@/constants/images";
 import { SafeAreaView } from "react-native-safe-area-context";
 import NavbarComponent from "@/components/NavBar/NavBarComponent";
+import { router } from "expo-router";
 
 const patients = [
   { name: "Hilary Arroyo Martinez", avatar: IMAGES.HAPPY_AXOLOTL_HEAD, circleColor: "#C8B8B4" },
@@ -32,7 +33,7 @@ const TherapistHome = () => {
             <Text className="text-brown-800 font-bold text-lg font-UrbanistBold">
               Consultas
             </Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => router.push("/(therapistPages)/therapist-upcoming-appointments")}>
               <Text className="text-orange-400 font-bold text-sm font-UrbanistBold">
                 Ver más
               </Text>
