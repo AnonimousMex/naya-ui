@@ -51,8 +51,7 @@ const TestDetailedResults = () => {
 
   return (
     <SafeAreaView
-      className="flex-1"
-      style={{ backgroundColor: "transparent" }}
+      className="flex-1 bg-pink-200"
       edges={["top"]}
     >
       <View className="w-full flex-row justify-between pt-6 px-7 pb-4 z-10 bg-pink-200">
