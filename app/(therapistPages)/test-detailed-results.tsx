@@ -11,7 +11,7 @@ const mockBackendResponse = {
   testInfo: {
     date: "16/Junio/2025",
     totalQuestions: 3,
-    performedBy: "Hugin",
+    performedBy: "Emiliano",
     testId: "test_001",
   },
   testResults: [
@@ -38,9 +38,7 @@ const mockBackendResponse = {
   },
   analysis: {
     tendency:
-      "El niño tiende a expresar sus emociones de manera variada, mostrando tanto respuestas asertivas como reacciones emocionales negativas. Se recomienda reforzar la gestión emocional positiva.",
-    parentRecommendation:
-      "Actividad sugerida: Realizar juntos un diario de emociones donde el niño pueda expresar cómo se sintió cada día y qué hizo para sentirse mejor.",
+      "El niño tiende a expresar sus emociones de manera variada, mostrando tanto respuestas asertivas como reacciones emocionales negativas. Se recomienda reforzar la gestión emocional positiva."
   },
 };
 
@@ -138,19 +136,9 @@ const TestDetailedResults = () => {
                 Tendencia del niño
               </Text>
             </View>
-            <View className="rounded-b-2xl p-4 mb-4 bg-[#FFF8E1]">
+            <View className="rounded-b-2xl p-4 mb-12 bg-[#FFF8E1]">
               <Text className="font-UrbanistBold text-base text-brown-700">
                 {analysis.tendency}
-              </Text>
-            </View>
-            <View className="rounded-t-xl p-3 bg-white">
-              <Text className="font-UrbanistBold text-lg text-brown-800">
-                Recomendación para el papá
-              </Text>
-            </View>
-            <View className="rounded-b-2xl p-4 mb-12 bg-[#E0F7FA]">
-              <Text className="font-UrbanistBold text-base text-brown-700">
-                {analysis.parentRecommendation}
               </Text>
             </View>
           </View>

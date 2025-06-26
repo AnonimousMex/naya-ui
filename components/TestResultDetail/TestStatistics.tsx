@@ -34,7 +34,7 @@ export const TestStatistics = ({ stats }: TestStatisticsProps) => {
               <View
                 className="h-3 rounded-full"
                 style={{
-                  width: percent > 5 ? `${percent}%` : percent > 0 ? 12 : 0, // mínimo 12px si hay porcentaje
+                  width: percent > 5 ? `${percent}%` : percent > 0 ? 12 : 0,
                   minWidth: percent > 0 && percent < 5 ? 12 : undefined,
                   backgroundColor: emotionColors[emotion] || emotionColors.neutral,
                 }}

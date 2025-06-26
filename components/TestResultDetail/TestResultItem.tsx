@@ -1,11 +1,11 @@
 import { View, Text } from "react-native";
 
 const emotionColors: Record<string, string> = {
-  fear: "#8E24AA",      // Temor (morado)
-  happy: "#FFE01B",    // Alegría (amarillo)
-  sad: "#29A8FF",      // Tristeza (azul)
-  angry: "#FF4B1F",    // Enojo (naranja/rojo)
-  shame: "#FF90D0",    // Vergüenza (rosa)
+  fear: "#8E24AA",     
+  happy: "#FFE01B",    
+  sad: "#29A8FF",      
+  angry: "#FF4B1F",    
+  shame: "#FF90D0",    
   neutral: "#E0E0E0",
 };
 
