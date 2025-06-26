@@ -72,6 +72,7 @@ module.exports = {
           500: "#FFEA2D"
         },
         white:{
+          DEFAULT: "#FFFFFF",
           800: "#F8F5F1"
         }
       }

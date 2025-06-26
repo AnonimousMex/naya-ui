@@ -55,7 +55,7 @@ const Welcome = () => {
         </TouchableOpacity>
         <MainButton
           mainText="Continuar"
-          onPress={() => router.push("/(auth)/sign-in")}
+          onPress={() => router.push("/(parentsPages)/test-results")}
           className="w-80 py-3 mt-6"
         />
       </View>
