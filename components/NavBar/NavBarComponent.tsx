@@ -15,7 +15,7 @@ const NavbarComponent: React.FC<NavbarComponentProps> = ({ isTherapist = false }
   return (
     <View className={`${navBg} w-full`}>
       <View className="flex-row justify-around items-center h-[4rem] mx-4">
-        <TouchableOpacity onPress={() => router.push("/(auth)/welcome")}>
+        <TouchableOpacity onPress={() => router.push("/(mainPages)/home")}>
           <View className="rounded-full">
             <Image source={ICONS.HOME_ICON} className={widthAndHeight} />
           </View>
@@ -43,7 +43,7 @@ const NavbarComponent: React.FC<NavbarComponentProps> = ({ isTherapist = false }
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => router.push("/(mainPages)/achievements")}
+          onPress={() => router.push("/(mainPages)/insignias")}
         >
           <View className="rounded-full">
             <Image
