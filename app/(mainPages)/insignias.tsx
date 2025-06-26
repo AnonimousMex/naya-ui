@@ -50,20 +50,22 @@ const Insignias = () => {
       </View>
 
       <Modal visible={modalVisible} transparent animationType="slide">
-        <View style={{ flex: 1, backgroundColor: "rgba(0,0,0,0.5)" }}>
-          <View
-            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-          >
-            {selectedMedal && (
-              <View style={{ width: "100%", height: "80%" }}>
-                <InsigniaDescriptionComponent
-                  title={selectedMedal.title}
-                  medalImageIndex={selectedMedal.imageIndex}
-                  onClose={closeModal}
-                />
-              </View>
-            )}
-          </View>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: "rgba(0,0,0,0.5)",
+            justifyContent: "center",
+            alignItems: "center",
+            paddingTop: 80,
+          }}
+        >
+          {selectedMedal && (
+            <InsigniaDescriptionComponent
+              title={selectedMedal.title}
+              medalImageIndex={selectedMedal.imageIndex}
+              onClose={closeModal}
+            />
+          )}
         </View>
       </Modal>
 
