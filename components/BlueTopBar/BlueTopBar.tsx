@@ -1,6 +1,7 @@
 import React from "react";
-import { View, Text, Image, TouchableOpacity } from "react-native";
-import { ICONS } from "@/constants/images";
+import { View, Text } from "react-native";
+import NotificationsButton from "@/components/NotificationsButton";
+import SettingsButton from "@/components/SettingsButton";
 
 interface BlueTopBarProps {
   title?: string;
@@ -9,7 +10,7 @@ interface BlueTopBarProps {
 }
 
 const BlueTopBar: React.FC<BlueTopBarProps> = ({ title, subtitle, description }) => {
-  // Dynamic padding based on content
+
   let paddingBottom = 24;
   let paddingTop = 48;
   let contentCount = 0;
@@ -27,13 +28,11 @@ const BlueTopBar: React.FC<BlueTopBarProps> = ({ title, subtitle, description })
             {title}
           </Text>
         ) : null}
-        <View className="flex-row items-center space-x-4">
-          <TouchableOpacity>
-            <Image source={ICONS.NOTIFICATION_ICON} className="w-6 h-6" />
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Image source={ICONS.GEAR_ICON} className="w-6 h-6" />
-          </TouchableOpacity>
+        <View className="flex-row items-center">
+          <View className="mr-2">
+            <NotificationsButton />
+          </View>
+          <SettingsButton />
         </View>
       </View>
       {subtitle && (

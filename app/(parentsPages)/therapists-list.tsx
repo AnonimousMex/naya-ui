@@ -3,10 +3,11 @@ import { View, ScrollView, Text, TouchableOpacity, Dimensions } from "react-nati
 import BlueTopBar from "@/components/BlueTopBar";
 import PersonCard from "@/components/PersonCard";
 import { IMAGES } from "@/constants/images";
-import { SafeAreaView } from "react-native-safe-area-context";
-import NavbarComponent from "@/components/NavBar/NavBarComponent";
 
-const patients = [
+const title = "¡Hola, Fernanda!";
+const description = "Dentro de esta sección podrás dar un vistazo a los terapeutas que están disponibles en nuestra app";
+
+const therapists = [
   { name: "Hilary Arroyo Martinez", avatar: IMAGES.DEFAULT_WOMAN_THERAPIST, circleColor: "#C8B8B4" },
   { name: "Francisco Rivera Rodriguez", avatar: IMAGES.DEFAULT_WOMAN_THERAPIST, circleColor: "#F9D7B5" },
   { name: "José Antonio Cisneros", avatar: IMAGES.DEFAULT_WOMAN_THERAPIST, circleColor: "#D6E6F2" },
@@ -16,18 +17,18 @@ const patients = [
   { name: "Lucía Hernández Torres", avatar: IMAGES.DEFAULT_WOMAN_THERAPIST, circleColor: "#C7CEEA" },
 ];
 
-const CARD_MARGIN = 8;
-const NUM_COLUMNS = 2;
-const SCREEN_WIDTH = Dimensions.get("window").width;
-const CONTAINER_PADDING = 40;
-const CARD_WIDTH = (SCREEN_WIDTH - CONTAINER_PADDING - CARD_MARGIN * (NUM_COLUMNS + 1)) / NUM_COLUMNS;
+const cardMargin = 8;
+const numColumns = 2;
+const screenWidth = Dimensions.get("window").width;
+const containerPadding = 40;
+const cardWidth = (screenWidth - containerPadding - cardMargin * (numColumns + 1)) / numColumns;
 
 const TherapistHome = () => {
   return (
     <View className="flex-1 bg-pink-200">
       <BlueTopBar
-        title="¡Hola, Fernanda!"
-        description="Dentro de esta sección podrás dar un vistazo a los terapeutas que están disponibles en nuestra app"
+        title={title}
+        description={description}
       />
       <View className="px-5">
         <View className="flex-row justify-between items-center mb-2 mt-8">
@@ -44,12 +45,12 @@ const TherapistHome = () => {
       <View className="px-5 flex-1">
         <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 32 }}>
           <View className="flex-row flex-wrap justify-between">
-            {patients.map((p) => (
+            {therapists.map((p) => (
               <PersonCard
                 key={p.name}
                 name={p.name}
                 avatar={p.avatar}
-                width={CARD_WIDTH}
+                width={cardWidth}
                 circleColor={p.circleColor}
                 type="therapist"
               />
