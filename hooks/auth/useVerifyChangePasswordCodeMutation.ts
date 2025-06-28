@@ -18,11 +18,10 @@ export const useVerifyChangePasswordCodeMutation = (
       AUTH_SERVICE.verifyChangePasswordCode(data),
     onSuccess: () => {
       showSnackbar({
-        message: "Código verificado exitosamente",
+        message: SUCCESS_TEXTS.VERIFIED_CODE,
         type: "success",
       });
-      // TODO: Navegar a la pantalla donde el usuario puede establecer su nueva contraseña
-      // router.navigate("/(auth)/new-password");
+      router.navigate("/(auth)/welcome");
     },
     onError: (err) => {
       const { code } = formatError(err);
