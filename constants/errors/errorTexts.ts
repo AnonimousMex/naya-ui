@@ -12,5 +12,6 @@ export enum ERROR_TEXTS {
   EXISTING_EMAIL = "El correo electrónico ingresado ya existe.",
   UNEXISTING_USER = "El correo electronico ingresado no existe",
   INVALID_CODE = "El código ingresado es inválido.",
+  EXISTING_CODE = "El código ingresado ya ha sido utilizado.",
   USER_NOT_VERIFIED = "El correo ingresado aun no ha sido verificado",
 }
