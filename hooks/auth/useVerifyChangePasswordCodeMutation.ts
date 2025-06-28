@@ -1,0 +1,43 @@
+import { useMutation } from "@tanstack/react-query";
+import { useSnackbar } from "../useSnackbar";
+import { UseFormSetError } from "react-hook-form";
+import { TVerificationCodeSchema } from "@/models/Auth";
+import { AUTH_SERVICE } from "@/services/auth";
+import { SUCCESS_TEXTS } from "@/constants/successTexts";
+import { formatError } from "@/utils/errorHandler";
+import { ERRORS } from "@/constants/errors/errorList";
+import { router } from "expo-router";
+
+export const useVerifyChangePasswordCodeMutation = (
+  setError: UseFormSetError<TVerificationCodeSchema>,
+) => {
+  const { showSnackbar } = useSnackbar();
+
+  return useMutation({
+    mutationFn: (data: TVerificationCodeSchema) =>
+      AUTH_SERVICE.verifyChangePasswordCode(data),
+    onSuccess: () => {
+      showSnackbar({
+        message: "Código verificado exitosamente",
+        type: "success",
+      });
+      // TODO: Navegar a la pantalla donde el usuario puede establecer su nueva contraseña
+      // router.navigate("/(auth)/new-password");
+    },
+    onError: (err) => {
+      const { code } = formatError(err);
+
+      if (code === ERRORS.E007.code || code === ERRORS.E008.code) {
+        setError("code", { message: ERRORS.E007.message });
+        return showSnackbar({
+          message: ERRORS.E007.message,
+          type: "error",
+        });
+      }
+      showSnackbar({
+        message: ERRORS.INTERNAL_SERVER_ERROR.message,
+        type: "error",
+      });
+    },
+  });
+};

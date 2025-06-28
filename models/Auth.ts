@@ -2,6 +2,7 @@ import {
   singUpSchema,
   signInSchema,
   verificationCodeSchema,
+  requestPasswordResetSchema,
 } from "@/schemas/authSchema";
 import * as z from "zod";
 
@@ -19,3 +20,4 @@ export type TVerificationCode = {
 export type TSignUpSchema = z.infer<typeof singUpSchema>;
 export type TSignInSchema = z.infer<typeof signInSchema>;
 export type TVerificationCodeSchema = z.infer<typeof verificationCodeSchema>;
+export type TRequestPasswordResetSchema = z.infer<typeof requestPasswordResetSchema>;

@@ -14,4 +14,15 @@ export const AUTH_SERVICE = {
 
     return data;
   },
+
+  async verifyChangePasswordCode(
+    requestData: TVerificationCodeSchema,
+  ): Promise<TNoContentStatusResponse> {
+    const { data } = await HTTP.post<TNoContentStatusResponse>(
+      URL_PATHS.AUTH.VERIFY_CODE,
+      requestData,
+    );
+
+    return data;
+  },
 };

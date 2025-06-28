@@ -62,6 +62,7 @@ import storyButtonPandaLocked from "@/assets/images/storyPath/locked-button/pand
 import sandClockIcon from "@/assets/icons/sand-clock-icon.png";
 import goIcon from "@/assets/icons/go_icon.png";
 import defaultWomanTherapist from "@/assets/images/default_woman_therapist.png";
+import changePasswordLion from "@/assets/images/change-password-lion.png";
 import calendarIcon from "@/assets/icons/calendar_icon.png";
 import peopleIcon from "@/assets/icons/people_icon.png";
 
@@ -139,4 +140,5 @@ export const IMAGES = {
   STORY_BUTTON_LION_LOCKED: storyButtonLionLocked,
   STORY_BUTTON_PANDA_LOCKED: storyButtonPandaLocked,
   DEFAULT_WOMAN_THERAPIST: defaultWomanTherapist,
+  CHANGE_PASSWORD_LION: changePasswordLion,
 };
