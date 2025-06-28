@@ -7,7 +7,9 @@ interface NavbarComponentProps {
   isTherapist?: boolean;
 }
 
-const NavbarComponent: React.FC<NavbarComponentProps> = ({ isTherapist = false }) => {
+const NavbarComponent: React.FC<NavbarComponentProps> = ({
+  isTherapist = false,
+}) => {
   const widthAndHeight = "w-9 h-9";
   const bg = isTherapist ? "bg-pink-400" : "bg-red-900";
   const navBg = isTherapist ? "bg-white" : "bg-slate-100";
@@ -26,39 +28,29 @@ const NavbarComponent: React.FC<NavbarComponentProps> = ({ isTherapist = false }
             router.push(
               isTherapist
                 ? "/(therapistPages)/therapist-home"
-                : "/(mainPages)/story-path"
+                : "/(mainPages)/story-path",
             )
           }
         >
           <View className="rounded-full">
             <Image
-              source={
-                isTherapist
-                  ? ICONS.CALENDAR_ICON
-                  : ICONS.BOOK_NAV_ICON
-              }
+              source={isTherapist ? ICONS.CALENDAR_ICON : ICONS.BOOK_NAV_ICON}
               className={widthAndHeight}
             />
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          onPress={() => router.push("/(mainPages)/insignias")}
-        >
+        <TouchableOpacity onPress={() => router.push("/(mainPages)/insignias")}>
           <View className="rounded-full">
             <Image
-              source={
-                isTherapist
-                  ? ICONS.PEOPLE_ICON
-                  : ICONS.REWARD_NAV_ICON
-              }
+              source={isTherapist ? ICONS.PEOPLE_ICON : ICONS.REWARD_NAV_ICON}
               className={widthAndHeight}
             />
           </View>
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => router.push("/(therapistPages)/therapist-home")}
+          onPress={() => router.push("/(mainPages)/user-profile")}
         >
           <View
             className={`rounded-full w-11 h-11 ${bg} flex justify-center items-center overflow-hidden p-[0.5rem]`}

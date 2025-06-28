@@ -15,6 +15,7 @@ const Achievements = () => {
           showsVerticalScrollIndicator
         >
           <View className="mt-16 px-7 mb-8">
+            <BackButton onPress={() => router.push("/(mainPages)/insignias")} />
             <HeaderTitleComponent mainText="Mis Logros" />
           </View>
           <AchievementsComponent />
