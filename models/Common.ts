@@ -10,3 +10,9 @@ export type TSingleDataResponse<T> = {
 export type TNoContentStatusResponse = {
   status: number;
 };
+
+export type TLoginTokens = {
+  status: string;
+  access_token: string;
+  refresh_token: string;
+};
