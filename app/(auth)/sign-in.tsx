@@ -17,47 +17,57 @@ import { signInSchema } from "@/schemas/authSchema";
 import { signInDefaultValues } from "@/constants/defaultValues/auth";
 import InputField from "@/components/InputField/InputField";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { ERROR_TEXTS } from "@/constants/errors/errorTexts";
 import { BackButton } from "@/components/BackButton";
 import { router } from "expo-router";
 import React from "react";
 import { useSnackbar } from "@/hooks/useSnackbar";
 
+/* --- mutación de login --- */
+import { useLoginMutation } from "@/hooks/auth/useLoginMutation";
+
 function Login() {
+  /* medidas responsivas */
   const { sloganWidth, sloganHeight, axolotlLoginHeight, axolotlLoginWidth } =
     useScreenDimensions();
   const { showSnackbar } = useSnackbar();
 
+  /* --- React‑Hook‑Form --- */
   const formMethods = useForm<TSignInSchema>({
     resolver: zodResolver(signInSchema),
     mode: "onSubmit",
     defaultValues: signInDefaultValues,
   });
+  const { control, handleSubmit } = formMethods;
 
-  const { control, handleSubmit, setError } = formMethods;
-  
+  /* --- Mutación de login --- */
+  const loginMutation = useLoginMutation();
+
   const handleOnSubmit = (data: TSignInSchema) => {
-      return ;
+    loginMutation.mutate(data);
   };
 
-  const onInvalidForm = () => {
+  const onInvalidForm = () =>
     showSnackbar({
       type: "warning",
-      message: `Completa todos los campos marcados`,
+      message: "Completa todos los campos marcados",
     });
-  };
 
+  /* ---------- UI ---------- */
   return (
     <KeyboardAvoidingView
       className="flex-1 bg-pink-200"
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <CloudBackground />
-      <SafeAreaView>
+
+      <SafeAreaView edges={["bottom"]}>
         <ScrollView className="mt-8 px-7" showsVerticalScrollIndicator={false}>
+          {/* botón atrás */}
           <View className="items-start">
             <BackButton onPress={() => router.push("/(auth)/welcome")} />
           </View>
+
+          {/* slogan */}
           <Image
             className="mt-4 mb-8 self-center"
             source={IMAGES.NAYA_SLOGAN}
@@ -67,11 +77,13 @@ function Login() {
               resizeMode: "contain",
             }}
           />
+
+          {/* formulario */}
           <FormProvider {...formMethods}>
             <InputField
               name="email"
               label="Email"
-              placeholder="Ingresa tu correo electronico"
+              placeholder="Ingresa tu correo electrónico"
               control={control}
               required
               iconSrc={ICONS.EMAIL_ICON}
@@ -85,25 +97,24 @@ function Login() {
               required
               isPassword
             />
+
             <Text
               className="font-UrbanistBold text-pink-700 underline text-s text-right p-2"
-              onPress={() => {
-                router.push("/(mainPages)/home");
-              }}
+              onPress={() => router.push("/(mainPages)/home")}
             >
               Olvidé mi contraseña
             </Text>
+
             <MainButton
               mainText="Iniciar Sesión"
-              onPress={() => {
-                // handleSubmit(handleOnSubmit, onInvalidForm)();
-                router.push("/(auth)/activate-account");
-              }}
+              onPress={handleSubmit(handleOnSubmit, onInvalidForm)}
+              isLoading={loginMutation.isPending}
               className="w-80 py-3 mt-11 mb-10"
               style={{ height: 50 }}
             />
+
             <Text className="font-UrbanistBold text-gray-730 text-s text-center">
-              ¿No tienes una cuenta todavia? {""}
+              ¿No tienes una cuenta todavía?{" "}
               <Text
                 className="text-pink-700 underline text-s"
                 onPress={() => router.push("/(auth)/sign-up")}
@@ -112,6 +123,8 @@ function Login() {
               </Text>
             </Text>
           </FormProvider>
+
+          {/* axolote */}
           <Image
             className="mb-0 self-center"
             source={IMAGES.HAPPY_AXOLOTL_2}

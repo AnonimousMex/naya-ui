@@ -44,7 +44,7 @@ const Welcome = () => {
         />
         <TouchableOpacity
           className="w-full py-3 rounded-full border items-center mt-24"
-          onPress={() => router.push("/(mainPages)/insignias")}
+          onPress={() => router.push("/(auth)/sign-up")}
         >
           <Text
             className="text-lg font-bold text-brown-700"
@@ -55,7 +55,7 @@ const Welcome = () => {
         </TouchableOpacity>
         <MainButton
           mainText="Continuar"
-          onPress={() => router.push("/(auth)/activate-account")}
+          onPress={() => router.push("/(auth)/sign-in")}
           className="w-80 py-3 mt-6"
         />
       </View>
