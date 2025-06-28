@@ -21,25 +21,19 @@ import { BackButton } from "@/components/BackButton";
 import { router } from "expo-router";
 import React from "react";
 import { useSnackbar } from "@/hooks/useSnackbar";
-
-/* --- mutación de login --- */
 import { useLoginMutation } from "@/hooks/auth/useLoginMutation";
 
 function Login() {
-  /* medidas responsivas */
   const { sloganWidth, sloganHeight, axolotlLoginHeight, axolotlLoginWidth } =
     useScreenDimensions();
   const { showSnackbar } = useSnackbar();
 
-  /* --- React‑Hook‑Form --- */
   const formMethods = useForm<TSignInSchema>({
     resolver: zodResolver(signInSchema),
     mode: "onSubmit",
     defaultValues: signInDefaultValues,
   });
   const { control, handleSubmit } = formMethods;
-
-  /* --- Mutación de login --- */
   const loginMutation = useLoginMutation();
 
   const handleOnSubmit = (data: TSignInSchema) => {
@@ -52,7 +46,6 @@ function Login() {
       message: "Completa todos los campos marcados",
     });
 
-  /* ---------- UI ---------- */
   return (
     <KeyboardAvoidingView
       className="flex-1 bg-pink-200"
@@ -62,12 +55,10 @@ function Login() {
 
       <SafeAreaView edges={["bottom"]}>
         <ScrollView className="mt-8 px-7" showsVerticalScrollIndicator={false}>
-          {/* botón atrás */}
           <View className="items-start">
             <BackButton onPress={() => router.push("/(auth)/welcome")} />
           </View>
 
-          {/* slogan */}
           <Image
             className="mt-4 mb-8 self-center"
             source={IMAGES.NAYA_SLOGAN}
@@ -78,7 +69,6 @@ function Login() {
             }}
           />
 
-          {/* formulario */}
           <FormProvider {...formMethods}>
             <InputField
               name="email"
@@ -124,7 +114,6 @@ function Login() {
             </Text>
           </FormProvider>
 
-          {/* axolote */}
           <Image
             className="mb-0 self-center"
             source={IMAGES.HAPPY_AXOLOTL_2}

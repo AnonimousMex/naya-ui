@@ -30,6 +30,6 @@ export const AUTH_SERVICE = {
       { headers: { "Content-Type": "application/x-www-form-urlencoded" } },
     );
 
-    return data; // ← { status, access_token, refresh_token }
+    return data;
   },
 };
