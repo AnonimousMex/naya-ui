@@ -55,6 +55,7 @@ module.exports = {
         },
         black: {
           520: '#00000084', 
+          100: '#0000004D'
         },
         purple:{
           10: "#F6F1FF",
