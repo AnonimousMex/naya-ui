@@ -28,7 +28,8 @@ const ActivateAccount = () => {
     <View className="flex-1 justify-center items-center bg-pink-200">
       <VerificationCodeComponent
         title="Conéctate a tu psicólogo"
-        onSubmit={handleSubmit}
+        // onSubmit={handleSubmit}
+        onSubmit={()=>{router.push("/(mainPages)/home")}}
         isLoading={authVerifyCodeMutation.isPending}
         focusedBgColor="bg-pink-300"
         unfocusedBgColor="bg-white"
