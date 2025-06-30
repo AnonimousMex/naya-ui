@@ -14,49 +14,52 @@ module.exports = {
         UrbanistMedium: ["Urbanist-Medium", "sans-serif"],
         UrbanistSemiBold: ["Urbanist-SemiBold", "sans-serif"],
       },
-      colors:{
-        pink:{
+      colors: {
+        pink: {
           30: "#F2F5EB",
           50: "#FADEDA",
+          80: "#FAE1DF",
           200: "#FCF6F1",
           300: "#FFCBC4",
           400: "#FADEDA",
           700: "#F598B7",
-          800: "#F699B4"
+          800: "#F699B4",
+          90: "#D05B5B",
         },
-        blue:{
+        blue: {
           900: "#303C58",
-          600: "#2C2966"
+          600: "#2C2966",
+          80: "#232B3B" 
         },
-        brown:{
+        brown: {
           20: "#E4B18E",
           50: "#FCF6F1",
-          800:"#4F3422"
+          800: "#4F3422",
         },
         danger: {
-          500: "#F56565"
+          500: "#F56565",
         },
-        gray:{
+        gray: {
           70: "#5A554E",
           60: "#736B66",
-          730: "#736B66"
+          730: "#736B66",
         },
-        blue:{
+        blue: {
           689: "#6893FF",
           300: "#2D375B",
-          80: "#303C58"
+          80: "#303C58",
         },
-        orange:{
-          300: "#FF9335"
+        orange: {
+          300: "#FF9335",
         },
-        red:{
+        red: {
           800: "#FF6868",
-          74: "#A74B4B"
+          74: "#A74B4B",
         },
         black: {
-          520: '#00000084', 
+          520: "#00000084",
         },
-        purple:{
+        purple: {
           10: "#F6F1FF",
           20: "#DDD1FF",
           200: "#DEE3FF",
@@ -64,20 +67,18 @@ module.exports = {
           400: "#D6CFFA",
           800: "#570074",
         },
-        green:{
+        green: {
           100: "#D1DDD0",
           300: "#6DF481",
+          500: "#CEFF72",
         },
-        yellow:{
+        yellow: {
           10: "rgba(248, 230, 60, 0.17)",
           100: "#E8D9A9",
-          500: "#FFEA2D"
+          500: "#FFEA2D",
         },
-        white:{
-          800: "#F8F5F1"
-        }
-      }
+      },
     },
   },
   plugins: [],
-}
+};
