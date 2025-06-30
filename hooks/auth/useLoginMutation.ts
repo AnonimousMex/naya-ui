@@ -10,7 +10,12 @@ import { ERRORS } from "@/constants/errors/errorList";
 import { SUCCESS_TEXTS } from "@/constants/successTexts";
 import { TLoginTokens } from "@/models/Common";
 
-export const useLoginMutation = () => {
+type LoginOpts = {
+  parental?: boolean;
+};
+
+export const useLoginMutation = (opts: LoginOpts = {}) => {
+  const { parental = false } = opts;
   const { showSnackbar } = useSnackbar();
 
   return useMutation<TLoginTokens, unknown, TSignInSchema>({
@@ -20,7 +25,9 @@ export const useLoginMutation = () => {
       await AsyncStorage.setItem("accessToken", access_token);
       await AsyncStorage.setItem("refreshToken", refresh_token);
 
-      if (user_type === "THERAPIST") {
+      if (parental) {
+        router.replace("/(parentsPages)/parents-profile");
+      } else if (user_type === "THERAPIST") {
         router.replace("/(therapistPages)/therapist-home");
       } else {
         router.replace("/(mainPages)/home");
