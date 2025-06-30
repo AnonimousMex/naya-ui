@@ -17,15 +17,14 @@ import UserProfileButtonsColumn, {
 import { NavbarComponent } from "@/components/NavBar";
 import { BackButton } from "@/components/BackButton";
 import { ButtonPatientProfile, NextDateView } from "@/components/patientProfileComponents";
+import { HeaderInformationComponent } from "@/components/HeaderInformationComponent";
 
 const PatientProfile= () => {
     const { width, height } = Dimensions.get("window");
-  const fontSize = width * 0.052;
-  const userName = "Itzi Alondra Hernandez Rodriguez";
-  const bgColor = "bg-pink-700";
-  const userImage = IMAGES.HAPPY_AXOLOTL_1;
-  const isTablet = width >= 520;
-  const dynamicHeight = isTablet ? height * 0.6 : height * 0.4;
+    const bgColor = "bg-pink-700";
+    const userImage = IMAGES.HAPPY_AXOLOTL_1;
+    const isTablet = width >= 520;
+    const dynamicHeight = isTablet ? height * 0.6 : height * 0.4;
 
   return (
     <SafeAreaViewContext className="flex-1 bg-white">
@@ -37,19 +36,14 @@ const PatientProfile= () => {
           className={`relative ${bgColor}`}
           style={{ height: dynamicHeight }}
         >
-          <View className="mt-3 flex-row justify-between items-center px-4">
-            <View>
-              <BackButton
-                onPress={()=> {router.push("/(auth)/welcome")}}
-              />
-            </View>
-            <View className="bg-pink-300 rounded-full flex justify-center items-center px-2 py-2 " >
-                <Text className="font-UrbanistExtraBold text-2xl text-black bg-white rounded-full py-1 px-3" 
-                  style={{ letterSpacing: -0.5, fontSize, lineHeight: fontSize + 4  }}
-                >
-                  {userName}
-                </Text>
-            </View>
+          <View className="absolute w-full flex-row justify-between p-7">
+            <BackButton onPress={() => router.push("/(auth)/welcome")} />
+
+            <HeaderInformationComponent
+              type="name"
+              name={"Rodrigo Vega Espinoza"}
+              borderColor="#E4B18E"
+            />
           </View>
           <View className="flex-1 justify-end items-center">
             <Image
