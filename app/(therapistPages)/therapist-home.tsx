@@ -33,10 +33,11 @@ const TherapistHome = () => {
             <Text className="text-brown-800 font-bold text-lg font-UrbanistBold">
               Consultas
             </Text>
-            <TouchableOpacity onPress={() => router.push("/(therapistPages)/therapist-upcoming-appointments")}>
-              <Text className="text-orange-400 font-bold text-sm font-UrbanistBold">
-                Ver más
-              </Text>
+            <TouchableOpacity 
+              onPress={() => router.push("/(therapistPages)/therapist-upcoming-appointments")}>
+                <Text className="text-orange-400 font-bold text-sm font-UrbanistBold">
+                  Ver más
+                </Text>
             </TouchableOpacity>
           </View>
           <View className="flex-row justify-between items-center mb-2 mt-8">
