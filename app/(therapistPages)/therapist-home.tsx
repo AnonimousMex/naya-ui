@@ -1,7 +1,7 @@
 import React from "react";
 import { View, ScrollView, Text, TouchableOpacity, Dimensions } from "react-native";
 import TherapistTopBar from "@/components/TherapistTopBar";
-import PatientCard from "@/components/PatientCard";
+import PatientCard from "@/components/PersonCard";
 import { IMAGES } from "@/constants/images";
 import { SafeAreaView } from "react-native-safe-area-context";
 import NavbarComponent from "@/components/NavBar/NavBarComponent";
