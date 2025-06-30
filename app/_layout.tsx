@@ -5,8 +5,10 @@ import { useEffect, useCallback } from "react";
 import { SnackbarProvider } from "@/context";
 import * as NavigationBar from "expo-navigation-bar";
 import { StatusBar } from "react-native";
+import { queryClient } from "@/config/reactQuery";
 import "react-native-reanimated";
 import "../global.css";
+import { QueryClientProvider } from "@tanstack/react-query";
 
 export default function RootLayout() {
   const [loaded] = useFonts({
@@ -25,11 +27,9 @@ export default function RootLayout() {
     }
   }, [loaded]);
 
-  // 🔁 Asegurar siempre botones oscuros en Android
   useFocusEffect(
     useCallback(() => {
       const setupBars = async () => {
-        await NavigationBar.setBackgroundColorAsync("#FFF27C");
         await NavigationBar.setButtonStyleAsync("dark");
       };
 
@@ -44,19 +44,24 @@ export default function RootLayout() {
   }
 
   return (
-    <SnackbarProvider>
-      <StatusBar barStyle="dark-content" backgroundColor="#FFF27C" />
-      <Stack>
-        <Stack.Screen name="index" options={{ headerShown: false }} />
-        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-        <Stack.Screen name="(mainPages)" options={{ headerShown: false }} />
-        <Stack.Screen
-          name="(therapistPages)"
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen name="(parentsPages)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-    </SnackbarProvider>
+    <QueryClientProvider client={queryClient}>
+      <SnackbarProvider>
+        <StatusBar barStyle="dark-content" backgroundColor="transparent" />
+        <Stack>
+          <Stack.Screen name="index" options={{ headerShown: false }} />
+          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+          <Stack.Screen name="(mainPages)" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="(therapistPages)"
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="(parentsPages)"
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen name="+not-found" />
+        </Stack>
+      </SnackbarProvider>
+    </QueryClientProvider>
   );
 }

@@ -35,6 +35,12 @@ import happyLionHead from "@/assets/images/animals/happy/happy-lion/happy-lion-h
 import happyBunnyHead from "@/assets/images/animals/happy/happy-bunny/happy-bunny-head.png";
 import happyPandaHead from "@/assets/images/animals/happy/happy-panda/happy-panda-head.png";
 import happyAxolotl2 from "@/assets/images/animals/happy/happy-axolotl/happy-axolotl-2.png";
+import emorganizaImage from "@/assets/images/home/homepage/emorganiza-image.png"
+import memocionesImage from "@/assets/images/home/homepage/memociones-image.png"
+import pandaSpiaImage from "@/assets/images/home/homepage/panda-spia-image.png"
+import suenaAlgoImage from "@/assets/images/home/homepage/suenaalgo_image.png"
+import backgroundDetetiveImage from "@/assets/images/home/homepage/background-detective-image.png"
+import backgroundSuenaAlgoImage from "@/assets/images/home/homepage/background-suena-algo-image.png"
 import medal1 from "@/assets/images/insignias/medal-1.png";
 import medal2 from "@/assets/images/insignias/medal-2.png";
 import medal3 from "@/assets/images/insignias/medal-3.png";
@@ -56,6 +62,7 @@ import storyButtonPandaLocked from "@/assets/images/storyPath/locked-button/pand
 import sandClockIcon from "@/assets/icons/sand-clock-icon.png";
 import goIcon from "@/assets/icons/go_icon.png";
 import defaultWomanTherapist from "@/assets/images/default_woman_therapist.png";
+import therapistPhotoCV from "@/assets/images/therapist_photo_cv.png";
 import calendarIcon from "@/assets/icons/calendar_icon.png";
 import peopleIcon from "@/assets/icons/people_icon.png";
 
@@ -90,6 +97,7 @@ export const ICONS = {
 };
 
 export const IMAGES = {
+  THERAPIST_PHOTO_CV: therapistPhotoCV,
   CLOUDS_IMAGE: cloudsImage,
   ARROW_RIGHT: arrowRight,
   NAYA_LOGO: nayaLogo,
@@ -109,6 +117,12 @@ export const IMAGES = {
   LOGOUT_ICON: logOutIcon,
   STREAK_ICON: streakIcon,
   EXP_ICON: expIcon,
+  EMORGANIZA_IMAGE: emorganizaImage,
+  MEMOCIONES_IMAGE: memocionesImage,
+  PANDA_SPIA_IMAGE: pandaSpiaImage,
+  SUENA_ALGO_IMAGE: suenaAlgoImage,
+  BACKGROUND_DETECTIVE_IMAGE: backgroundDetetiveImage,
+  BACKGROUND_SUENA_ALGO_IMAGE: backgroundSuenaAlgoImage,
   MEDAL_1: medal1,
   MEDAL_2: medal2,
   MEDAL_3: medal3,
