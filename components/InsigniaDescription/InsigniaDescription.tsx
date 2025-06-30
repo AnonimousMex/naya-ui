@@ -23,8 +23,8 @@ const InsigniaDescriptionComponent: React.FC<Props> = ({
   const selectedImage = medals[medalImageIndex] || IMAGES.MEDAL_1;
 
   return (
-    <View className="flex-1 relative items-center justify-center bg-white">
-      <View className="absolute w-[90%] h-[60%] bg-white rounded-t-[90px] rounded-b-[90px] items-center justify-start pt-40 px-6">
+    <View className="flex-1 relative items-center justify-center">
+      <View className="absolute w-[90%] h-[60%] bg-white rounded-t-[90px] rounded-b-[90px] items-center justify-start py-40 px-6">
         <Text className="text-purple-800 font-UrbanistExtraBold text-5xl leading-[60px] mb-4">
           {title || "Medalla"}
         </Text>

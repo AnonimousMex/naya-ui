@@ -62,8 +62,10 @@ import storyButtonPandaLocked from "@/assets/images/storyPath/locked-button/pand
 import sandClockIcon from "@/assets/icons/sand-clock-icon.png";
 import goIcon from "@/assets/icons/go_icon.png";
 import defaultWomanTherapist from "@/assets/images/default_woman_therapist.png";
+import therapistPhotoCV from "@/assets/images/therapist_photo_cv.png";
 import calendarIcon from "@/assets/icons/calendar_icon.png";
 import peopleIcon from "@/assets/icons/people_icon.png";
+import detailsIcon from "@/assets/icons/details_icon.png";
 
 
 export const ICONS = {
@@ -93,9 +95,11 @@ export const ICONS = {
   GO_ICON: goIcon,
   CALENDAR_ICON: calendarIcon,
   PEOPLE_ICON: peopleIcon,
+  DETAILS_ICON: detailsIcon,
 };
 
 export const IMAGES = {
+  THERAPIST_PHOTO_CV: therapistPhotoCV,
   CLOUDS_IMAGE: cloudsImage,
   ARROW_RIGHT: arrowRight,
   NAYA_LOGO: nayaLogo,
