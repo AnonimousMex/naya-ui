@@ -16,3 +16,11 @@ export type TLoginTokens = {
   access_token: string;
   refresh_token: string;
 };
+export type TSingUpToken = {
+  name: string;
+  email: string;
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  patientId: string;
+}
