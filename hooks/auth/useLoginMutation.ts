@@ -28,16 +28,18 @@ export const useLoginMutation = () => {
       const { code } = formatError(err);
 
       if (code === ERRORS.E011.code) {
-        showSnackbar({
-          type: "error",
-          message: ERRORS.E011.message,
-        });
-        return;
+        showSnackbar({ type: "error", message: ERRORS.E011.message });
+        router.replace("/(auth)/activate-account");
+
+        throw err;
       }
+
       showSnackbar({
         type: "error",
         message: ERRORS.INTERNAL_SERVER_ERROR.message,
       });
+
+      throw err;
     },
   });
 };

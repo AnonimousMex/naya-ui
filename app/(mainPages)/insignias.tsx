@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { View, ScrollView, Modal, Dimensions, StatusBar } from "react-native";
+import {
+  View,
+  ScrollView,
+  Modal,
+  Dimensions,
+  StatusBar,
+  Pressable,
+} from "react-native";
 import { HeaderTitleComponent } from "@/components/HeaderTitleComponent";
 import { MainButton } from "@/components/MainButton";
 import { router } from "expo-router";
@@ -49,7 +56,12 @@ const Insignias = () => {
         </ScrollView>
       </View>
 
-      <Modal visible={modalVisible} transparent animationType="slide">
+      <Modal
+        visible={modalVisible}
+        transparent
+        animationType="slide"
+        onRequestClose={closeModal}
+      >
         <View
           style={{
             flex: 1,
@@ -59,6 +71,17 @@ const Insignias = () => {
             paddingTop: 80,
           }}
         >
+          <Pressable
+            style={{
+              position: "absolute",
+              top: 0,
+              right: 0,
+              bottom: 0,
+              left: 0,
+            }}
+            onPress={closeModal}
+          />
+
           {selectedMedal && (
             <InsigniaDescriptionComponent
               title={selectedMedal.title}
