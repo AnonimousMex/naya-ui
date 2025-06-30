@@ -16,12 +16,17 @@ export const useLoginMutation = () => {
   return useMutation<TLoginTokens, unknown, TSignInSchema>({
     mutationFn: AUTH_SERVICE.login,
 
-    onSuccess: async ({ access_token, refresh_token }) => {
+    onSuccess: async ({ access_token, refresh_token, user_type }) => {
       await AsyncStorage.setItem("accessToken", access_token);
       await AsyncStorage.setItem("refreshToken", refresh_token);
 
+      if (user_type === "THERAPIST") {
+        router.replace("/(therapistPages)/therapist-home");
+      } else {
+        router.replace("/(mainPages)/home");
+      }
+
       showSnackbar({ type: "success", message: SUCCESS_TEXTS.LOGIN_SUCCESS });
-      router.replace("/(mainPages)/home");
     },
 
     onError: (err: any) => {
@@ -30,7 +35,6 @@ export const useLoginMutation = () => {
       if (code === ERRORS.E011.code) {
         showSnackbar({ type: "error", message: ERRORS.E011.message });
         router.replace("/(auth)/activate-account");
-
         throw err;
       }
 
@@ -38,7 +42,6 @@ export const useLoginMutation = () => {
         type: "error",
         message: ERRORS.INTERNAL_SERVER_ERROR.message,
       });
-
       throw err;
     },
   });
