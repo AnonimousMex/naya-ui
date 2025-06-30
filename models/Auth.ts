@@ -13,6 +13,11 @@ export type TSignUp = {
   confirmPassword: string;
 };
 
+export type TSingIn = {
+  email: string;
+  password: string;
+};
+
 export type TVerificationCode = {
   code: string;
 };

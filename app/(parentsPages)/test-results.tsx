@@ -91,7 +91,7 @@ const TestResults = () => {
           <AnswersTest />
           <MainButton
             mainText="Ver más"
-            onPress={() => router.push("/(parentsPages)/test-results")}
+            onPress={() => router.push("/(parentsPages)/test-detailed-results")}
             className="w-80 py-3 my-6"
           />
         </View>

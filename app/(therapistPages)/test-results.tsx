@@ -103,7 +103,7 @@ const TestResults = () => {
           <AnswersTest />
           <MainButton
             mainText="Ver más"
-            onPress={() => router.push("/(auth)/welcome")}
+            onPress={() => router.push("/(therapistPages)/test-detailed-results")}
             className="w-80 py-3 mt-10"
           />
         </View>
