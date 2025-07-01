@@ -33,14 +33,7 @@ const UserProfileButtonsColumn: React.FC<UserProfileButtonsColumnProps> = ({
           <Pressable
             key={index}
             onPress={option.onPress}
-            className={`w-full py-2 px-4 border bg-white rounded-3xl flex-row items-center justify-center space-x-2 ${option.className}`}
-            style={{
-              shadowColor: "#999",
-              shadowOffset: { width: 0, height: 4 },
-              shadowOpacity: 0.8,
-              shadowRadius: 8,
-              elevation: 5,
-            }}
+            className={`w-full py-2 px-4 border bg-white rounded-3xl flex-row items-center justify-center space-x-2 ${option.className}`}          
           >
             <Text className={`font-UrbanistBold text-xl ${textClass}`}>
               {option.mainText}

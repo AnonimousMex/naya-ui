@@ -65,7 +65,7 @@ const UserProfile = () => {
         >
           <View className="absolute top-3 left-0 right-0 items-center z-0">
             <Text
-              className="text-white font-UrbanistBold text-4xl"
+              className="text-slate-100 font-UrbanistBold text-4xl"
               style={{ letterSpacing: -1 }}
             >
               Mi perfil
@@ -78,7 +78,7 @@ const UserProfile = () => {
               style={{ resizeMode: "contain" }}
             />
             <View
-              className="bg-white rounded-3xl py-3 mb-[-20] px-5 z-20"
+              className="bg-slate-100 rounded-3xl py-3 mb-[-20] px-5 z-20"
               style={{ width: width * 0.45 }}
             >
               <Text

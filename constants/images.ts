@@ -21,6 +21,7 @@ import helpIcon from "@/assets/icons/help-icon.png";
 import logOutIcon from "@/assets/icons/logout-icon.png";
 import streakIcon from "@/assets/icons/streak-icon.png";
 import expIcon from "@/assets/icons/exp-icon.png";
+import clockIcon from "@/assets/icons/clock-icon.png";
 import cloudsImage from "@/assets/images/home/clouds.png";
 import arrowRight from "@/assets/images/arrow-right.png";
 import nayaLogo from "@/assets/images/home/naya-logo.png";
@@ -99,6 +100,7 @@ export const ICONS = {
   CALENDAR_ICON: calendarIcon,
   CALENDAR_WHITE_ICON: calendarWhiteIcon,
   PEOPLE_ICON: peopleIcon,
+  CLOCK_ICON: clockIcon,
   DETAILS_ICON: detailsIcon,
   TIMER_ICON: timerIcon,
   PLAY_ICON: playIcon,
