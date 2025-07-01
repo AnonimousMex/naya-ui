@@ -17,10 +17,10 @@ const originalBackgroundImageHeight = backgroundImageSource.height;
 
 const storyButtonPositions = [
   { x: 0.34, y: 0.69, scale: 0.49 }, // StoryButton 1
-  { x: 0.33, y: 0.50, scale: 0.37 }, // StoryButton 2
-  { x: 0.26, y: 0.35, scale: 0.30 }, // StoryButton 3
+  { x: 0.33, y: 0.5, scale: 0.37 }, // StoryButton 2
+  { x: 0.26, y: 0.35, scale: 0.3 }, // StoryButton 3
   { x: 0.42, y: 0.21, scale: 0.28 }, // StoryButton 4
-  { x: 0.46, y: 0.10, scale: 0.22 }, // StoryButton 5
+  { x: 0.46, y: 0.1, scale: 0.22 }, // StoryButton 5
 ];
 
 interface ScreenLayout {
@@ -35,7 +35,9 @@ const StoryPath = () => {
       isUnlocked: getStoryStatus(button.id),
     })),
   );
-  const [containerLayout, setContainerLayout] = useState<ScreenLayout | null>(null);
+  const [containerLayout, setContainerLayout] = useState<ScreenLayout | null>(
+    null,
+  );
 
   const handleStoryButtonPress = (storyId: number) => {
     const story = stories.find((s) => s.id === storyId);
@@ -54,7 +56,7 @@ const StoryPath = () => {
 
   return (
     <SafeAreaView className="flex-1 bg-transparent" edges={["bottom"]}>
-      <View style={{ flex: 1, flexDirection: 'column' }}>
+      <View style={{ flex: 1, flexDirection: "column" }}>
         <View style={{ flex: 1 }}>
           <ImageBackground
             source={STORY_PATH_CONFIG.background}
@@ -85,7 +87,8 @@ const StoryPath = () => {
                   const containerHeight = containerLayout.height;
 
                   const backgroundImageAspectRatio =
-                    originalBackgroundImageWidth / originalBackgroundImageHeight;
+                    originalBackgroundImageWidth /
+                    originalBackgroundImageHeight;
                   const containerAspectRatio = containerWidth / containerHeight;
 
                   let backgroundImageScaleFactor;
@@ -93,21 +96,20 @@ const StoryPath = () => {
                   let backgroundImageOffsetY = 0;
 
                   if (backgroundImageAspectRatio >= containerAspectRatio) {
-
                     backgroundImageScaleFactor =
                       containerHeight / originalBackgroundImageHeight;
                     const scaledImageWidth =
                       originalBackgroundImageWidth * backgroundImageScaleFactor;
                     backgroundImageOffsetX =
-                      (containerWidth - scaledImageWidth) / 2; 
+                      (containerWidth - scaledImageWidth) / 2;
                   } else {
-
                     backgroundImageScaleFactor =
                       containerWidth / originalBackgroundImageWidth;
                     const scaledImageHeight =
-                      originalBackgroundImageHeight * backgroundImageScaleFactor;
+                      originalBackgroundImageHeight *
+                      backgroundImageScaleFactor;
                     backgroundImageOffsetY =
-                      (containerHeight - scaledImageHeight) / 2; 
+                      (containerHeight - scaledImageHeight) / 2;
                   }
                   const baseStoryButtonSizeRelativeToImage =
                     storyButtonConfig.scale * originalBackgroundImageWidth;
@@ -120,7 +122,7 @@ const StoryPath = () => {
                   const absoluteStoryButtonCenterYOnImage =
                     storyButtonConfig.y * originalBackgroundImageHeight;
 
-                    const scaledStoryButtonCenterXOnBackgroundImage =
+                  const scaledStoryButtonCenterXOnBackgroundImage =
                     absoluteStoryButtonCenterXOnImage *
                     backgroundImageScaleFactor;
                   const scaledStoryButtonCenterYOnBackgroundImage =
@@ -167,8 +169,8 @@ const StoryPath = () => {
             </View>
           </ImageBackground>
         </View>
-        <NavbarComponent />
       </View>
+      <NavbarComponent />
     </SafeAreaView>
   );
 };
