@@ -94,7 +94,7 @@ const Insignias = () => {
 
       <SafeAreaView
         edges={["bottom"]}
-        className="bg-slate-100 absolute bottom-0 left-0 right-0 z-50"
+        className="bg-white absolute bottom-0 left-0 right-0 z-50"
       >
         <NavbarComponent />
       </SafeAreaView>

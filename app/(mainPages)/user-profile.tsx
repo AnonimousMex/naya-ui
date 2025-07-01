@@ -54,7 +54,7 @@ const UserProfile = () => {
   ];
 
   return (
-    <SafeAreaViewContext className="flex-1 bg-slate-100">
+    <SafeAreaViewContext className="flex-1 bg-white">
       <ScrollView
         contentContainerStyle={{ paddingBottom: 80 }}
         showsVerticalScrollIndicator
@@ -135,7 +135,7 @@ const UserProfile = () => {
 
       <SafeAreaViewContext
         edges={["bottom"]}
-        className="bg-slate-100 absolute bottom-0 left-0 right-0 z-50"
+        className="bg-white absolute bottom-0 left-0 right-0 z-50"
       >
         <NavbarComponent />
       </SafeAreaViewContext>

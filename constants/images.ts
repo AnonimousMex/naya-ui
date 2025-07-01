@@ -34,14 +34,15 @@ import happyAxolotlHead from "@/assets/images/animals/happy/happy-axolotl/happy-
 import happyCatHead from "@/assets/images/animals/happy/happy-cat/happy-cat-head.png";
 import happyLionHead from "@/assets/images/animals/happy/happy-lion/happy-lion-head.png";
 import happyBunnyHead from "@/assets/images/animals/happy/happy-bunny/happy-bunny-head.png";
+import happyBunny2 from "@/assets/images/animals/happy/happy-bunny/happy-bunny-2.png";
 import happyPandaHead from "@/assets/images/animals/happy/happy-panda/happy-panda-head.png";
 import happyAxolotl2 from "@/assets/images/animals/happy/happy-axolotl/happy-axolotl-2.png";
-import emorganizaImage from "@/assets/images/home/homepage/emorganiza-image.png"
-import memocionesImage from "@/assets/images/home/homepage/memociones-image.png"
-import pandaSpiaImage from "@/assets/images/home/homepage/panda-spia-image.png"
-import suenaAlgoImage from "@/assets/images/home/homepage/suenaalgo_image.png"
-import backgroundDetetiveImage from "@/assets/images/home/homepage/background-detective-image.png"
-import backgroundSuenaAlgoImage from "@/assets/images/home/homepage/background-suena-algo-image.png"
+import emorganizaImage from "@/assets/images/home/homepage/emorganiza-image.png";
+import memocionesImage from "@/assets/images/home/homepage/memociones-image.png";
+import pandaSpiaImage from "@/assets/images/home/homepage/panda-spia-image.png";
+import suenaAlgoImage from "@/assets/images/home/homepage/suenaalgo_image.png";
+import backgroundDetetiveImage from "@/assets/images/home/homepage/background-detective-image.png";
+import backgroundSuenaAlgoImage from "@/assets/images/home/homepage/background-suena-algo-image.png";
 import medal1 from "@/assets/images/insignias/medal-1.png";
 import medal2 from "@/assets/images/insignias/medal-2.png";
 import medal3 from "@/assets/images/insignias/medal-3.png";
@@ -69,8 +70,8 @@ import calendarWhiteIcon from "@/assets/icons/calendar-white-icon.png";
 import peopleIcon from "@/assets/icons/people_icon.png";
 import detailsIcon from "@/assets/icons/details_icon.png";
 
-import timerIcon from "@/assets/icons/timer-date-icon.png"
-import playIcon from "@/assets/icons/play-icon.png"
+import timerIcon from "@/assets/icons/timer-date-icon.png";
+import playIcon from "@/assets/icons/play-icon.png";
 
 export const ICONS = {
   EMAIL_ICON: emailIcon,
@@ -117,6 +118,7 @@ export const IMAGES = {
   HAPPY_AXOLOTL_2: happyAxolotl2,
   HAPPY_LION_1: happyLion1,
   HAPPY_BUNNY_1: happyBuny1,
+  HAPPY_BUNNY_2: happyBunny2,
   HAPPY_AXOLOTL_HEAD: happyAxolotlHead,
   HAPPY_CAT_HEAD: happyCatHead,
   HAPPY_LION_HEAD: happyLionHead,
