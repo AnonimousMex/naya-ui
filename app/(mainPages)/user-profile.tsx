@@ -30,7 +30,11 @@ const UserProfile = () => {
   const options: UserProfileButton[] = [
     {
       mainText: "Acceso parental",
-      onPress: () => router.push("/(auth)/welcome"),
+      onPress: () =>
+        router.push({
+          pathname: "/(auth)/sign-in",
+          params: { mode: "parental" },
+        }),
       className: "border-blue-689 mt-10",
       textClassName: "text-blue-689",
     },
