@@ -16,15 +16,18 @@ import UserProfileButtonsColumn, {
 } from "@/components/UserProfileButton/UserProfileButton";
 import { NavbarComponent } from "@/components/NavBar";
 import { BackButton } from "@/components/BackButton";
-import { ButtonPatientProfile, NextDateView } from "@/components/patientProfileComponents";
+import {
+  ButtonPatientProfile,
+  NextDateView,
+} from "@/components/patientProfileComponents";
 import { HeaderInformationComponent } from "@/components/HeaderInformationComponent";
 
-const PatientProfile= () => {
-    const { width, height } = Dimensions.get("window");
-    const bgColor = "bg-pink-700";
-    const userImage = IMAGES.HAPPY_AXOLOTL_1;
-    const isTablet = width >= 520;
-    const dynamicHeight = isTablet ? height * 0.6 : height * 0.4;
+const PatientProfile = () => {
+  const { width, height } = Dimensions.get("window");
+  const bgColor = "bg-pink-700";
+  const userImage = IMAGES.HAPPY_AXOLOTL_1;
+  const isTablet = width >= 520;
+  const dynamicHeight = isTablet ? height * 0.6 : height * 0.4;
 
   return (
     <SafeAreaViewContext className="flex-1 bg-white">
@@ -54,8 +57,7 @@ const PatientProfile= () => {
           </View>
         </View>
 
-        <View 
-          className="flex-1 bg-white rounded-t-3xl px-6 pt-6">
+        <View className="flex-1 bg-white rounded-t-3xl px-6 pt-6">
           <View className="flex justify-center items-center mb-4">
             <NextDateView
               patientName="Rodrigo vega Espinoza"
@@ -93,28 +95,30 @@ const PatientProfile= () => {
               bg="bg-brown-800"
               name="Citas"
               icon={ICONS.CALENDAR_WHITE_ICON}
-              onPress={() => {router.push("/(auth)/welcome")}}
+              onPress={() => {
+                router.push("/(auth)/welcome");
+              }}
             />
             <ButtonPatientProfile
               bg="bg-blue-80"
               name="Resultados"
               icon={ICONS.PLAY_ICON}
-              onPress={() => {router.push("/(parentsPages)/test-results")}}
+              onPress={() => {
+                router.push("/(parentsPages)/test-results");
+              }}
             />
-            
           </View>
-          
         </View>
       </ScrollView>
 
       <SafeAreaViewContext
         edges={["bottom"]}
-        className="bg-slate-100 absolute bottom-0 left-0 right-0 z-50"
+        className="bg-white absolute bottom-0 left-0 right-0 z-50"
       >
-        <NavbarComponent />
+        <NavbarComponent isTherapist />
       </SafeAreaViewContext>
     </SafeAreaViewContext>
-  )
-}
+  );
+};
 
-export default PatientProfile
+export default PatientProfile;

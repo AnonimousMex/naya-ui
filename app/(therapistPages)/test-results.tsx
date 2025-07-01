@@ -103,7 +103,9 @@ const TestResults = () => {
           <AnswersTest />
           <MainButton
             mainText="Ver más"
-            onPress={() => router.push("/(therapistPages)/test-detailed-results")}
+            onPress={() =>
+              router.push("/(therapistPages)/test-detailed-results")
+            }
             className="w-80 py-3 mt-10"
           />
         </View>
@@ -111,9 +113,9 @@ const TestResults = () => {
 
       <SafeAreaView
         edges={["bottom"]}
-        className="bg-slate-100 absolute bottom-0 left-0 right-0 z-50"
+        className="bg-white absolute bottom-0 left-0 right-0 z-50"
       >
-        <NavbarComponent />
+        <NavbarComponent isTherapist />
       </SafeAreaView>
     </SafeAreaView>
   );
