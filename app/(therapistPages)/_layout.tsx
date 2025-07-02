@@ -8,6 +8,10 @@ export default function Layout() {
       <Stack.Screen name="therapist-profile" options={{ headerShown: false }} />
       <Stack.Screen name="therapist-home" options={{ headerShown: false }} />
       <Stack.Screen
+        name="therapist-list-patients"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
         name="therapist-upcoming-appointments"
         options={{ headerShown: false }}
       />

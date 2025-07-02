@@ -8,6 +8,7 @@ import TherapistUpcomingAppointments from "@/components/Therapist-Appointments";
 import { router } from "expo-router";
 import { NavbarComponent } from "@/components/NavBar";
 import { IMAGES } from "@/constants/images";
+import { HeaderTitleComponent } from "@/components/HeaderTitleComponent";
 
 const TherapistUpcomingAppoinments = () => {
   const appointments = [
@@ -43,15 +44,12 @@ const TherapistUpcomingAppoinments = () => {
 
   return (
     <SafeAreaViewContext className="flex-1 bg-slate-100">
-      <ScrollView className="mt-8">
-        <View className="flex-row items-center px-5">
-          <BackButton onPress={() => router.push("/(auth)/welcome")} />
-          <View style={{ flex: 1, alignItems: "center" }}>
-            <Text className="font-UrbanistExtraBold text-4xl text-blue-900 leading-[40px]">
-              Consultas
-            </Text>
-          </View>
-          <View style={{ width: 40 }} />
+      <ScrollView
+        contentContainerStyle={{ paddingBottom: 32 }}
+        showsVerticalScrollIndicator={false}
+      >
+        <View className="mt-10 px-7 mb-8">
+          <HeaderTitleComponent mainText="Consultas" />
         </View>
 
         <TherapistUpcomingAppointments appointments={appointments} />
