@@ -6,7 +6,6 @@ import { verificationCodeSchema } from "@/schemas/authSchema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSnackbar } from "@/hooks/useSnackbar";
-import { useVerifyChangePasswordCodeMutation } from "@/hooks/auth/useVerifyChangePasswordCodeMutation";
 
 const VerifyChangePassword = () => {
   const formMethods = useForm<TVerificationCodeSchema>({
@@ -14,15 +13,9 @@ const VerifyChangePassword = () => {
     mode: "onSubmit",
   });
   const { setError } = formMethods;
-  const authVerifyCodeMutation = useVerifyChangePasswordCodeMutation(setError);
 
-  const handleSubmit = (code: string, resetInputs: () => void) => {
-    authVerifyCodeMutation.mutate(
-      { code },
-      {
-        onSuccess: () => resetInputs(),
-      },
-    );
+  const handleSubmit = (_code: string, resetInputs: () => void) => {
+    resetInputs();
   };
 
   return (
@@ -30,7 +23,7 @@ const VerifyChangePassword = () => {
       <VerificationCodeComponent
         title="Verifica tu código"
         onSubmit={handleSubmit}
-        isLoading={authVerifyCodeMutation.isPending}
+        isLoading={false}
         focusedBgColor="bg-pink-300"
         unfocusedBgColor="bg-white"
         focusedTextColor="text-white"
