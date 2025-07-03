@@ -104,18 +104,24 @@ const VerificationCodeComponent = ({
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <CloudBackground />
-      <SafeAreaView>
-        <ScrollView className="mt-20" showsVerticalScrollIndicator={false}>
-          <View className="px-10">
-            <View className="items-start mb-10">
-              <BackButton onPress={() => router.push("/(auth)/welcome")} />
-            </View>
-
+      <SafeAreaView className="flex-1">
+        <View className="px-7 pt-16">
+          <View className="items-start">
+            <BackButton onPress={() => router.push("/(auth)/welcome")} />
+          </View>
+        </View>
+        
+        <ScrollView 
+          className="px-7 flex-1" 
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
+        >
+          <View>
             <Text className="text-4xl font-extrabold text-brown-700 text-center mb-8 text-pink-800">
               {title}
             </Text>
 
-            <View className="flex-row justify-center items-center mt-32 mb-4 relative h-40">
+            <View className="flex-row justify-center items-center mt-16 mb-4 relative h-40">
               <View className="absolute w-full h-full flex-row justify-center items-center z-0 -mt-48">
                 {inputImages.map((image, idx) => (
                   <View key={`img-${idx}`} style={{ width: 80, height: 80 }}>

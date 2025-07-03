@@ -41,3 +41,10 @@ export const verificationCodeSchema = z.object({
     .length(4, ERROR_TEXTS.GENERIC_INVALID_FIELD)
     .regex(/^\d{4}$/, ERROR_TEXTS.GENERIC_INVALID_FIELD),
 });
+
+export const requestPasswordResetSchema = z.object({
+  email: REQUIRED_FIELD.regex(
+    REGEX_PATTERNS.EMAIL,
+    ERROR_TEXTS.INVALID_EMAIL_FIELD,
+  ).max(40, MAX_LENGTH_MESSAGE(40)),
+});
