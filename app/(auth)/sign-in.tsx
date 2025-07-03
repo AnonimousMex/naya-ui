@@ -1,9 +1,3 @@
-import { CloudBackground } from "@/components/MainPanesComponents/CloudBackground";
-import { ICONS, IMAGES } from "@/constants/images";
-import { useScreenDimensions } from "@/utils/dimensions";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { FormProvider, useForm } from "react-hook-form";
-import { MainButton } from "@/components/MainButton";
 import {
   ScrollView,
   Image,
@@ -12,14 +6,21 @@ import {
   View,
   Text,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { FormProvider, useForm } from "react-hook-form";
+import { router, useLocalSearchParams } from "expo-router"; // ★
+import React from "react";
+
+import { CloudBackground } from "@/components/MainPanesComponents/CloudBackground";
+import { useScreenDimensions } from "@/utils/dimensions";
+import { IMAGES, ICONS } from "@/constants/images";
 import { TSignInSchema } from "@/models/Auth";
 import { signInSchema } from "@/schemas/authSchema";
 import { signInDefaultValues } from "@/constants/defaultValues/auth";
 import InputField from "@/components/InputField/InputField";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { MainButton } from "@/components/MainButton";
 import { BackButton } from "@/components/BackButton";
-import { router } from "expo-router";
-import React from "react";
 import { useSnackbar } from "@/hooks/useSnackbar";
 import { useLoginMutation } from "@/hooks/auth/useLoginMutation";
 
@@ -27,6 +28,9 @@ function Login() {
   const { sloganWidth, sloganHeight, axolotlLoginHeight, axolotlLoginWidth } =
     useScreenDimensions();
   const { showSnackbar } = useSnackbar();
+  const { mode } = useLocalSearchParams<{ mode?: string }>();
+  const isParental = mode === "parental";
+  const loginMutation = useLoginMutation({ parental: isParental });
 
   const formMethods = useForm<TSignInSchema>({
     resolver: zodResolver(signInSchema),
@@ -34,7 +38,6 @@ function Login() {
     defaultValues: signInDefaultValues,
   });
   const { control, handleSubmit } = formMethods;
-  const loginMutation = useLoginMutation();
 
   const handleOnSubmit = (data: TSignInSchema) => {
     loginMutation.mutate(data);
@@ -90,28 +93,30 @@ function Login() {
 
             <Text
               className="font-UrbanistBold text-pink-700 underline text-s text-right p-2"
-              onPress={() => router.push("/(mainPages)/home")}
+              onPress={() => router.push("/(auth)/welcome")}
             >
               Olvidé mi contraseña
             </Text>
 
             <MainButton
-              mainText="Iniciar Sesión"
+              mainText={isParental ? "Acceder" : "Iniciar Sesión"}
               onPress={handleSubmit(handleOnSubmit, onInvalidForm)}
               isLoading={loginMutation.isPending}
               className="w-80 py-3 mt-11 mb-10"
               style={{ height: 50 }}
             />
 
-            <Text className="font-UrbanistBold text-gray-730 text-s text-center">
-              ¿No tienes una cuenta todavía?{" "}
-              <Text
-                className="text-pink-700 underline text-s"
-                onPress={() => router.push("/(auth)/sign-up")}
-              >
-                Registrarme
+            {!isParental && (
+              <Text className="font-UrbanistBold text-gray-730 text-s text-center">
+                ¿No tienes una cuenta todavía?{" "}
+                <Text
+                  className="text-pink-700 underline text-s"
+                  onPress={() => router.push("/(auth)/sign-up")}
+                >
+                  Registrarme
+                </Text>
               </Text>
-            </Text>
+            )}
           </FormProvider>
 
           <Image

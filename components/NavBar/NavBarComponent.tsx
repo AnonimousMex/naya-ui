@@ -50,7 +50,11 @@ const NavbarComponent: React.FC<NavbarComponentProps> = ({
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => router.push("/(mainPages)/user-profile")}
+          onPress={() => router.push(
+            isTherapist ?
+            "/(therapistPages)/therapist-home"
+            :
+            "/(therapistPages)/patient_profile")}
         >
           <View
             className={`rounded-full w-11 h-11 ${bg} flex justify-center items-center overflow-hidden p-[0.5rem]`}

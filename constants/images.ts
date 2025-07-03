@@ -21,6 +21,7 @@ import helpIcon from "@/assets/icons/help-icon.png";
 import logOutIcon from "@/assets/icons/logout-icon.png";
 import streakIcon from "@/assets/icons/streak-icon.png";
 import expIcon from "@/assets/icons/exp-icon.png";
+import clockIcon from "@/assets/icons/clock-icon.png";
 import cloudsImage from "@/assets/images/home/clouds.png";
 import arrowRight from "@/assets/images/arrow-right.png";
 import nayaLogo from "@/assets/images/home/naya-logo.png";
@@ -65,9 +66,12 @@ import defaultWomanTherapist from "@/assets/images/default_woman_therapist.png";
 import therapistPhotoCV from "@/assets/images/therapist_photo_cv.png";
 import changePasswordLion from "@/assets/images/change-password-lion.png";
 import calendarIcon from "@/assets/icons/calendar_icon.png";
+import calendarWhiteIcon from "@/assets/icons/calendar-white-icon.png";
 import peopleIcon from "@/assets/icons/people_icon.png";
 import detailsIcon from "@/assets/icons/details_icon.png";
 
+import timerIcon from "@/assets/icons/timer-date-icon.png"
+import playIcon from "@/assets/icons/play-icon.png"
 
 export const ICONS = {
   EMAIL_ICON: emailIcon,
@@ -95,8 +99,12 @@ export const ICONS = {
   SAND_CLOCK_ICON: sandClockIcon,
   GO_ICON: goIcon,
   CALENDAR_ICON: calendarIcon,
+  CALENDAR_WHITE_ICON: calendarWhiteIcon,
   PEOPLE_ICON: peopleIcon,
+  CLOCK_ICON: clockIcon,
   DETAILS_ICON: detailsIcon,
+  TIMER_ICON: timerIcon,
+  PLAY_ICON: playIcon,
 };
 
 export const IMAGES = {

@@ -1,10 +1,11 @@
 import { HTTP } from "@/config/axios";
 import { URL_PATHS } from "@/constants/urlPaths";
-import { TSignInSchema, TVerificationCodeSchema } from "@/models/Auth";
+import { TSignInSchema, TSignUp, TVerificationCodeSchema } from "@/models/Auth";
 import {
   TSingleDataResponse,
   TNoContentStatusResponse,
   TLoginTokens,
+  TSingUpToken,
 } from "@/models/Common";
 
 export const AUTH_SERVICE = {
@@ -32,7 +33,7 @@ export const AUTH_SERVICE = {
 
     return data;
   },
-
+  
   async verifyChangePasswordCode(
     requestData: TVerificationCodeSchema,
   ): Promise<TNoContentStatusResponse> {
@@ -42,5 +43,15 @@ export const AUTH_SERVICE = {
     );
 
     return data;
+  },
+
+  async singUp (patientData: TSignUp): Promise<TSingleDataResponse<TSingUpToken>>{
+    const { data } = await HTTP.post<TSingleDataResponse<TSingUpToken>>(
+      URL_PATHS.AUTH.SING_UP,
+      {
+        ...patientData
+      }
+    );
+    return data
   },
 };
