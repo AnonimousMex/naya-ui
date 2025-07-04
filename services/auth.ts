@@ -1,6 +1,6 @@
 import { HTTP } from "@/config/axios";
 import { URL_PATHS } from "@/constants/urlPaths";
-import { TSignInSchema, TSignUp, TVerificationCodeSchema } from "@/models/Auth";
+import { TConnectionCode, TConnectionCodeSchema, TSignInSchema, TSignUp, TVerificationCodeSchema } from "@/models/Auth";
 import {
   TSingleDataResponse,
   TNoContentStatusResponse,
@@ -53,5 +53,16 @@ export const AUTH_SERVICE = {
       }
     );
     return data
+  },
+
+   async connectionCode(
+    requestData: TConnectionCodeSchema,
+  ): Promise<TNoContentStatusResponse> {
+    const { data } = await HTTP.post<TNoContentStatusResponse>(
+      URL_PATHS.AUTH.CONNECTION_CODE,
+      requestData,
+    );
+
+    return data;
   },
 };

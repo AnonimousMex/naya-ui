@@ -30,7 +30,7 @@ export const useLoginMutation = (opts: LoginOpts = {}) => {
       } else if (user_type === "THERAPIST") {
         router.replace("/(therapistPages)/therapist-home");
       } else {
-        router.replace("/(mainPages)/home");
+        router.replace("/(auth)/connection-therapist");
       }
 
       showSnackbar({ type: "success", message: SUCCESS_TEXTS.LOGIN_SUCCESS });
