@@ -27,7 +27,7 @@ const LargePanel = ({
     return (
         <TouchableOpacity onPress={onPressButton}>
                 <View className={`rounded-[2rem] h-44 w-full flex-row ${backgroundColor}`}>
-                    <Image 
+                    <Image
                         source={background}
                         className='absolute w-full h-full rounded-[2rem]'
                     />
@@ -35,8 +35,8 @@ const LargePanel = ({
                         <></>
                     ): (
                         <View className='w-[45%] flex justify-center items-center '>
-                            <Image 
-                                source={animalImage} 
+                            <Image
+                                source={animalImage}
                                 className='h-full w-[70%] object-cover'
                             />
                         </View>
@@ -45,38 +45,56 @@ const LargePanel = ({
                         <View className='flex-col items-center'>
                             {name === "Detective" ? (
                                 <>
-                                    <Text 
+                                    <Text
                                         className='font-UrbanistExtraBold '
-                                        style={{ fontSize: fontSize + 6 }}
+                                        style={{ fontSize: fontSize + 8 }}
+                                        numberOfLines={1} 
+                                        adjustsFontSizeToFit={true}
+                                        minimumFontScale={0.8} 
+                                        maxFontSizeMultiplier={1.9}
                                     >
                                         Detective
                                     </Text>
                                     <Text className='font-UrbanistExtraBold'
                                         style={{ fontSize: fontSize + 6}}
+                                        numberOfLines={1} 
+                                        adjustsFontSizeToFit={true} 
+                                        minimumFontScale={0.8} 
+                                        maxFontSizeMultiplier={1.9}
                                     >
-                                        Emociones 
+                                        Emociones
                                     </Text>
                                 </>
                             ):(
                                 <>
-                                <Text className='font-UrbanistExtraBold text-[2rem] text-center'
+                                <Text
+                                    className='font-UrbanistExtraBold text-[2rem] text-center'
                                     style={{ fontSize: fontSize + 4}}
+                                    numberOfLines={1} 
+                                    adjustsFontSizeToFit={true}
+                                    minimumFontScale={0.8} 
+                                    maxFontSizeMultiplier={1.9}
                                 >
-                                    {name} 
+                                    {name}
                                 </Text>
                                 </>
                             )}
                         </View>
-                        <Text className='font-UrbanistBold flex text-center text-base'
+                        <Text
+                            className='font-UrbanistBold flex text-center text-lg'
                             style={{ marginTop: fontSize -15, lineHeight: fontSize -7}}
+                            numberOfLines={2} 
+                            adjustsFontSizeToFit={true}
+                            minimumFontScale={1} 
+                            maxFontSizeMultiplier={0.2}
                         >
                             {description}
                         </Text>
                     </View>
                     {par ? (
                         <View className='w-[45%] flex justify-center items-center '>
-                            <Image 
-                                source={animalImage} 
+                            <Image
+                                source={animalImage}
                                 className='h-full w-[70%] object-cover'
                             />
                         </View>
