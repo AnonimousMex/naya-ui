@@ -1,13 +1,11 @@
 import { CloudBackground } from "@/components/MainPanesComponents/CloudBackground";
 import { ICONS, IMAGES } from "@/constants/images";
 import { TRequestPasswordResetSchema } from "@/models/Auth";
-import { useScreenDimensions } from "@/utils/dimensions";
 import React, { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 import { MainButton } from "@/components/MainButton";
 import {
-  ScrollView,
   Image,
   KeyboardAvoidingView,
   Platform,
@@ -23,6 +21,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { BackButton } from "@/components/BackButton";
 import { router } from "expo-router";
 import { useSnackbar } from "@/hooks/useSnackbar";
+import { useRequestChangePasswordMutation } from "@/hooks/auth/useRequestChangePasswordMutation";
 
 function RequestPasswordReset() {
   const { height } = Dimensions.get('window');
@@ -50,12 +49,16 @@ function RequestPasswordReset() {
     mode: "onSubmit",
     defaultValues: requestPasswordResetDefaultValues,
   });
-
-  const { control, handleSubmit } = formMethods;
+  
+  const { control, handleSubmit, setError } = formMethods;
+  const requestPasswordResetMutation = useRequestChangePasswordMutation(setError)
   const { showSnackbar } = useSnackbar();
 
   const handleOnSubmit = (data: TRequestPasswordResetSchema) => {
-    router.push("/(auth)/verify-change-password-code");
+    const payload = { 
+      email: data.email
+    }
+    requestPasswordResetMutation.mutate(payload);
   };
   
   const onInvalidForm = () => {
