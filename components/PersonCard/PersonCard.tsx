@@ -4,6 +4,7 @@ import { ICONS } from "@/constants/images";
 import { useRouter } from "expo-router";
 
 interface PersonCardProps {
+  id: string;
   name: string;
   avatar: any;
   width?: number;
