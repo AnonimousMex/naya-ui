@@ -12,6 +12,7 @@ export const CloudBackground = () => {
         style={{
           top: cloudOffsetTop,
           left: cloudOffsetLeft,
+          tintColor: 'white',
         }}
         className="absolute"
       />
@@ -22,6 +23,7 @@ export const CloudBackground = () => {
           top: cloudOffsetTop + height * 0.6,
           right: cloudOffsetLeft,
           transform: [{ scaleX: -1 }],
+          tintColor: 'white',
         }}
       />
     </>

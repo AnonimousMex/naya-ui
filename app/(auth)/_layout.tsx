@@ -9,6 +9,8 @@ export default function Layout() {
       <Stack.Screen name="sign-in" options={{ headerShown: false }} />
       <Stack.Screen name="profile-choice" options={{ headerShown: false }} />
       <Stack.Screen name="change-password" options={{ headerShown: false }} />
+      <Stack.Screen name="request-password-reset" options={{ headerShown: false }} />
+      <Stack.Screen name="verify-change-password-code" options={{ headerShown: false }} />
     </Stack>
   );
 }

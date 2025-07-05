@@ -23,6 +23,7 @@ import { validatePasswordMatch } from "@/utils/auth";
 import { BackButton } from "@/components/BackButton";
 import { router } from "expo-router";
 import { useSnackbar } from "@/hooks/useSnackbar";
+import { userSingUpMutation } from "@/hooks/auth/userSingUpMutation";
 
 function SignUp() {
   const { sloganWidth, sloganHeight } = useScreenDimensions();
@@ -36,6 +37,8 @@ function SignUp() {
   const { control, handleSubmit, setError } = formMethods;
   const { showSnackbar } = useSnackbar();
 
+  const patientSingUpMutation = userSingUpMutation(setError);
+
   const handleOnSubmit = (data: TSignUpSchema) => {
     if (!validatePasswordMatch(data.password, data.confirmPassword)) {
       setError("password", {
@@ -48,9 +51,17 @@ function SignUp() {
         message: ERROR_TEXTS.INVALID_PASSWORDS_MATCH_ALERT,
         type: "error",
       });
-      return;
+      return
     }
-    router.push("/(auth)/profile-choice");
+
+    const payload = {
+      name: data.name,
+      email: data.email,
+      password: data.password,
+      confirmPassword: data.confirmPassword,
+    }
+    patientSingUpMutation.mutate(payload);
+
   };
   const onInvalidForm = () => {
     showSnackbar({ type: "warning" });
