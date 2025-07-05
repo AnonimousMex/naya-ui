@@ -15,21 +15,25 @@ import { router } from "expo-router";
 
 const patients = [
   {
+    id: "u1",
     name: "Hilary Arroyo Martinez",
     avatar: IMAGES.HAPPY_AXOLOTL_HEAD,
     circleColor: "#C8B8B4",
   },
   {
+    id: "u2",
     name: "Francisco Rivera Rodriguez",
     avatar: IMAGES.HAPPY_LION_HEAD,
     circleColor: "#F9D7B5",
   },
   {
+    id: "u3",
     name: "José Antonio Cisneros",
     avatar: IMAGES.HAPPY_PANDA_HEAD,
     circleColor: "#D6E6F2",
   },
   {
+    id: "u4",
     name: "Alejandra Cisneros Pascual",
     avatar: IMAGES.HAPPY_BUNNY_HEAD,
     circleColor: "#BEE3DB",
@@ -84,7 +88,8 @@ const TherapistHome = () => {
           <View className="flex-row flex-wrap justify-between">
             {patients.map((p) => (
               <PatientCard
-                key={p.name}
+                key={p.id}
+                id={p.id}
                 name={p.name}
                 avatar={p.avatar}
                 width={CARD_WIDTH}
