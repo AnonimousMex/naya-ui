@@ -52,7 +52,7 @@ const NavbarComponent: React.FC<NavbarComponentProps> = ({
           onPress={() =>
             router.push(
               isTherapist
-                ? "/(therapistPages)/therapist-home"
+                ? "/(therapistPages)/therapist-list-patients"
                 : "/(mainPages)/insignias",
             )
           }

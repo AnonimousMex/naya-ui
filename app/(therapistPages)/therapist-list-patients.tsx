@@ -12,6 +12,7 @@ import { IMAGES } from "@/constants/images";
 import { SafeAreaView } from "react-native-safe-area-context";
 import NavbarComponent from "@/components/NavBar/NavBarComponent";
 import { router } from "expo-router";
+import { HeaderTitleComponent } from "@/components/HeaderTitleComponent";
 
 const patients = [
   {
@@ -48,43 +49,17 @@ const CARD_WIDTH =
   (SCREEN_WIDTH - CONTAINER_PADDING - CARD_MARGIN * (NUM_COLUMNS + 1)) /
   NUM_COLUMNS;
 
-const TherapistHome = () => {
+const TherapistListPatients = () => {
   return (
     <View className="flex-1 bg-pink-200">
-      <TherapistTopBar />
       <ScrollView
         contentContainerStyle={{ paddingBottom: 32 }}
         showsVerticalScrollIndicator={false}
       >
+        <View className="mt-16 px-7 mb-8">
+          <HeaderTitleComponent mainText="Pacientes" />
+        </View>
         <View className="px-5">
-          <View className="flex-row justify-between items-center mb-2 mt-5">
-            <Text className="text-brown-800 font-bold text-lg font-UrbanistBold">
-              Consultas
-            </Text>
-            <TouchableOpacity
-              onPress={() =>
-                router.push("/(therapistPages)/therapist-upcoming-appointments")
-              }
-            >
-              <Text className="text-orange-400 font-bold text-sm font-UrbanistBold">
-                Ver más
-              </Text>
-            </TouchableOpacity>
-          </View>
-          <View className="flex-row justify-between items-center mb-2 mt-8">
-            <Text className="text-brown-800 font-bold text-lg font-UrbanistBold">
-              Mis pacientes
-            </Text>
-            <TouchableOpacity
-              onPress={() =>
-                router.push("/(therapistPages)/therapist-list-patients")
-              }
-            >
-              <Text className="text-orange-400 font-bold text-sm font-UrbanistBold">
-                Ver más
-              </Text>
-            </TouchableOpacity>
-          </View>
           <View className="flex-row flex-wrap justify-between">
             {patients.map((p) => (
               <PatientCard
@@ -109,4 +84,4 @@ const TherapistHome = () => {
   );
 };
 
-export default TherapistHome;
+export default TherapistListPatients;
