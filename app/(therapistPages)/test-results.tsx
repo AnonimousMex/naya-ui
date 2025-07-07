@@ -48,7 +48,7 @@ const TestResults = () => {
           style={{ height: dynamicHeight }}
         >
           <View className="absolute w-full flex-row justify-between p-7">
-            <BackButton onPress={() => router.push("/(auth)/welcome")} />
+            <BackButton onPress={() => router.back()} />
 
             <HeaderInformationComponent
               type="date"

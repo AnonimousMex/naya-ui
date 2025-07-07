@@ -7,9 +7,8 @@ const TherapistTopBar = () => {
     <View className="bg-blue-80 rounded-b-[32px] px-6 pt-12 pb-6">
       <View className="flex-row justify-between items-center">
         <Text className="text-[32px] font-bold font-[UrbanistBold]">
-          <Text className="text-pink-50">N</Text>
-          <Text className="text-white">ay</Text>
-          <Text className="text-pink-50">á</Text>
+          <Text className="text-pink-50">Nayá</Text>
+          
         </Text>
         <View className="flex-row items-center space-x-4">
           <TouchableOpacity>

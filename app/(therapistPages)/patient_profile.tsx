@@ -5,15 +5,12 @@ import {
   Dimensions,
   Text,
   Pressable,
-  StatusBar,
+  Modal,
 } from "react-native";
 import { ICONS, IMAGES } from "@/constants/images";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { SafeAreaView as SafeAreaViewContext } from "react-native-safe-area-context";
 import { UserStatsRow } from "@/components/UserStatistics";
-import UserProfileButtonsColumn, {
-  UserProfileButton,
-} from "@/components/UserProfileButton/UserProfileButton";
 import { NavbarComponent } from "@/components/NavBar";
 import { BackButton } from "@/components/BackButton";
 import {
@@ -21,6 +18,8 @@ import {
   NextDateView,
 } from "@/components/patientProfileComponents";
 import { HeaderInformationComponent } from "@/components/HeaderInformationComponent";
+import { useState } from "react";
+
 
 const PatientProfile = () => {
   const { width, height } = Dimensions.get("window");
@@ -28,6 +27,12 @@ const PatientProfile = () => {
   const userImage = IMAGES.HAPPY_AXOLOTL_1;
   const isTablet = width >= 520;
   const dynamicHeight = isTablet ? height * 0.6 : height * 0.4;
+
+  const [modalVisible, setModalVisible] = useState(false)
+
+  const params = useLocalSearchParams();
+  const { name } = params;
+
 
   return (
     <SafeAreaViewContext className="flex-1 bg-white">
@@ -40,11 +45,11 @@ const PatientProfile = () => {
           style={{ height: dynamicHeight }}
         >
           <View className="absolute w-full flex-row justify-between p-7">
-            <BackButton onPress={() => router.push("/(auth)/welcome")} />
+            <BackButton onPress={() => router.back()} />
 
             <HeaderInformationComponent
               type="name"
-              name={"Rodrigo Vega Espinoza"}
+              name={name.toString()}
               borderColor="#E4B18E"
             />
           </View>
@@ -96,7 +101,7 @@ const PatientProfile = () => {
               name="Citas"
               icon={ICONS.CALENDAR_WHITE_ICON}
               onPress={() => {
-                router.push("/(auth)/welcome");
+                router.push("/(therapistPages)/patient-appointments");
               }}
             />
             <ButtonPatientProfile
@@ -104,10 +109,46 @@ const PatientProfile = () => {
               name="Resultados"
               icon={ICONS.PLAY_ICON}
               onPress={() => {
-                router.push("/(parentsPages)/test-results");
+                router.push("/(therapistPages)/test-results");
               }}
             />
           </View>
+          <ButtonPatientProfile
+              bg="bg-red-74"
+              name="Cerrar Conexión"
+              icon={ICONS.CLOSE_ICON}
+              onPress={() => setModalVisible(true)}
+          />
+          <Modal visible={modalVisible} transparent animationType="fade">
+            <View className="flex-1 justify-center items-center bg-black-100 px-4">
+              <View className="w-full max-w-md bg-slate-50 rounded-[50] p-9 items-center">
+                <Text className="font-UrbanistBold text-xl text-center">
+                  ¿Seguro que quieres cerrar conexión con el paciente:
+                </Text>
+                <Text className="font-UrbanistExtraBold text-3xl mt-8 border-b-2 border-red-500">
+                  {name}
+                </Text>
+                <View className="flex-row justify-between gap-5 mt-8">
+                  <Pressable 
+                    onPress={() => setModalVisible(false)}
+                    className="flex justify-center items-center border p-2 rounded-full px-6"
+                  >
+                    <Text className="font-UrbanistExtraBold text-xl">
+                      Cancelar
+                    </Text>
+                  </Pressable>
+                  <Pressable 
+                    onPress={() => setModalVisible(false)}
+                    className="flex justify-center items-center bg-red-600 p-2 rounded-full py-3 px-6"
+                  >
+                    <Text className="font-UrbanistExtraBold text-white text-xl">
+                      Cerrar Conexión
+                    </Text>
+                  </Pressable>
+                </View>
+              </View>
+            </View>
+          </Modal>
         </View>
       </ScrollView>
 

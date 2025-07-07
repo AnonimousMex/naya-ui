@@ -22,6 +22,19 @@ import logOutIcon from "@/assets/icons/logout-icon.png";
 import streakIcon from "@/assets/icons/streak-icon.png";
 import expIcon from "@/assets/icons/exp-icon.png";
 import clockIcon from "@/assets/icons/clock-icon.png";
+import sandClockIcon from "@/assets/icons/sand-clock-icon.png";
+import goIcon from "@/assets/icons/go_icon.png";
+import defaultWomanTherapist from "@/assets/images/default_woman_therapist.png";
+import therapistPhotoCV from "@/assets/images/therapist_photo_cv.png";
+import changePasswordLion from "@/assets/images/change-password-lion.png";
+import calendarIcon from "@/assets/icons/calendar_icon.png";
+import calendarWhiteIcon from "@/assets/icons/calendar-white-icon.png";
+import peopleIcon from "@/assets/icons/people_icon.png";
+import detailsIcon from "@/assets/icons/details_icon.png";
+import timerIcon from "@/assets/icons/timer-date-icon.png";
+import playIcon from "@/assets/icons/play-icon.png";
+import closeIcon from "@/assets/icons/close-circle-icon.png"
+
 import cloudsImage from "@/assets/images/home/clouds.png";
 import arrowRight from "@/assets/images/arrow-right.png";
 import nayaLogo from "@/assets/images/home/naya-logo.png";
@@ -61,18 +74,6 @@ import storyButtonCatLocked from "@/assets/images/storyPath/locked-button/cat_bu
 import storyButtonLionLocked from "@/assets/images/storyPath/locked-button/lion_button_locked.png";
 import storyButtonPandaLocked from "@/assets/images/storyPath/locked-button/panda_button_locked.png";
 
-import sandClockIcon from "@/assets/icons/sand-clock-icon.png";
-import goIcon from "@/assets/icons/go_icon.png";
-import defaultWomanTherapist from "@/assets/images/default_woman_therapist.png";
-import therapistPhotoCV from "@/assets/images/therapist_photo_cv.png";
-import changePasswordLion from "@/assets/images/change-password-lion.png";
-import calendarIcon from "@/assets/icons/calendar_icon.png";
-import calendarWhiteIcon from "@/assets/icons/calendar-white-icon.png";
-import peopleIcon from "@/assets/icons/people_icon.png";
-import detailsIcon from "@/assets/icons/details_icon.png";
-
-import timerIcon from "@/assets/icons/timer-date-icon.png";
-import playIcon from "@/assets/icons/play-icon.png";
 
 export const ICONS = {
   EMAIL_ICON: emailIcon,
@@ -106,6 +107,7 @@ export const ICONS = {
   DETAILS_ICON: detailsIcon,
   TIMER_ICON: timerIcon,
   PLAY_ICON: playIcon,
+  CLOSE_ICON: closeIcon,
 };
 
 export const IMAGES = {
