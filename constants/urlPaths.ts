@@ -4,4 +4,7 @@ export const URL_PATHS = {
     LOGIN: "/auth/login",
     SING_UP: "/patients",
   },
+  ANIMAL: {
+    LIST_ANIMALS: "/animals",
+  },
 };

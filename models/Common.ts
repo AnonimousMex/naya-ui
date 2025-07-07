@@ -1,4 +1,5 @@
 import { Control } from "react-hook-form";
+import { TAnimal } from "./Animal";
 
 export type ReactHookFormControl = Control<any, object>;
 
@@ -24,4 +25,12 @@ export type TSingUpToken = {
   createdAt: string;
   updatedAt: string;
   patientId: string;
-}
+};
+
+export type TListAnimalsResponse = TAnimal[];
+
+export const emptyListAnimalsResponse: TSingleDataResponse<TListAnimalsResponse> = {
+  status: 200,
+  statusMessage: "Empty default",
+  data: [],
+};

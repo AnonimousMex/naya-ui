@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -6,23 +6,43 @@ import {
   View,
   Image,
   Text,
-  Pressable,
   Dimensions,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 import { BackButton } from "@/components/BackButton";
 import { MainButton } from "@/components/MainButton";
-import {
-  PROFILE_AVATARS,
-  type ProfileAvatar,
-} from "@/constants/profileAvatars";
 import { ProfileAvatarButton } from "@/components/ProfileChoice";
+import { useListAnimalsMutation } from "@/hooks/animal/useListAnimalsMutation";
+import { TAnimal } from "@/models/Animal";
 
 const ProfileChoice = () => {
-  const [selected, setSelected] = useState<ProfileAvatar>(PROFILE_AVATARS[0]);
+  const { mutate, data } = useListAnimalsMutation();
+  const [animals, setAnimals] = useState<TAnimal[]>([]);
+  const [selected, setSelected] = useState<TAnimal | null>(null);
   const screenHeight = Dimensions.get("window").height;
   const screenWidth = Dimensions.get("window").width;
+
+  useEffect(() => {
+    mutate();
+  }, []);
+
+  useEffect(() => {
+    let animalsList: TAnimal[] = [];
+    if (Array.isArray(data)) {
+      animalsList = data;
+    } else if (data?.data && Array.isArray(data.data)) {
+      animalsList = data.data;
+    }
+    if (animalsList.length > 0) {
+      const mapped = animalsList.map((animal: any) => ({
+        ...animal,
+        animal_id: animal.animal_id || animal.id,
+      }));
+      setAnimals(mapped);
+      setSelected(mapped[0]);
+    }
+  }, [data]);
 
   const imageSizePercentage =
     screenWidth > screenHeight - screenWidth ? 0.35 : 0.5;
@@ -44,6 +64,15 @@ const ProfileChoice = () => {
   const buttonPaddingClassName = isSpecialLayoutCondition ? "mb-8" : "mb-3";
   const finalButtonClassName = `${baseButtonClassName} ${buttonPaddingClassName}`;
 
+  function getRemoteImageUri(link: string | null) {
+    if (!link) return "";
+    const match = link.match(/\/file\/d\/([^/]+)\//);
+    if (match) {
+      return `https://drive.google.com/uc?export=view&id=${match[1]}`;
+    }
+    return link;
+  }
+
   return (
     <KeyboardAvoidingView
       className="flex-1 bg-pink-200"
@@ -63,17 +92,19 @@ const ProfileChoice = () => {
           className="rounded-full bg-white border-2 border-gray-100 p-2 "
           style={{ width: imageSize, height: imageSize }}
         >
-          <Image
-            source={selected.image}
-            className="w-full h-full"
-            style={{ resizeMode: "contain" }}
-          />
+          {selected && (
+            <Image
+              source={{ uri: getRemoteImageUri(selected.happy_profile_picture ?? "") || undefined }}
+              className="w-full h-full"
+              style={{ resizeMode: "contain" }}
+            />
+          )}
         </View>
         <Text className={nameTextClass} numberOfLines={1} adjustsFontSizeToFit>
           <Text style={{ color: "black" }}>Soy </Text>
-          <Text style={{ color: selected.color }}>{selected.name}</Text>
+          <Text style={{ color: selected?.color_ui }}>{selected?.name}</Text>
         </Text>
-        <Text className={descriptionTextClass}>{selected.description}</Text>
+        <Text className={descriptionTextClass}>{selected?.description}</Text>
       </View>
 
       <View
@@ -89,12 +120,18 @@ const ProfileChoice = () => {
           }}
         >
           <View className="flex-row flex-wrap justify-around">
-            {PROFILE_AVATARS.map((avatar) => (
+            {animals.map((animal) => (
               <ProfileAvatarButton
-                key={avatar.key}
-                avatar={avatar}
-                selected={selected.key === avatar.key}
-                onPress={setSelected}
+                key={animal.animal_id}
+                avatar={{
+                  key: animal.animal_id,
+                  name: animal.name,
+                  description: animal.description,
+                  color: animal.color_ui,
+                  image: { uri: getRemoteImageUri(animal.happy_profile_picture ?? "") },
+                }}
+                selected={selected?.animal_id === animal.animal_id}
+                onPress={() => setSelected(animal)}
               />
             ))}
           </View>

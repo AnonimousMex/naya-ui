@@ -50,4 +50,9 @@ export const ERRORS: TError = {
     name: "USER_NOT_VERIFIED",
     message: ERROR_TEXTS.USER_NOT_VERIFIED,
   },
+  FETCH_ANIMALS_ERROR: {
+    code: "E012",
+    name: "FETCH_ANIMALS_ERROR",
+    message: ERROR_TEXTS.FETCH_ANIMALS_ERROR,
+  },
 };
