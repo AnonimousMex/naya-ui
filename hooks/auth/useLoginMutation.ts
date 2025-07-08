@@ -23,12 +23,15 @@ export const useLoginMutation = (opts: LoginOpts = {}) => {
 
     onSuccess: async ({ access_token, refresh_token, user_type }) => {
       await AsyncStorage.setItem("accessToken", access_token);
+      const token = await AsyncStorage.getItem("accessToken");
+      console.log("tokem", token
+      )
       await AsyncStorage.setItem("refreshToken", refresh_token);
 
       if (parental) {
         router.replace("/(parentsPages)/parents-profile");
       } else if (user_type === "THERAPIST") {
-        router.replace("/(therapistPages)/therapist-home");
+        router.replace("/(therapistPages)/patient-appointments");
       } else {
         router.replace("/(mainPages)/home");
       }

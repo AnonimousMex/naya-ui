@@ -25,3 +25,11 @@ export type TSingUpToken = {
   updatedAt: string;
   patientId: string;
 }
+
+export type TCreateAppointmentRequest = {
+  token: string;
+  date: string;     // "YYYY-MM-DD"
+  time: string;     // "HH:mm"
+  patient_id: string;
+};
+

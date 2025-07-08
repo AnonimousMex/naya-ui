@@ -4,4 +4,8 @@ export const URL_PATHS = {
     LOGIN: "/auth/login",
     SING_UP: "/patients",
   },
+  THERAPIST:{
+    SCHEDULE_APPOINTMENT: "/schedule-appointment",
+    LIST_APPOINTMENTS: "/list-appointments"
+  }
 };
