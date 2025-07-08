@@ -59,6 +59,7 @@ export default function RootLayout() {
             name="(parentsPages)"
             options={{ headerShown: false }}
           />
+          <Stack.Screen name="(memociones)" options={{ headerShown: false }} />
           <Stack.Screen name="+not-found" />
         </Stack>
       </SnackbarProvider>
