@@ -40,6 +40,13 @@ const GameHeader = ({
           {name}
         </Text>
         <View className="flex flex-row mr-1">
+            {[...Array(energyActive)].map((_,index) =>(
+                <Image 
+                  key={index}
+                  source={ICONS.ENERGY_ACTIVE_ICON}
+                  className="w-8 h-8 object-contain"
+                />    
+            ))}
            {[...Array(energyInactive)].map((_,index) =>(
                <Image 
                  key={index}
@@ -47,13 +54,6 @@ const GameHeader = ({
                  className="w-7 h-7 object-contain"
                />    
            ))}
-          {[...Array(energyActive)].map((_,index) =>(
-              <Image 
-                key={index}
-                source={ICONS.ENERGY_ACTIVE_ICON}
-                className="w-8 h-8 object-contain"
-              />    
-          ))}
         </View>
       </View>
     </View>
