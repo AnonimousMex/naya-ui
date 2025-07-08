@@ -70,7 +70,6 @@ import calendarIcon from "@/assets/icons/calendar_icon.png";
 import calendarWhiteIcon from "@/assets/icons/calendar-white-icon.png";
 import peopleIcon from "@/assets/icons/people_icon.png";
 import detailsIcon from "@/assets/icons/details_icon.png";
-
 import timerIcon from "@/assets/icons/timer-date-icon.png";
 import playIcon from "@/assets/icons/play-icon.png";
 
