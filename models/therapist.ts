@@ -5,3 +5,6 @@ export type TPatient = {
   avatar?: string; // Opcional, si lo usas
   circleColor?: string; // Opcional, si lo usas
 };
+export type TCloseConnection = {
+  idPatient: string
+}

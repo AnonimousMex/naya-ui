@@ -13,6 +13,7 @@ interface PersonCardProps {
 }
 
 const PersonCard: React.FC<PersonCardProps> = ({
+  id,
   name,
   avatar,
   width,
@@ -26,6 +27,7 @@ const PersonCard: React.FC<PersonCardProps> = ({
       router.push({
         pathname:"/(therapistPages)/patient_profile",
         params:{
+          id: id,
           name: name,
         }
       });

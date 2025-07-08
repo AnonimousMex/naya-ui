@@ -5,7 +5,6 @@ import {
   Text,
   TouchableOpacity,
   Dimensions,
-  FlatList,
 } from "react-native";
 import TherapistTopBar from "@/components/TherapistTopBar";
 import PatientCard from "@/components/PersonCard";
@@ -14,7 +13,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import NavbarComponent from "@/components/NavBar/NavBarComponent";
 import { router } from "expo-router";
 import { useListPatientsMutation } from "@/hooks/therapist/useListPatientsMutation";
-import { emptyListPatientsResponse, TListPatientsResponse, TSingleDataResponse } from "@/models/Common";
 import { TPatient } from "@/models/therapist";
 
 

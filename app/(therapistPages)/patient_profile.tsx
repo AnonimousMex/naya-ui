@@ -19,6 +19,8 @@ import {
 } from "@/components/patientProfileComponents";
 import { HeaderInformationComponent } from "@/components/HeaderInformationComponent";
 import { useState } from "react";
+import { useCloseConnectionMutation } from "@/hooks/therapist/useCloseConnectionMutation";
+import { TCloseConnection } from "@/models/therapist";
 
 
 const PatientProfile = () => {
@@ -27,12 +29,18 @@ const PatientProfile = () => {
   const userImage = IMAGES.HAPPY_AXOLOTL_1;
   const isTablet = width >= 520;
   const dynamicHeight = isTablet ? height * 0.6 : height * 0.4;
+  const params = useLocalSearchParams();
+  const { id, name } = params;
 
+  const closeConnectionMutation = useCloseConnectionMutation();
   const [modalVisible, setModalVisible] = useState(false)
 
-  const params = useLocalSearchParams();
-  const { name } = params;
-
+  const handleOnSubmit = () =>{
+    const payload: TCloseConnection = {
+      idPatient: id.toString()
+    }
+    closeConnectionMutation.mutate(payload)
+  }
 
   return (
     <SafeAreaViewContext className="flex-1 bg-white">
@@ -81,7 +89,7 @@ const PatientProfile = () => {
             >
               <View className="flex-row items-center">
                 <Text className="text-black text-base font-UrbanistBold">
-                  Ayuda
+                  Ayuda 
                 </Text>
                 <Image
                   source={IMAGES.HELP_ICON}
@@ -125,7 +133,7 @@ const PatientProfile = () => {
                 <Text className="font-UrbanistBold text-xl text-center">
                   ¿Seguro que quieres cerrar conexión con el paciente:
                 </Text>
-                <Text className="font-UrbanistExtraBold text-3xl mt-8 border-b-2 border-red-500">
+                <Text className="font-UrbanistExtraBold text-3xl mt-8 ">
                   {name}
                 </Text>
                 <View className="flex-row justify-between gap-5 mt-8">
@@ -138,7 +146,7 @@ const PatientProfile = () => {
                     </Text>
                   </Pressable>
                   <Pressable 
-                    onPress={() => setModalVisible(false)}
+                    onPress={() => handleOnSubmit()}
                     className="flex justify-center items-center bg-red-600 p-2 rounded-full py-3 px-6"
                   >
                     <Text className="font-UrbanistExtraBold text-white text-xl">
