@@ -70,7 +70,8 @@ import calendarIcon from "@/assets/icons/calendar_icon.png";
 import calendarWhiteIcon from "@/assets/icons/calendar-white-icon.png";
 import peopleIcon from "@/assets/icons/people_icon.png";
 import detailsIcon from "@/assets/icons/details_icon.png";
-
+import energyInactiveIcon from "@/assets/icons/energy-inactive-icon.png"
+import energyActiveIcon from "@/assets/icons/energy-active-icon.png"
 import timerIcon from "@/assets/icons/timer-date-icon.png";
 import playIcon from "@/assets/icons/play-icon.png";
 
@@ -106,6 +107,8 @@ export const ICONS = {
   DETAILS_ICON: detailsIcon,
   TIMER_ICON: timerIcon,
   PLAY_ICON: playIcon,
+  ENERGY_ACTIVE_ICON: energyActiveIcon,
+  ENERGY_INACTIVE_ICON: energyInactiveIcon,
 };
 
 export const IMAGES = {
