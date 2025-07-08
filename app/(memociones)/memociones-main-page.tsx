@@ -1,11 +1,14 @@
-import React, { useState, useMemo } from "react";
-import { View, FlatList } from "react-native";
+import React, { useState, useMemo, useEffect } from "react";
+import { View, FlatList, Image, Dimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MemocionesCard } from "@/components/MemocionesCard.tsx";
 import { CardData } from "@/components/MemocionesCard.tsx/MemocionesCard";
 import { IMAGES } from "@/constants/images";
 import { CloudBackground } from "@/components/MainPanesComponents/CloudBackground";
+import LottieView from "lottie-react-native";
 import { NavbarComponent } from "@/components/NavBar";
+import { MainButton } from "@/components/MainButton";
+import { router } from "expo-router";
 
 const RAW_PAIRS = [
   {
@@ -70,32 +73,38 @@ function buildDeck(): CardData[] {
   );
 }
 
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
+
 const MemoramaScreen = () => {
   const DECK = useMemo(buildDeck, []);
-  const [flippedIds, setFlippedIds] = useState<number[]>([]);
-  const [matchedPairs, setMatchedPairs] = useState<number[]>([]);
+  const [flipped, setFlipped] = useState<number[]>([]);
+  const [matched, setMatched] = useState<number[]>([]);
 
   const handleFlip = (card: CardData) => {
-    if (flippedIds.length === 2 || flippedIds.includes(card.id)) return;
-
-    setFlippedIds((prev) => [...prev, card.id]);
-
-    if (flippedIds.length === 1) {
-      const firstCard = DECK.find((c) => c.id === flippedIds[0])!;
-      if (firstCard.pairId === card.pairId) {
-        setMatchedPairs((prev) => [...prev, card.pairId]);
-        setTimeout(() => setFlippedIds([]), 600);
-      } else {
-        setTimeout(() => setFlippedIds([]), 1000);
+    if (flipped.length === 2 || flipped.includes(card.id)) return;
+    setFlipped((prev) => {
+      const now = [...prev, card.id];
+      if (now.length === 2) {
+        const [aId, bId] = now;
+        const a = DECK.find((c) => c.id === aId);
+        const b = DECK.find((c) => c.id === bId);
+        if (a && b && a.pairId === b.pairId) {
+          setMatched((m) => (m.includes(a.pairId) ? m : [...m, a.pairId]));
+          setTimeout(() => setFlipped([]), 300);
+        } else {
+          setTimeout(() => setFlipped([]), 1000);
+        }
       }
-    }
+      return now;
+    });
   };
+
+  const allMatched = matched.length === RAW_PAIRS.length;
 
   return (
     <SafeAreaView className="flex-1 bg-pink-200">
       <CloudBackground />
-
-      {/* TABLERO */}
       <FlatList
         data={DECK}
         keyExtractor={(item) => item.id.toString()}
@@ -110,18 +119,46 @@ const MemoramaScreen = () => {
           <MemocionesCard
             data={item}
             isFlipped={
-              flippedIds.includes(item.id) || matchedPairs.includes(item.pairId)
+              flipped.includes(item.id) || matched.includes(item.pairId)
             }
-            disabled={matchedPairs.includes(item.pairId)}
+            matched={matched.includes(item.pairId)}
+            disabled={matched.includes(item.pairId)}
             onPress={() => handleFlip(item)}
           />
         )}
       />
 
-      {/* NAVBAR */}
+      {allMatched && (
+        <View
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: windowWidth,
+            height: windowHeight,
+            backgroundColor: "rgba(0,0,0,0.5)",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 9999,
+          }}
+        >
+          <LottieView
+            source={require("@/assets/animations/victory.json")}
+            autoPlay
+            loop
+            style={{ width: 300, height: 800 }}
+          />
+          <MainButton
+            mainText="Continuar"
+            onPress={() => router.push("/(mainPages)/home")}
+            className="w-80 py-3 mt-6"
+          />
+        </View>
+      )}
+
       <SafeAreaView
         edges={["bottom"]}
-        className="bg-white absolute bottom-0 left-0 right-0 z-50"
+        className="bg-white absolute bottom-0 left-0 right-0 z-40"
       >
         <NavbarComponent />
       </SafeAreaView>

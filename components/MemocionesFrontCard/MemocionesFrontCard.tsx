@@ -8,7 +8,7 @@ interface Props {
 }
 
 const MemocionesFrontCard: React.FC<Props> = ({ kind, img, text }) => (
-  <View className="w-32 h-40 bg-yellow-500 items-center justify-center overflow-hidden rounded-2xl">
+  <View className="w-32 h-40 bg-brown-20 items-center justify-center overflow-hidden rounded-2xl">
     <View className="flex-col items-center py-5 bg-white h-36 w-28 rounded-lg">
       {kind === "emotion" ? (
         <>
