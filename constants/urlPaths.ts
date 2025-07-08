@@ -3,5 +3,6 @@ export const URL_PATHS = {
     VERIFY_CODE: "/auth/verification-code",
     LOGIN: "/auth/login",
     SING_UP: "/patients",
+    CHANGE_PASSWORD : "/auth/password-change-request"
   },
 };
