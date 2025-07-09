@@ -73,18 +73,6 @@ import storyButtonBunnyLocked from "@/assets/images/storyPath/locked-button/bunn
 import storyButtonCatLocked from "@/assets/images/storyPath/locked-button/cat_button_locked.png";
 import storyButtonLionLocked from "@/assets/images/storyPath/locked-button/lion_button_locked.png";
 import storyButtonPandaLocked from "@/assets/images/storyPath/locked-button/panda_button_locked.png";
-
-import sandClockIcon from "@/assets/icons/sand-clock-icon.png";
-import goIcon from "@/assets/icons/go_icon.png";
-import defaultWomanTherapist from "@/assets/images/default_woman_therapist.png";
-import therapistPhotoCV from "@/assets/images/therapist_photo_cv.png";
-import changePasswordLion from "@/assets/images/change-password-lion.png";
-import calendarIcon from "@/assets/icons/calendar_icon.png";
-import calendarWhiteIcon from "@/assets/icons/calendar-white-icon.png";
-import peopleIcon from "@/assets/icons/people_icon.png";
-import detailsIcon from "@/assets/icons/details_icon.png";
-import timerIcon from "@/assets/icons/timer-date-icon.png";
-import playIcon from "@/assets/icons/play-icon.png";
 import unknownHead from "@/assets/images/animals/unknown-head.png";
 
 export const ICONS = {
