@@ -1,6 +1,6 @@
 import { HTTP } from "@/config/axios";
 import { URL_PATHS } from "@/constants/urlPaths";
-import { TSignInSchema, TSignUp, TVerificationCodeSchema } from "@/models/Auth";
+import {TRequestPasswordReset, TRequestPasswordResetSchema, TSignInSchema, TSignUp, TVerificationCodeSchema } from "@/models/Auth";
 import {
   TSingleDataResponse,
   TNoContentStatusResponse,
@@ -55,11 +55,24 @@ export const AUTH_SERVICE = {
     return data
   },
 
+
   async selectProfile(requestData: { user_id: string; id_animal: string }): Promise<TNoContentStatusResponse> {
     const { data } = await HTTP.post<TNoContentStatusResponse>(
       URL_PATHS.AUTH.SELECT_PROFILE,
       requestData
     );
     return data;
+  },
+
+  async requesChangePassword (
+    requestData: TRequestPasswordResetSchema,
+  ):Promise<TNoContentStatusResponse>{
+    const { data } = await HTTP.post<TNoContentStatusResponse>(
+        URL_PATHS.AUTH.CHANGE_PASSWORD,
+      {
+        ...requestData
+      }
+    );
+    return data
   },
 };

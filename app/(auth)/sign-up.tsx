@@ -61,8 +61,8 @@ function SignUp() {
       confirmPassword: data.confirmPassword,
     }
     patientSingUpMutation.mutate(payload);
-
   };
+  
   const onInvalidForm = () => {
     showSnackbar({ type: "warning" });
   };
