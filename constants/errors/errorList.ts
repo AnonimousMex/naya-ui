@@ -60,4 +60,9 @@ export const ERRORS: TError = {
     name: "PROFILE_CHOICE_REQUIRED",
     message: ERROR_TEXTS.PROFILE_CHOICE_REQUIRED,
   },
+  E014: {
+    code: "E014",
+    name: "CONECCTION_DOES_NOT_EXIST",
+    message: ERROR_TEXTS.CONNECTION_DOES_NOT_EXIST
+  }
 };

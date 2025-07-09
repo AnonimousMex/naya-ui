@@ -9,4 +9,8 @@ export const URL_PATHS = {
   ANIMAL: {
     LIST_ANIMALS: "/animals",
   },
+  THERAPIST: {
+    LIST_PATIENTS: "/therapist/list-patients",
+    CLOSE_CONNETION: "/disconnect-patient"
+  }
 };

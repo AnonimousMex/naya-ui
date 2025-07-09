@@ -1,5 +1,6 @@
 import { Control } from "react-hook-form";
 import { TAnimal } from "./Animal";
+import { TPatient } from "./therapist";
 
 export type ReactHookFormControl = Control<any, object>;
 
@@ -33,4 +34,12 @@ export const emptyListAnimalsResponse: TSingleDataResponse<TListAnimalsResponse>
   status: 200,
   statusMessage: "Empty default",
   data: [],
+};
+
+export type TListPatientsResponse = TPatient[];
+
+export const emptyListPatientsResponse: TSingleDataResponse<TListPatientsResponse> = {
+  status: 200,
+  statusMessage: 'Empty default',
+  data: [] 
 };
