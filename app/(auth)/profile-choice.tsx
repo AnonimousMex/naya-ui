@@ -18,6 +18,7 @@ import { useSelectProfileMutation } from "@/hooks/auth/useSelectProfileMutation"
 import { TAnimal } from "@/models/Animal";
 import { SnackbarContext } from "@/context/SnackbarProvider";
 import { ERRORS } from "@/constants/errors/errorList";
+import { ERROR_TEXTS } from "@/constants/errors/errorTexts";
 
 import { IMAGES } from "@/constants/images";
 
@@ -49,8 +50,8 @@ const ProfileChoice = () => {
       setAnimals(mapped);
       setSelected(mapped[0]);
     } else if (data) {
-      snackbar?.showSnackbar({ message: ERRORS.FETCH_ANIMALS_ERROR.message, type: "error" });
-      router.replace("/(auth)/sign-in");
+      snackbar?.showSnackbar({ message: ERROR_TEXTS.FETCH_ANIMALS_ERROR, type: "error" });
+      router.replace("/(auth)/welcome");
     }
   }, [data]);
 
