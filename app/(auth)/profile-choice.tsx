@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -14,14 +14,21 @@ import { BackButton } from "@/components/BackButton";
 import { MainButton } from "@/components/MainButton";
 import { ProfileAvatarButton } from "@/components/ProfileChoice";
 import { useListAnimalsMutation } from "@/hooks/animal/useListAnimalsMutation";
+import { useSelectProfileMutation } from "@/hooks/auth/useSelectProfileMutation";
 import { TAnimal } from "@/models/Animal";
+import { SnackbarContext } from "@/context/SnackbarProvider";
+import { ERRORS } from "@/constants/errors/errorList";
+
+import { IMAGES } from "@/constants/images";
 
 const ProfileChoice = () => {
   const { mutate, data } = useListAnimalsMutation();
+  const selectProfileMutation = useSelectProfileMutation();
   const [animals, setAnimals] = useState<TAnimal[]>([]);
   const [selected, setSelected] = useState<TAnimal | null>(null);
   const screenHeight = Dimensions.get("window").height;
   const screenWidth = Dimensions.get("window").width;
+  const snackbar = useContext(SnackbarContext);
 
   useEffect(() => {
     mutate();
@@ -64,13 +71,17 @@ const ProfileChoice = () => {
   const buttonPaddingClassName = isSpecialLayoutCondition ? "mb-8" : "mb-3";
   const finalButtonClassName = `${baseButtonClassName} ${buttonPaddingClassName}`;
 
-  function getRemoteImageUri(link: string | null) {
-    if (!link) return "";
-    const match = link.match(/\/file\/d\/([^/]+)\//);
-    if (match) {
-      return `https://drive.google.com/uc?export=view&id=${match[1]}`;
+  function handleSelectProfile() {
+    if (!selected) {
+      snackbar?.showSnackbar({ message: ERRORS.PROFILE_CHOICE_REQUIRED.message, type: "error" });
+      return;
     }
-    return link;
+    selectProfileMutation.mutate(String(selected.animal_id));
+  }
+
+  function getAnimalImage(animal: TAnimal) {
+    const key = `HAPPY_${animal.animal_key.toUpperCase()}_HEAD`;
+    return (IMAGES as Record<string, any>)[key] || (IMAGES as Record<string, any>)["UNKNOWN_HEAD"];
   }
 
   return (
@@ -94,7 +105,7 @@ const ProfileChoice = () => {
         >
           {selected && (
             <Image
-              source={{ uri: getRemoteImageUri(selected.happy_profile_picture ?? "") || undefined }}
+              source={getAnimalImage(selected)}
               className="w-full h-full"
               style={{ resizeMode: "contain" }}
             />
@@ -102,7 +113,9 @@ const ProfileChoice = () => {
         </View>
         <Text className={nameTextClass} numberOfLines={1} adjustsFontSizeToFit>
           <Text style={{ color: "black" }}>Soy </Text>
-          <Text style={{ color: selected?.color_ui }}>{selected?.name}</Text>
+          <Text style={{ color: selected?.color_ui }}>
+            {selected?.name ? selected.name.charAt(0).toUpperCase() + selected.name.slice(1) : ""}
+          </Text>
         </Text>
         <Text className={descriptionTextClass}>{selected?.description}</Text>
       </View>
@@ -124,11 +137,10 @@ const ProfileChoice = () => {
               <ProfileAvatarButton
                 key={animal.animal_id}
                 avatar={{
-                  key: animal.animal_id,
-                  name: animal.name,
-                  description: animal.description,
+                  ...animal,
+                  name: animal.name.charAt(0).toUpperCase() + animal.name.slice(1),
+                  image: getAnimalImage(animal),
                   color: animal.color_ui,
-                  image: { uri: getRemoteImageUri(animal.happy_profile_picture ?? "") },
                 }}
                 selected={selected?.animal_id === animal.animal_id}
                 onPress={() => setSelected(animal)}
@@ -140,8 +152,9 @@ const ProfileChoice = () => {
         <View className="absolute bottom-8 left-0 right-0 pt-1 items-center px-6">
           <MainButton
             mainText="Seleccionar"
-            onPress={() => router.push("/(auth)/welcome")}
+            onPress={handleSelectProfile}
             className={finalButtonClassName}
+            disabled={!selected}
           />
         </View>
       </View>

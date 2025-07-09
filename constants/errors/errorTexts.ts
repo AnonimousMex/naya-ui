@@ -15,4 +15,5 @@ export enum ERROR_TEXTS {
   EXISTING_CODE = "El código ingresado ya ha sido utilizado.",
   USER_NOT_VERIFIED = "El usuario aún no ha sido verificado",
   FETCH_ANIMALS_ERROR = "No se pudieron cargar los animales. Por favor, intenta de nuevo.",
+  PROFILE_CHOICE_REQUIRED = "Debes seleccionar un avatar de perfil.",
 }

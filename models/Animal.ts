@@ -3,5 +3,5 @@ export type TAnimal = {
   name: string;
   description: string;
   color_ui: string;
-  happy_profile_picture: string | null;
+  animal_key: string;
 };

@@ -55,4 +55,14 @@ export const ERRORS: TError = {
     name: "FETCH_ANIMALS_ERROR",
     message: ERROR_TEXTS.FETCH_ANIMALS_ERROR,
   },
+  FETCH_AVATARS_ERROR: {
+    code: "E013",
+    name: "FETCH_AVATARS_ERROR",
+    message: ERROR_TEXTS.FETCH_ANIMALS_ERROR, 
+  },
+  PROFILE_CHOICE_REQUIRED: {
+    code: "PROFILE_CHOICE_REQUIRED",
+    name: "PROFILE_CHOICE_REQUIRED",
+    message: ERROR_TEXTS.PROFILE_CHOICE_REQUIRED,
+  },
 };

@@ -54,4 +54,12 @@ export const AUTH_SERVICE = {
     );
     return data
   },
+
+  async selectProfile(requestData: { user_id: string; id_animal: string }): Promise<TNoContentStatusResponse> {
+    const { data } = await HTTP.post<TNoContentStatusResponse>(
+      URL_PATHS.AUTH.SELECT_PROFILE,
+      requestData
+    );
+    return data;
+  },
 };
