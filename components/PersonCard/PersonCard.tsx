@@ -1,30 +1,36 @@
 import React from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { ICONS } from "@/constants/images";
-import { useRouter } from "expo-router";
+import { router } from "expo-router";
 
 interface PersonCardProps {
   id: string;
   name: string;
-  avatar: any;
+  avatar?: any;
   width?: number;
   circleColor?: string;
   type?: "patient" | "therapist";
 }
 
 const PersonCard: React.FC<PersonCardProps> = ({
+  id,
   name,
   avatar,
   width,
   circleColor = "#FAD4D4",
-  type = "patient",
+  type,
 }) => {
-  const router = useRouter();
   const handlePress = () => {
     if (type === "therapist") {
       router.push("/(therapistPages)/therapist-profile");
     } else {
-      router.push("/(mainPages)/user-profile");
+      router.push({
+        pathname:"/(therapistPages)/patient_profile",
+        params:{
+          id: id,
+          name: name,
+        }
+      });
     }
   };
   return (

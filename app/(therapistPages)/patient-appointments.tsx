@@ -70,7 +70,7 @@ const UserProfile = () => {
         >
           <View className="relative h-16 justify-center">
             <View className="absolute left-0 top-0 bottom-0 justify-center px-5">
-              <BackButton onPress={() => router.push("/(auth)/welcome")} />
+              <BackButton onPress={() => router.back()} />
             </View>
             <Text
               className="text-slate-100 font-UrbanistBold text-4xl text-center"
@@ -111,7 +111,7 @@ const UserProfile = () => {
           className="bg-slate-50 w-14 h-14 rounded-full items-center justify-center shadow-lg mb-6"
         >
           <Text className="text-brown-800 text-2xl font-UrbanistExtraBold">
-            ＋
+            +
           </Text>
         </Pressable>
       </View>
