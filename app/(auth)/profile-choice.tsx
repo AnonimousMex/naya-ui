@@ -48,6 +48,9 @@ const ProfileChoice = () => {
       }));
       setAnimals(mapped);
       setSelected(mapped[0]);
+    } else if (data) {
+      snackbar?.showSnackbar({ message: ERRORS.FETCH_ANIMALS_ERROR.message, type: "error" });
+      router.replace("/(auth)/sign-in");
     }
   }, [data]);
 
