@@ -14,4 +14,5 @@ export enum ERROR_TEXTS {
   INVALID_CODE = "El código ingresado es inválido.",
   EXISTING_CODE = "El código ingresado ya ha sido utilizado.",
   USER_NOT_VERIFIED = "El usuario aún no ha sido verificado",
+  CONNECTION_WITH_THERAPIST_ALREADY_EXISTS = "Ya tiene una conexion con ese psicólogo."
 }

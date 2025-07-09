@@ -50,4 +50,9 @@ export const ERRORS: TError = {
     name: "USER_NOT_VERIFIED",
     message: ERROR_TEXTS.USER_NOT_VERIFIED,
   },
+  E013: {
+    code: "E013",
+    name: "CONNECTION_WITH_THERAPIST_ALREADY_EXISTS",
+    message: ERROR_TEXTS.CONNECTION_WITH_THERAPIST_ALREADY_EXISTS,
+  },
 };

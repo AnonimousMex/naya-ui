@@ -55,13 +55,19 @@ export const AUTH_SERVICE = {
     return data
   },
 
-   async connectionCode(
+   async connectionPatientWithTherapist(
     requestData: TConnectionCodeSchema,
   ): Promise<TNoContentStatusResponse> {
+    const { token, code } = requestData;
     const { data } = await HTTP.post<TNoContentStatusResponse>(
-      URL_PATHS.AUTH.CONNECTION_CODE,
-      requestData,
-    );
+    URL_PATHS.AUTH.CONNECTION_PATIENT_WITH_THERAPIST,
+    { code }, 
+    {
+      headers: {
+        Authorization: ` ${token}`,
+      },
+    }
+  );
 
     return data;
   },

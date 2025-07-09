@@ -16,7 +16,7 @@ export const useConnectionCodeMutation = (
 
   return useMutation({
     mutationFn:(data: TConnectionCode) =>
-        AUTH_SERVICE.connectionCode(data),
+        AUTH_SERVICE.connectionPatientWithTherapist(data),
     onSuccess: () => {
       showSnackbar({
         message: SUCCESS_TEXTS.CODE_CONNECTION_VERIFIED,
@@ -31,6 +31,18 @@ export const useConnectionCodeMutation = (
         setError("code", { message: ERRORS.E007.message });
         return showSnackbar({
           message: ERRORS.E007.message,
+          type: "error",
+        });
+      }
+      showSnackbar({
+        type: "error",
+        message: ERRORS.INTERNAL_SERVER_ERROR.message
+      })
+
+      if (code === ERRORS.E013.code) {
+        setError("code", { message: ERRORS.E013.message });
+        return showSnackbar({
+          message: ERRORS.E013.message,
           type: "error",
         });
       }
