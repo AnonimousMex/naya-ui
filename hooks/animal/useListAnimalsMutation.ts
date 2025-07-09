@@ -6,7 +6,7 @@ import { ERRORS } from "@/constants/errors/errorList";
 
 export const useListAnimalsMutation = () => {
   const { showSnackbar } = useSnackbar();
-  const errorMessage = ERRORS.FETCH_ANIMALS_ERROR.message;
+  const errorMessage = ERRORS.E012.message;
 
   return useMutation({
     mutationFn: async () => {

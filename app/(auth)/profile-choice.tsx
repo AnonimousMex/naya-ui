@@ -77,7 +77,7 @@ const ProfileChoice = () => {
 
   function handleSelectProfile() {
     if (!selected) {
-      snackbar?.showSnackbar({ message: ERRORS.PROFILE_CHOICE_REQUIRED.message, type: "error" });
+      snackbar?.showSnackbar({ message: ERRORS.E013.message, type: "error" });
       return;
     }
     selectProfileMutation.mutate(String(selected.animal_id));
