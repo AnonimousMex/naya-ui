@@ -1,4 +1,3 @@
-import React from 'react'
 import { useSnackbar } from '../useSnackbar'
 import { useMutation } from '@tanstack/react-query';
 import { TSignUp, TSignUpSchema } from '@/models/Auth';

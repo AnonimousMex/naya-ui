@@ -93,7 +93,7 @@ function Login() {
 
             <Text
               className="font-UrbanistBold text-pink-700 underline text-s text-right p-2"
-              onPress={() => router.push("/(auth)/welcome")}
+              onPress={() => router.push("/(auth)/request-password-reset")}
             >
               Olvidé mi contraseña
             </Text>
