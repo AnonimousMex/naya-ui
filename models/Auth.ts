@@ -28,6 +28,11 @@ export type TConnectionCode = {
   code: string;
 };
 
+export type TRequestPasswordReset = {
+  email: string
+}
+
+
 export type TSignUpSchema = z.infer<typeof singUpSchema>;
 export type TSignInSchema = z.infer<typeof signInSchema>;
 export type TVerificationCodeSchema = z.infer<typeof verificationCodeSchema>;

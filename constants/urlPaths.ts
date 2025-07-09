@@ -4,5 +4,6 @@ export const URL_PATHS = {
     LOGIN: "/auth/login",
     SING_UP: "/patients",
     CONNECTION_PATIENT_WITH_THERAPIST: "/auth/connect-patient-with-therapist"
+    CHANGE_PASSWORD : "/auth/password-change-request"
   },
 };

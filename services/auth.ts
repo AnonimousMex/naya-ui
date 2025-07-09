@@ -1,6 +1,7 @@
 import { HTTP } from "@/config/axios";
 import { URL_PATHS } from "@/constants/urlPaths";
 import { TConnectionCode, TConnectionCodeSchema, TSignInSchema, TSignUp, TVerificationCodeSchema } from "@/models/Auth";
+import {TRequestPasswordReset, TRequestPasswordResetSchema, TSignInSchema, TSignUp, TVerificationCodeSchema } from "@/models/Auth";
 import {
   TSingleDataResponse,
   TNoContentStatusResponse,
@@ -71,4 +72,17 @@ export const AUTH_SERVICE = {
 
     return data;
   },
+  
+  async requesChangePassword (
+    requestData: TRequestPasswordResetSchema,
+  ):Promise<TNoContentStatusResponse>{
+    const { data } = await HTTP.post<TNoContentStatusResponse>(
+        URL_PATHS.AUTH.CHANGE_PASSWORD,
+      {
+        ...requestData
+      }
+    );
+    return data
+  }
+
 };

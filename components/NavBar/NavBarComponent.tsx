@@ -12,12 +12,20 @@ const NavbarComponent: React.FC<NavbarComponentProps> = ({
 }) => {
   const widthAndHeight = "w-9 h-9";
   const bg = isTherapist ? "bg-pink-400" : "bg-red-900";
-  const navBg = isTherapist ? "bg-white" : "bg-slate-100";
+  const navBg = "bg-white";
 
   return (
     <View className={`${navBg} w-full`}>
       <View className="flex-row justify-around items-center h-[4rem] mx-4">
-        <TouchableOpacity onPress={() => router.push("/(mainPages)/home")}>
+        <TouchableOpacity
+          onPress={() =>
+            router.push(
+              isTherapist
+                ? "/(therapistPages)/therapist-home"
+                : "/(mainPages)/home",
+            )
+          }
+        >
           <View className="rounded-full">
             <Image source={ICONS.HOME_ICON} className={widthAndHeight} />
           </View>
@@ -27,7 +35,7 @@ const NavbarComponent: React.FC<NavbarComponentProps> = ({
           onPress={() =>
             router.push(
               isTherapist
-                ? "/(therapistPages)/therapist-home"
+                ? "/(therapistPages)/therapist-upcoming-appointments"
                 : "/(mainPages)/story-path",
             )
           }
@@ -40,7 +48,15 @@ const NavbarComponent: React.FC<NavbarComponentProps> = ({
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => router.push("/(mainPages)/insignias")}>
+        <TouchableOpacity
+          onPress={() =>
+            router.push(
+              isTherapist
+                ? "/(therapistPages)/therapist-list-patients"
+                : "/(mainPages)/insignias",
+            )
+          }
+        >
           <View className="rounded-full">
             <Image
               source={isTherapist ? ICONS.PEOPLE_ICON : ICONS.REWARD_NAV_ICON}
@@ -50,11 +66,13 @@ const NavbarComponent: React.FC<NavbarComponentProps> = ({
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => router.push(
-            isTherapist ?
-            "/(therapistPages)/therapist-home"
-            :
-            "/(therapistPages)/patient_profile")}
+          onPress={() =>
+            router.push(
+              isTherapist
+                ? "/(therapistPages)/therapist-profile"
+                : "/(mainPages)/user-profile",
+            )
+          }
         >
           <View
             className={`rounded-full w-11 h-11 ${bg} flex justify-center items-center overflow-hidden p-[0.5rem]`}
