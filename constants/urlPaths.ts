@@ -6,6 +6,9 @@ export const URL_PATHS = {
   },
   THERAPIST:{
     SCHEDULE_APPOINTMENT: "/schedule-appointment",
-    LIST_APPOINTMENTS: "/list-appointments"
+    RESCHEDULE_APPOINTMENT: "/reschedule-appointment",
+    LIST_APPOINTMENTS: "/list-appointments",
+    CANCEL_APPOINTMENT: "/cancel-appointment",
+    COMPLETE_APPOINTMENT: "/complete-appointment"
   }
 };

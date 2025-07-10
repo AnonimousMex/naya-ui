@@ -50,9 +50,14 @@ export const ERRORS: TError = {
     name: "USER_NOT_VERIFIED",
     message: ERROR_TEXTS.USER_NOT_VERIFIED,
   },
-  E015:{
-    code:"E015",
+  E017:{
+    code:"E017",
     name: "NO_APPOINTMENTS",
     message: ERROR_TEXTS.NO_APPOINTMENTS,
+  },
+  E018:{
+    code:"E018",
+    name: "APPOINTMENT_ALREADY_EXISTS",
+    message: ERROR_TEXTS.APPOINTMENT_ALREADY_EXISTS,
   }
 };

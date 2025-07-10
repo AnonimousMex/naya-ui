@@ -17,6 +17,7 @@ export type TLoginTokens = {
   refresh_token: string;
   user_type: "PATIENT" | "THERAPIST";
 };
+
 export type TSingUpToken = {
   name: string;
   email: string;
@@ -28,8 +29,38 @@ export type TSingUpToken = {
 
 export type TCreateAppointmentRequest = {
   token: string;
-  date: string;     // "YYYY-MM-DD"
-  time: string;     // "HH:mm"
+  date: string;     
+  time: string;    
   patient_id: string;
 };
+
+export type TListAppointmentsRequest = {
+  token: string
+  patient_id: string;
+}
+
+export type TAppointment = {
+  id: string;
+  patient_id: string;
+  date: string;     
+  time: string;    
+};
+export type TCancelAppointmentRequest = {     
+  id: string;
+};
+
+export type TListAppointmentResponse = TAppointment[];
+;
+
+export const emptyListAppointmentResponse: TSingleDataResponse<TListAppointmentResponse> = {
+  status: 200,
+  statusMessage: 'Empty default',
+  data: [] 
+};
+export type TRescheduleAppointment = {
+  id: string;
+  date: string;     
+  time: string;    
+};
+
 
