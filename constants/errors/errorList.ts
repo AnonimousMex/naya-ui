@@ -50,4 +50,9 @@ export const ERRORS: TError = {
     name: "USER_NOT_VERIFIED",
     message: ERROR_TEXTS.USER_NOT_VERIFIED,
   },
+  E014: {
+    code: "E014",
+    name: "CONECCTION_DOES_NOT_EXIST",
+    message: ERROR_TEXTS.CONNECTION_DOES_NOT_EXIST
+  }
 };
