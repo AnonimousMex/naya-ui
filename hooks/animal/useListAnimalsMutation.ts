@@ -15,8 +15,8 @@ export const useListAnimalsMutation = () => {
         return data;
       } catch (error) {
         showSnackbar({
-          type: "error",
-          message: errorMessage,
+        type: "error",
+        message: ERRORS.INTERNAL_SERVER_ERROR.message
         });
         return emptyListAnimalsResponse.data;
       }
