@@ -8,7 +8,7 @@ type TButtonPatientProfile = {
     bg: string,
     name: string,
     icon: ImageSourcePropType,
-    onPress: () => void,
+    onPress?: () => void,
 }
 
 const ButtonPatientProfile =({bg, name, icon, onPress}: TButtonPatientProfile) => {
