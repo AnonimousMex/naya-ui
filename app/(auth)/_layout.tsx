@@ -11,6 +11,7 @@ export default function Layout() {
       <Stack.Screen name="change-password" options={{ headerShown: false }} />
       <Stack.Screen name="request-password-reset" options={{ headerShown: false }} />
       <Stack.Screen name="verify-change-password-code" options={{ headerShown: false }} />
+      <Stack.Screen name="connection-therapist" options={{ headerShown: false }} />
     </Stack>
   );
 }
