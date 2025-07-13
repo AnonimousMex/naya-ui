@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   ScrollView,
@@ -12,33 +12,9 @@ import { IMAGES } from "@/constants/images";
 import { SafeAreaView } from "react-native-safe-area-context";
 import NavbarComponent from "@/components/NavBar/NavBarComponent";
 import { router } from "expo-router";
+import { useListPatientsMutation } from "@/hooks/therapist/useListPatientsMutation";
+import { TPatient } from "@/models/therapist";
 
-const patients = [
-  {
-    id: "u1",
-    name: "Hilary Arroyo Martinez",
-    avatar: IMAGES.HAPPY_AXOLOTL_HEAD,
-    circleColor: "#C8B8B4",
-  },
-  {
-    id: "u2",
-    name: "Francisco Rivera Rodriguez",
-    avatar: IMAGES.HAPPY_LION_HEAD,
-    circleColor: "#F9D7B5",
-  },
-  {
-    id: "u3",
-    name: "José Antonio Cisneros",
-    avatar: IMAGES.HAPPY_PANDA_HEAD,
-    circleColor: "#D6E6F2",
-  },
-  {
-    id: "u4",
-    name: "Alejandra Cisneros Pascual",
-    avatar: IMAGES.HAPPY_BUNNY_HEAD,
-    circleColor: "#BEE3DB",
-  },
-];
 
 const CARD_MARGIN = 8;
 const NUM_COLUMNS = 2;
@@ -48,7 +24,21 @@ const CARD_WIDTH =
   (SCREEN_WIDTH - CONTAINER_PADDING - CARD_MARGIN * (NUM_COLUMNS + 1)) /
   NUM_COLUMNS;
 
+  
 const TherapistHome = () => {
+  
+  const {mutate, data , }= useListPatientsMutation()
+  const [displayPatients, setDisplayPatients] = useState<TPatient[]>([]);
+
+  useEffect(() => {
+    mutate();
+  }, [])
+  useEffect(() => {
+    if (data?.data) {
+      setDisplayPatients(data.data);
+    }
+  }, [data]);
+
   return (
     <View className="flex-1 bg-pink-200">
       <TherapistTopBar />
@@ -59,7 +49,7 @@ const TherapistHome = () => {
         <View className="px-5">
           <View className="flex-row justify-between items-center mb-2 mt-5">
             <Text className="text-brown-800 font-bold text-lg font-UrbanistBold">
-              Consultas
+              Consultas 
             </Text>
             <TouchableOpacity
               onPress={() =>
@@ -85,18 +75,28 @@ const TherapistHome = () => {
               </Text>
             </TouchableOpacity>
           </View>
+          { displayPatients.length == 0 ? (
+            <View className="flex items-center mt-8">
+              <Text className=" text-xl font-UrbanistLight ">
+                Aun no tienes pacientes asignados
+              </Text>
+            </View>
+          ):
+          (
           <View className="flex-row flex-wrap justify-between">
-            {patients.map((p) => (
+            {displayPatients.map((p) => (
               <PatientCard
-                key={p.id}
-                id={p.id}
+                key={p.patient_id}
+                id={p.patient_id}
                 name={p.name}
-                avatar={p.avatar}
+                avatar={p.avatar || IMAGES.HAPPY_AXOLOTL_HEAD} //Provisional
                 width={CARD_WIDTH}
-                circleColor={p.circleColor}
+                circleColor={p.circleColor} //provisional
+                type="patient"
               />
             ))}
           </View>
+          )}
         </View>
       </ScrollView>
       <SafeAreaView

@@ -6,4 +6,8 @@ export const URL_PATHS = {
     CONNECTION_PATIENT_WITH_THERAPIST: "/auth/connect-patient-with-therapist"
     CHANGE_PASSWORD : "/auth/password-change-request"
   },
+  THERAPIST: {
+    LIST_PATIENTS: "/therapist/list-patients",
+    CLOSE_CONNETION: "/disconnect-patient"
+  }
 };
