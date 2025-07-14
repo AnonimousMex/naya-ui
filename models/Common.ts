@@ -1,4 +1,5 @@
 import { Control } from "react-hook-form";
+import { TPatient } from "./therapist";
 
 export type ReactHookFormControl = Control<any, object>;
 
@@ -63,4 +64,12 @@ export type TRescheduleAppointment = {
   time: string;    
 };
 
+export type TListPatientsResponse = TPatient[];
+;
+
+export const emptyListPatientsResponse: TSingleDataResponse<TListPatientsResponse> = {
+  status: 200,
+  statusMessage: 'Empty default',
+  data: [] 
+};
 

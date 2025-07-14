@@ -27,7 +27,7 @@ function Home() {
             name="Memociones"
             background={IMAGES.MEMOCIONES_IMAGE}
             onPressButton={() => {
-              router.push("/(mainPages)/insignias");
+              router.push("/(memociones)/memociones-main-page");
             }}
           />
           <ShortPanel

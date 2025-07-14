@@ -171,7 +171,7 @@ const PatientAppoinment = () => {
         >
           <View className="relative h-16 justify-center">
             <View className="absolute left-0 top-0 bottom-0 justify-center px-5">
-              <BackButton onPress={() => router.push("/(auth)/welcome")} />
+              <BackButton onPress={() => router.back()} />
             </View>
             <Text className="text-slate-100 font-UrbanistBold text-4xl text-center" style={{ letterSpacing: -1 }}>
               Consultas

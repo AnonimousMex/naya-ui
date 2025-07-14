@@ -16,4 +16,6 @@ export enum ERROR_TEXTS {
   USER_NOT_VERIFIED = "El usuario aún no ha sido verificado",
   NO_APPOINTMENTS = "Este paciente no tiene citas agendadas",
   APPOINTMENT_ALREADY_EXISTS = "Ya agendaste una cita a esa hora"
+  CONNECTION_WITH_THERAPIST_ALREADY_EXISTS = "Ya tiene una conexion con ese psicólogo.",
+  CONNECTION_DOES_NOT_EXIST = "No se tiene ninguna conexión de trabajo con este paciente"
 }

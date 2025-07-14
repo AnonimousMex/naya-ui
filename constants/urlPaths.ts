@@ -3,12 +3,16 @@ export const URL_PATHS = {
     VERIFY_CODE: "/auth/verification-code",
     LOGIN: "/auth/login",
     SING_UP: "/patients",
+    CONNECTION_PATIENT_WITH_THERAPIST: "/auth/connect-patient-with-therapist"
+    CHANGE_PASSWORD : "/auth/password-change-request"
   },
   THERAPIST:{
     SCHEDULE_APPOINTMENT: "/schedule-appointment",
     RESCHEDULE_APPOINTMENT: "/reschedule-appointment",
     LIST_APPOINTMENTS: "/list-appointments",
     CANCEL_APPOINTMENT: "/cancel-appointment",
-    COMPLETE_APPOINTMENT: "/complete-appointment"
+    COMPLETE_APPOINTMENT: "/complete-appointment",
+    LIST_PATIENTS: "/therapist/list-patients",
+    CLOSE_CONNETION: "/disconnect-patient"
   }
 };
