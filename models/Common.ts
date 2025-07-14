@@ -58,7 +58,7 @@ export const emptyListAppointmentResponse: TSingleDataResponse<TListAppointmentR
   data: [] 
 };
 export type TRescheduleAppointment = {
-  id: string;
+  appointment_id: string;
   date: string;     
   time: string;    
 };

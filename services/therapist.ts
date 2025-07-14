@@ -42,10 +42,10 @@ export const THERAPIST_SERVICE = {
   },
 
   async cancelAppointment(
-    id: string): Promise<TNoContentStatusResponse> {
+    appointment_id: string): Promise<TNoContentStatusResponse> {
     const { data } = await HTTP.put<TNoContentStatusResponse>(
       URL_PATHS.THERAPIST.CANCEL_APPOINTMENT,
-      { id }
+      { appointment_id }
     );
     return data;
   },
@@ -67,10 +67,10 @@ export const THERAPIST_SERVICE = {
   },
 
    async completeAppointment(
-    id: string): Promise<TNoContentStatusResponse> {
+    appointment_id: string): Promise<TNoContentStatusResponse> {
     const { data } = await HTTP.put<TNoContentStatusResponse>(
       URL_PATHS.THERAPIST.COMPLETE_APPOINTMENT,
-      { id }
+      { appointment_id }
     );
     return data;
   },

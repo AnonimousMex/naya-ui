@@ -327,7 +327,7 @@ const PatientAppoinment = () => {
                             const token = await AsyncStorage.getItem("accessToken");
                             if (!isSameDateTime(scheduledDateTime, selectedAppointment.datetime)) {
                               rescheduleAppointmentMutation.mutate(
-                                { token: token!, id: selectedAppointment.id, date: dateStr, time: timeStr },
+                                { token: token!, appointment_id: selectedAppointment.id, date: dateStr, time: timeStr },
                                 {
                                   onSuccess: () => {
                                     fetchAppointments();

@@ -6,8 +6,8 @@ export const useCompleteAppointmentMutation = () => {
   const { showSnackbar } = useSnackbar();
 
   return useMutation({
-    mutationFn: (id: string ) =>
-      THERAPIST_SERVICE.completeAppointment(id),
+    mutationFn: (appointment_id: string ) =>
+      THERAPIST_SERVICE.completeAppointment(appointment_id),
 
     onSuccess: () => {
       showSnackbar({ type: "success", message: "Cita completada correctamente." });

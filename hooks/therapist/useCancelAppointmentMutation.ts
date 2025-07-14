@@ -6,8 +6,8 @@ export const useCancelAppointmentMutation = () => {
   const { showSnackbar } = useSnackbar();
 
   return useMutation({
-    mutationFn: (id: string ) =>
-      THERAPIST_SERVICE.cancelAppointment(id),
+    mutationFn: (appointment_id: string ) =>
+      THERAPIST_SERVICE.cancelAppointment(appointment_id),
 
     onSuccess: () => {
       showSnackbar({ type: "success", message: "Cita cancelada correctamente." });
