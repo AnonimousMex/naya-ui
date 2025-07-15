@@ -14,14 +14,32 @@ const Affirmation = () => {
     "#F77078",
   ] as const;
 
+  const affirmations = [
+    {
+      title: "Confío en mí mismo",
+      description:
+        "Hoy elijo confiar en mí. Soy capaz de aprender cosas nuevas, hacer amigos y resolver problemas. Mi corazón es valiente y mi mente es fuerte.",
+    },
+    {
+      title: "Soy valiente",
+      description:
+        "No importa si algo es difícil. Yo puedo intentarlo con todo mi corazón y dar lo mejor de mí cada día.",
+    },
+    {
+      title: "Merezco ser feliz",
+      description:
+        "Mi felicidad es importante. Puedo disfrutar de las cosas pequeñas y grandes que me rodean.",
+    },
+  ];
+
   const happyImages = Object.entries(IMAGES)
     .filter(([key]) => key.startsWith("HAPPY_") && !key.includes("_HEAD"))
     .map(([_, value]) => value);
 
+  const [affirmation, setAffirmation] = useState(affirmations[0]);
   const [bgColor, setBgColor] = useState<(typeof bgColors)[number]>(
     bgColors[0],
   );
-
   const [randomImage, setRandomImage] = useState(happyImages[0]);
 
   useEffect(() => {
@@ -35,16 +53,29 @@ const Affirmation = () => {
       const storedColorIndex = await AsyncStorage.getItem(
         "lastAffirmationColorIndex",
       );
+      const storedAffirmationIndex = await AsyncStorage.getItem(
+        "lastAffirmationIndex",
+      );
 
-      if (storedDate === today && storedImageIndex && storedColorIndex) {
+      if (
+        storedDate === today &&
+        storedImageIndex &&
+        storedColorIndex &&
+        storedAffirmationIndex
+      ) {
         setRandomImage(happyImages[parseInt(storedImageIndex)]);
         setBgColor(bgColors[parseInt(storedColorIndex)]);
+        setAffirmation(affirmations[parseInt(storedAffirmationIndex)]);
       } else {
         const newImageIndex = Math.floor(Math.random() * happyImages.length);
         const newColorIndex = Math.floor(Math.random() * bgColors.length);
+        const newAffirmationIndex = Math.floor(
+          Math.random() * affirmations.length,
+        );
 
         setRandomImage(happyImages[newImageIndex]);
         setBgColor(bgColors[newColorIndex]);
+        setAffirmation(affirmations[newAffirmationIndex]);
 
         await AsyncStorage.setItem("lastAffirmationDate", today);
         await AsyncStorage.setItem(
@@ -54,6 +85,10 @@ const Affirmation = () => {
         await AsyncStorage.setItem(
           "lastAffirmationColorIndex",
           newColorIndex.toString(),
+        );
+        await AsyncStorage.setItem(
+          "lastAffirmationIndex",
+          newAffirmationIndex.toString(),
         );
       }
     };
@@ -76,12 +111,10 @@ const Affirmation = () => {
         }}
       />
       <Text className="text-3xl font-extrabold text-brown-700 text-center mb-8 text-white">
-        Confío en mí mismo
+        {affirmation.title}
       </Text>
       <Text className="text-lg font-extrabold text-brown-700 text-center mb-8 text-white">
-        Hoy elijo confiar en mí. Soy capaz de aprender cosas nuevas, hacer
-        amigos y resolver problemas. Mi corazón es valiente y mi mente es
-        fuerte.
+        {affirmation.description}
       </Text>
       <MainButton
         mainText="Continuar"
