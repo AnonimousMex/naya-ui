@@ -1,17 +1,26 @@
+import { GameHeader } from "@/components/GameHeader";
 import { LargePanel, ShortPanel } from "@/components/HomeComponents";
 import { CloudBackground } from "@/components/MainPanesComponents/CloudBackground";
 import { NavbarComponent } from "@/components/NavBar";
 import { IMAGES } from "@/constants/images";
 import { router } from "expo-router";
 import React from "react";
-import { ScrollView, View } from "react-native";
+import { ScrollView, View, Dimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 function Home() {
+  
   return (
     <SafeAreaView className="w-full h-full bg-pink-200">
       <CloudBackground />
-      <ScrollView className="mt-8 px-7 " showsVerticalScrollIndicator={false}>
+      <ScrollView className="mt-8 px-7" showsVerticalScrollIndicator={false}>
+        <View className="flex justify-center items-center mb-10">
+          <GameHeader
+            energyActive={2}
+            name="Rodrigo"
+            avatar={IMAGES.HAPPY_CAT_HEAD} //provicional
+          />
+        </View>
         <LargePanel
           name="Detective"
           description="Explora, adivina y comprende cómo te sientes!"
