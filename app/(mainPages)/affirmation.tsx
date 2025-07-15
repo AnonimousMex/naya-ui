@@ -4,6 +4,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { IMAGES } from "@/constants/images";
 import { router } from "expo-router";
 import { MainButton } from "@/components/MainButton";
+import { AUTH_SERVICE } from "@/services/auth";
+
+type TDailyMessage = {
+  id: string;
+  title: string;
+  description: string;
+};
 
 const Affirmation = () => {
   const bgColors = [
@@ -14,29 +21,16 @@ const Affirmation = () => {
     "#F77078",
   ] as const;
 
-  const affirmations = [
-    {
-      title: "Confío en mí mismo",
-      description:
-        "Hoy elijo confiar en mí. Soy capaz de aprender cosas nuevas, hacer amigos y resolver problemas. Mi corazón es valiente y mi mente es fuerte.",
-    },
-    {
-      title: "Soy valiente",
-      description:
-        "No importa si algo es difícil. Yo puedo intentarlo con todo mi corazón y dar lo mejor de mí cada día.",
-    },
-    {
-      title: "Merezco ser feliz",
-      description:
-        "Mi felicidad es importante. Puedo disfrutar de las cosas pequeñas y grandes que me rodean.",
-    },
-  ];
-
   const happyImages = Object.entries(IMAGES)
     .filter(([key]) => key.startsWith("HAPPY_") && !key.includes("_HEAD"))
     .map(([_, value]) => value);
 
-  const [affirmation, setAffirmation] = useState(affirmations[0]);
+  const [affirmation, setAffirmation] = useState<TDailyMessage>({
+    id: "",
+    title: "",
+    description: "",
+  });
+
   const [bgColor, setBgColor] = useState<(typeof bgColors)[number]>(
     bgColors[0],
   );
@@ -53,43 +47,47 @@ const Affirmation = () => {
       const storedColorIndex = await AsyncStorage.getItem(
         "lastAffirmationColorIndex",
       );
-      const storedAffirmationIndex = await AsyncStorage.getItem(
-        "lastAffirmationIndex",
+      const storedAffirmation = await AsyncStorage.getItem(
+        "lastAffirmationData",
       );
 
       if (
         storedDate === today &&
         storedImageIndex &&
         storedColorIndex &&
-        storedAffirmationIndex
+        storedAffirmation
       ) {
         setRandomImage(happyImages[parseInt(storedImageIndex)]);
         setBgColor(bgColors[parseInt(storedColorIndex)]);
-        setAffirmation(affirmations[parseInt(storedAffirmationIndex)]);
+        setAffirmation(JSON.parse(storedAffirmation));
       } else {
         const newImageIndex = Math.floor(Math.random() * happyImages.length);
         const newColorIndex = Math.floor(Math.random() * bgColors.length);
-        const newAffirmationIndex = Math.floor(
-          Math.random() * affirmations.length,
-        );
 
-        setRandomImage(happyImages[newImageIndex]);
-        setBgColor(bgColors[newColorIndex]);
-        setAffirmation(affirmations[newAffirmationIndex]);
+        try {
+          const data = await AUTH_SERVICE.getDailyMessage();
 
-        await AsyncStorage.setItem("lastAffirmationDate", today);
-        await AsyncStorage.setItem(
-          "lastAffirmationImageIndex",
-          newImageIndex.toString(),
-        );
-        await AsyncStorage.setItem(
-          "lastAffirmationColorIndex",
-          newColorIndex.toString(),
-        );
-        await AsyncStorage.setItem(
-          "lastAffirmationIndex",
-          newAffirmationIndex.toString(),
-        );
+          setRandomImage(happyImages[newImageIndex]);
+          setBgColor(bgColors[newColorIndex]);
+          setAffirmation(data);
+
+          await AsyncStorage.setItem("lastAffirmationDate", today);
+          await AsyncStorage.setItem(
+            "lastAffirmationImageIndex",
+            newImageIndex.toString(),
+          );
+          await AsyncStorage.setItem(
+            "lastAffirmationColorIndex",
+            newColorIndex.toString(),
+          );
+          await AsyncStorage.setItem(
+            "lastAffirmationData",
+            JSON.stringify(data),
+          );
+        } catch (error) {
+          console.error("Error al cargar afirmación diaria:", error);
+          // Podrías manejar un fallback aquí
+        }
       }
     };
 
