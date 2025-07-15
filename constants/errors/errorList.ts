@@ -50,6 +50,15 @@ export const ERRORS: TError = {
     name: "USER_NOT_VERIFIED",
     message: ERROR_TEXTS.USER_NOT_VERIFIED,
   },
+  E017:{
+    code:"E017",
+    name: "NO_APPOINTMENTS",
+    message: ERROR_TEXTS.NO_APPOINTMENTS,
+  },
+  E018:{
+    code:"E018",
+    name: "APPOINTMENT_ALREADY_EXISTS",
+    message: ERROR_TEXTS.APPOINTMENT_ALREADY_EXISTS,
   E013: {
     code: "E013",
     name: "CONNECTION_WITH_THERAPIST_ALREADY_EXISTS",
@@ -59,5 +68,6 @@ export const ERRORS: TError = {
     code: "E014",
     name: "CONECCTION_DOES_NOT_EXIST",
     message: ERROR_TEXTS.CONNECTION_DOES_NOT_EXIST
+
   }
 };
