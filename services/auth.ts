@@ -1,7 +1,14 @@
 import { HTTP } from "@/config/axios";
 import { URL_PATHS } from "@/constants/urlPaths";
-import { TConnectionCode, TConnectionCodeSchema, TSignInSchema, TSignUp, TVerificationCodeSchema } from "@/models/Auth";
-import {TRequestPasswordReset, TRequestPasswordResetSchema, TSignInSchema, TSignUp, TVerificationCodeSchema } from "@/models/Auth";
+import {
+  TConnectionCode,
+  TConnectionCodeSchema,
+  TSignInSchema,
+  TSignUp,
+  TVerificationCodeSchema,
+  TRequestPasswordReset,
+  TRequestPasswordResetSchema,
+} from "@/models/Auth";
 import {
   TSingleDataResponse,
   TNoContentStatusResponse,
@@ -34,7 +41,7 @@ export const AUTH_SERVICE = {
 
     return data;
   },
-  
+
   async verifyChangePasswordCode(
     requestData: TVerificationCodeSchema,
   ): Promise<TNoContentStatusResponse> {
@@ -46,43 +53,44 @@ export const AUTH_SERVICE = {
     return data;
   },
 
-  async singUp (patientData: TSignUp): Promise<TSingleDataResponse<TSingUpToken>>{
+  async singUp(
+    patientData: TSignUp,
+  ): Promise<TSingleDataResponse<TSingUpToken>> {
     const { data } = await HTTP.post<TSingleDataResponse<TSingUpToken>>(
       URL_PATHS.AUTH.SING_UP,
       {
-        ...patientData
-      }
+        ...patientData,
+      },
     );
-    return data
+    return data;
   },
 
-   async connectionPatientWithTherapist(
+  async connectionPatientWithTherapist(
     requestData: TConnectionCodeSchema,
   ): Promise<TNoContentStatusResponse> {
     const { token, code } = requestData;
     const { data } = await HTTP.post<TNoContentStatusResponse>(
-    URL_PATHS.AUTH.CONNECTION_PATIENT_WITH_THERAPIST,
-    { code }, 
-    {
-      headers: {
-        Authorization: ` ${token}`,
+      URL_PATHS.AUTH.CONNECTION_PATIENT_WITH_THERAPIST,
+      { code },
+      {
+        headers: {
+          Authorization: ` ${token}`,
+        },
       },
-    }
-  );
+    );
 
     return data;
   },
-  
-  async requesChangePassword (
-    requestData: TRequestPasswordResetSchema,
-  ):Promise<TNoContentStatusResponse>{
-    const { data } = await HTTP.post<TNoContentStatusResponse>(
-        URL_PATHS.AUTH.CHANGE_PASSWORD,
-      {
-        ...requestData
-      }
-    );
-    return data
-  }
 
+  async requesChangePassword(
+    requestData: TRequestPasswordResetSchema,
+  ): Promise<TNoContentStatusResponse> {
+    const { data } = await HTTP.post<TNoContentStatusResponse>(
+      URL_PATHS.AUTH.CHANGE_PASSWORD,
+      {
+        ...requestData,
+      },
+    );
+    return data;
+  },
 };

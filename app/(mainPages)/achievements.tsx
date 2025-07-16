@@ -11,7 +11,7 @@ const Achievements = () => {
     <SafeAreaView className="flex-1 bg-slate-100">
       <View className="flex-1">
         <ScrollView
-          contentContainerStyle={{ paddingBottom: 80 }} // espacio para navbar
+          contentContainerStyle={{ paddingBottom: 80 }}
           showsVerticalScrollIndicator
         >
           <View className="mt-16 px-7 mb-8">
