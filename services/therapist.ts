@@ -1,9 +1,14 @@
 
 import { HTTP } from "@/config/axios";
 import { URL_PATHS } from "@/constants/urlPaths";
-import { TNoContentStatusResponse } from "@/models/Common";
-import { TCreateAppointmentRequest, TSingleDataResponse, TListAppointmentResponse, TRescheduleAppointment } from "@/models/Common";
-import { TListPatientsResponse, TNoContentStatusResponse, TSingleDataResponse } from '@/models/Common'
+import { 
+  TCreateAppointmentRequest, 
+  TSingleDataResponse, 
+  TListAppointmentResponse, 
+  TRescheduleAppointment,
+  TListPatientsResponse,
+  TNoContentStatusResponse
+} from "@/models/Common";
 import { TCloseConnection } from '@/models/therapist'
 
 export const THERAPIST_SERVICE = {
