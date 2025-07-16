@@ -86,7 +86,6 @@ const Affirmation = () => {
           );
         } catch (error) {
           console.error("Error al cargar afirmación diaria:", error);
-          // Podrías manejar un fallback aquí
         }
       }
     };
