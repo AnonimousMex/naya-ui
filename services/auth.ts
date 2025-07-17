@@ -6,7 +6,6 @@ import {
   TSignInSchema,
   TSignUp,
   TVerificationCodeSchema,
-  TRequestPasswordReset,
   TRequestPasswordResetSchema,
 } from "@/models/Auth";
 import {
@@ -24,7 +23,6 @@ export const AUTH_SERVICE = {
       URL_PATHS.AUTH.VERIFY_CODE,
       requestData,
     );
-
     return data;
   },
 
@@ -38,7 +36,6 @@ export const AUTH_SERVICE = {
       payload,
       { headers: { "Content-Type": "application/x-www-form-urlencoded" } },
     );
-
     return data;
   },
 
@@ -49,7 +46,6 @@ export const AUTH_SERVICE = {
       URL_PATHS.AUTH.VERIFY_CODE,
       requestData,
     );
-
     return data;
   },
 
@@ -58,9 +54,7 @@ export const AUTH_SERVICE = {
   ): Promise<TSingleDataResponse<TSingUpToken>> {
     const { data } = await HTTP.post<TSingleDataResponse<TSingUpToken>>(
       URL_PATHS.AUTH.SING_UP,
-      {
-        ...patientData,
-      },
+      patientData,
     );
     return data;
   },
@@ -78,7 +72,6 @@ export const AUTH_SERVICE = {
         },
       },
     );
-
     return data;
   },
 
@@ -87,10 +80,17 @@ export const AUTH_SERVICE = {
   ): Promise<TNoContentStatusResponse> {
     const { data } = await HTTP.post<TNoContentStatusResponse>(
       URL_PATHS.AUTH.CHANGE_PASSWORD,
-      {
-        ...requestData,
-      },
+      requestData,
     );
+    return data;
+  },
+
+  async getDailyMessage(): Promise<{
+    id: string;
+    title: string;
+    description: string;
+  }> {
+    const { data } = await HTTP.get(URL_PATHS.AUTH.DAILY_MESSAGE);
     return data;
   },
 };

@@ -5,6 +5,7 @@ export const URL_PATHS = {
     SING_UP: "/patients",
     CONNECTION_PATIENT_WITH_THERAPIST: "/auth/connect-patient-with-therapist",
     CHANGE_PASSWORD: "/auth/password-change-request",
+    DAILY_MESSAGE: "/auth/daily",
   },
   THERAPIST: {
     SCHEDULE_APPOINTMENT: "/schedule-appointment",
