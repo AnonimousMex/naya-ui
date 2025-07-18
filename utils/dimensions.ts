@@ -18,6 +18,8 @@ export const useScreenDimensions = () => {
   const axolotlLoginHeight = height * 0.3;
   const bunnyLoginWidth = width * 0.9;
   const bunnyLoginHeight = height * 0.3;
+  const affirmationAnimalWidth = width * 0.9;
+  const affirmationAnimalHeigth = width * 0.3;
 
   return {
     width,
@@ -33,5 +35,7 @@ export const useScreenDimensions = () => {
     axolotlLoginWidth,
     bunnyLoginWidth,
     bunnyLoginHeight,
+    affirmationAnimalWidth,
+    affirmationAnimalHeigth,
   };
 };

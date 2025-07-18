@@ -50,11 +50,9 @@ export const requestPasswordResetSchema = z.object({
 });
 
 export const connectionCodeSchema = z.object({
-  token: z.string(), 
+  token: z.string(),
   code: z
     .string()
     .length(4, ERROR_TEXTS.GENERIC_INVALID_FIELD)
     .regex(/^\d{4}$/, ERROR_TEXTS.GENERIC_INVALID_FIELD),
 });
-
-
