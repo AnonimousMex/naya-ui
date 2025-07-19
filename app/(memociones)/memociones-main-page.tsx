@@ -19,6 +19,43 @@ function shuffle<T>(arr: T[]): T[] {
   return [...arr].sort(() => Math.random() - 0.5);
 }
 
+type EmotionKey =
+  | "feliz"
+  | "triste"
+  | "enojo"
+  | "temor"
+  | "vergüenza"
+  | "sorpresa";
+
+const EMOTION_IMAGES: Record<EmotionKey, any[]> = {
+  feliz: Object.entries(IMAGES)
+    .filter(([key]) => key.startsWith("HAPPY_") && !key.includes("HEAD"))
+    .map(([, value]) => value),
+  triste: Object.entries(IMAGES)
+    .filter(([key]) => key.startsWith("SAD_"))
+    .map(([, value]) => value),
+  enojo: Object.entries(IMAGES)
+    .filter(([key]) => key.startsWith("ANGRY_"))
+    .map(([, value]) => value),
+  temor: Object.entries(IMAGES)
+    .filter(([key]) => key.startsWith("FEAR_"))
+    .map(([, value]) => value),
+  vergüenza: Object.entries(IMAGES)
+    .filter(([key]) => key.startsWith("SHAME_"))
+    .map(([, value]) => value),
+  sorpresa: [IMAGES.HAPPY_AXOLOTL_2],
+};
+
+function getEmotionImage(emotion: string) {
+  const key = emotion.toLowerCase() as EmotionKey;
+  const images = EMOTION_IMAGES[key];
+
+  if (!images || images.length === 0) return IMAGES.NAYA_LOGO;
+
+  const randomIndex = Math.floor(Math.random() * images.length);
+  return images[randomIndex];
+}
+
 function buildDeckFromAPI(pairs: TMemocionPair[]): CardData[] {
   return shuffle(
     pairs.flatMap((p, i) => [
@@ -37,25 +74,6 @@ function buildDeckFromAPI(pairs: TMemocionPair[]): CardData[] {
       },
     ]),
   );
-}
-
-function getEmotionImage(emotion: string) {
-  switch (emotion.toLowerCase()) {
-    case "feliz":
-      return IMAGES.HAPPY_AXOLOTL_1;
-    case "triste":
-      return IMAGES.HAPPY_BUNNY_1;
-    case "enojo":
-      return IMAGES.HAPPY_CAT_1;
-    case "temor":
-      return IMAGES.HAPPY_LION_1;
-    case "vergüenza":
-      return IMAGES.HAPPY_PANDA_HEAD;
-    case "sorpresa":
-      return IMAGES.HAPPY_AXOLOTL_2;
-    default:
-      return IMAGES.NAYA_LOGO;
-  }
 }
 
 const MemoramaScreen = () => {

@@ -1,14 +1,12 @@
 import { HTTP } from "@/config/axios";
 import { URL_PATHS } from "@/constants/urlPaths";
 
-// Tipo que usarás en el frontend
 export type TMemocionPair = {
   pairId: string;
   emotion: string;
   situation: string;
 };
 
-// Tipo crudo que viene del backend
 type TMemocionPairRaw = {
   pair_id: string;
   emotion: string;
