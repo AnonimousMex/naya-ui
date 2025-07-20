@@ -41,7 +41,7 @@ export const useLoginMutation = (opts: LoginOpts = {}) => {
       } else if (!animal_id) {
         router.replace("/(auth)/profile-choice");
       } else {
-        router.replace("/(mainPages)/home");
+        router.replace("/(mainPages)/affirmation");
       }
 
       showSnackbar({ type: "success", message: SUCCESS_TEXTS.LOGIN_SUCCESS });

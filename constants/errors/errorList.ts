@@ -55,14 +55,29 @@ export const ERRORS: TError = {
     name: "FETCH_ANIMALS_ERROR",
     message: ERROR_TEXTS.FETCH_ANIMALS_ERROR,
   },
-  E013: {
-    code: "E013",
+  E015: {
+    code: "E015",
     name: "PROFILE_CHOICE_REQUIRED",
     message: ERROR_TEXTS.PROFILE_CHOICE_REQUIRED,
+  },
+  E017: {
+    code: "E017",
+    name: "NO_APPOINTMENTS",
+    message: ERROR_TEXTS.NO_APPOINTMENTS,
+  },
+  E018: {
+    code: "E018",
+    name: "APPOINTMENT_ALREADY_EXISTS",
+    message: ERROR_TEXTS.APPOINTMENT_ALREADY_EXISTS,
+  },
+  E013: {
+    code: "E013",
+    name: "CONNECTION_WITH_THERAPIST_ALREADY_EXISTS",
+    message: ERROR_TEXTS.CONNECTION_WITH_THERAPIST_ALREADY_EXISTS,
   },
   E014: {
     code: "E014",
     name: "CONECCTION_DOES_NOT_EXIST",
-    message: ERROR_TEXTS.CONNECTION_DOES_NOT_EXIST
-  }
+    message: ERROR_TEXTS.CONNECTION_DOES_NOT_EXIST,
+  },
 };

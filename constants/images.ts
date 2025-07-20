@@ -34,6 +34,8 @@ import detailsIcon from "@/assets/icons/details_icon.png";
 import timerIcon from "@/assets/icons/timer-date-icon.png";
 import playIcon from "@/assets/icons/play-icon.png";
 import closeIcon from "@/assets/icons/close-circle-icon.png"
+import energyInactiveIcon from "@/assets/icons/energy-inactive-icon.png"
+import energyActiveIcon from "@/assets/icons/energy-active-icon.png"
 
 import cloudsImage from "@/assets/images/home/clouds.png";
 import arrowRight from "@/assets/images/arrow-right.png";
@@ -108,6 +110,8 @@ export const ICONS = {
   TIMER_ICON: timerIcon,
   PLAY_ICON: playIcon,
   CLOSE_ICON: closeIcon,
+  ENERGY_ACTIVE_ICON: energyActiveIcon,
+  ENERGY_INACTIVE_ICON: energyInactiveIcon,
 };
 
 export const IMAGES = {

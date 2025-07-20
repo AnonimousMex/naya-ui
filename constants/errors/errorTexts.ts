@@ -14,7 +14,10 @@ export enum ERROR_TEXTS {
   INVALID_CODE = "El código ingresado es inválido.",
   EXISTING_CODE = "El código ingresado ya ha sido utilizado.",
   USER_NOT_VERIFIED = "El usuario aún no ha sido verificado",
+  NO_APPOINTMENTS = "Este paciente no tiene citas agendadas",
+  APPOINTMENT_ALREADY_EXISTS = "Ya agendaste una cita a esa hora",
+  CONNECTION_WITH_THERAPIST_ALREADY_EXISTS = "Ya tiene una conexion con ese psicólogo.",
   FETCH_ANIMALS_ERROR = "No se pudieron cargar los avatars. Por favor, intenta de nuevo.",
   PROFILE_CHOICE_REQUIRED = "Debes seleccionar un avatar de perfil.",
-  CONNECTION_DOES_NOT_EXIST = "No se tiene ninguna conexión de trabajo con este paciente"
+  CONNECTION_DOES_NOT_EXIST = "No se tiene ninguna conexión de trabajo con este paciente",
 }

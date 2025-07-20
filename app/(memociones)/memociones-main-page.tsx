@@ -146,7 +146,7 @@ const MemoramaScreen = () => {
             source={require("@/assets/animations/victory.json")}
             autoPlay
             loop
-            style={{ width: 300, height: 800 }}
+            style={{ width: 300, height: 500 }}
           />
           <MainButton
             mainText="Continuar"

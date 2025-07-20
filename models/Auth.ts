@@ -3,6 +3,7 @@ import {
   signInSchema,
   verificationCodeSchema,
   requestPasswordResetSchema,
+  connectionCodeSchema,
 } from "@/schemas/authSchema";
 import * as z from "zod";
 
@@ -22,11 +23,19 @@ export type TVerificationCode = {
   code: string;
 };
 
+export type TConnectionCode = {
+  token: string;
+  code: string;
+};
+
 export type TRequestPasswordReset = {
-  email: string
-}
+  email: string;
+};
 
 export type TSignUpSchema = z.infer<typeof singUpSchema>;
 export type TSignInSchema = z.infer<typeof signInSchema>;
 export type TVerificationCodeSchema = z.infer<typeof verificationCodeSchema>;
-export type TRequestPasswordResetSchema = z.infer<typeof requestPasswordResetSchema>;
+export type TRequestPasswordResetSchema = z.infer<
+  typeof requestPasswordResetSchema
+>;
+export type TConnectionCodeSchema = z.infer<typeof connectionCodeSchema>;

@@ -48,3 +48,11 @@ export const requestPasswordResetSchema = z.object({
     ERROR_TEXTS.INVALID_EMAIL_FIELD,
   ).max(40, MAX_LENGTH_MESSAGE(40)),
 });
+
+export const connectionCodeSchema = z.object({
+  token: z.string(),
+  code: z
+    .string()
+    .length(4, ERROR_TEXTS.GENERIC_INVALID_FIELD)
+    .regex(/^\d{4}$/, ERROR_TEXTS.GENERIC_INVALID_FIELD),
+});
