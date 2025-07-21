@@ -44,8 +44,8 @@ function PuzzlePiece({ index, shape, shuffledPieces, correctPieces }: Props) {
   // Usar el mismo cálculo que PuzzleSpot para grid 3x3
   const initialX = Math.round(PUZZLE_PIECE_SIZE * piece.x);
   const initialY = Math.round(PUZZLE_PIECE_SIZE * piece.y);
-  const shuffledX = Math.round(SVG_SIZE * shuffledPiece.x - PIECES_DISTANCE);
-  const shuffledY = Math.round(SVG_SIZE * shuffledPiece.y);
+  const shuffledX = Math.round(SVG_SIZE * shuffledPiece.x);
+  const shuffledY = Math.round(SVG_SIZE * shuffledPiece.y + 2 * PIECES_DISTANCE);
 
   const translateX = useSharedValue(initialX);
   const translateY = useSharedValue(initialY);

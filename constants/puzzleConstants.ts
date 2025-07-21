@@ -14,11 +14,11 @@ export const COLORS = {
 export const SVG_BOX_SIZE = 100; //original 100
 export const SVG_SIZE = 60;
 // Sizes to be rendered - MANTENER TAMAÑO ORIGINAL DE LAS PIEZAS
-export const PUZZLE_PIECE_BOX_SIZE = 150; // Tamaño original 150!!!!!
-export const PUZZLE_PIECE_SIZE = 90; // Tamaño original
-export const PIECES_DISTANCE = 240; // Tamaño original
+export const PUZZLE_PIECE_BOX_SIZE = 200; // Aumentado para piezas más grandes
+export const PUZZLE_PIECE_SIZE = 120; // Aumentado para piezas más grandes
+export const PIECES_DISTANCE = 210; // Aumentado para tablero más grande
 
-export const PIECE_SCALE = 0.8;
+export const PIECE_SCALE = 0.6;
 
 const CORNER_TOP_LEFT =
   "M40 80H20V40a19.998 19.998 0 0 1 20-20h40v20c5.519 0 10 4.481 10 10s-4.481 10-10 10v20H60c0-5.519-4.481-10-10-10s-10 4.481-10 10Z";
