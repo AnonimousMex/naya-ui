@@ -36,7 +36,7 @@ function Puzzle() {
   }, [shuffledPieces]);
 
   useAnimatedReaction(
-    () => correctPieces.value >= 4,
+    () => correctPieces.value >= 9, // Cambiado de 4 a 9 para 3x3
     (isDone) => {
       if (isDone) {
         scale.value = withDelay(
@@ -75,8 +75,8 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
     alignItems: "center",
-    width: 2 * 240, // PIECES_DISTANCE * 2
-    height: 2 * 240, // PIECES_DISTANCE * 2
+    width: 3 * 240, // 3x3 grid: 3 * PIECES_DISTANCE
+    height: 3 * 240, // 3x3 grid: 3 * PIECES_DISTANCE
     alignSelf: "center",
     marginTop: 40,
     backgroundColor: 'white', // Optional: for debugging visibility

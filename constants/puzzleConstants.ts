@@ -11,31 +11,49 @@ export const COLORS = {
 // SIZES
 
 // Sizes for the svgs (100x100)
-export const SVG_BOX_SIZE = 100;
+export const SVG_BOX_SIZE = 100; //original 100
 export const SVG_SIZE = 60;
-// Sizes to be rendered
-export const PUZZLE_PIECE_BOX_SIZE = 150;
-export const PUZZLE_PIECE_SIZE = 90;
-export const PIECES_DISTANCE = 240;
+// Sizes to be rendered - MANTENER TAMAÑO ORIGINAL DE LAS PIEZAS
+export const PUZZLE_PIECE_BOX_SIZE = 150; // Tamaño original 150!!!!!
+export const PUZZLE_PIECE_SIZE = 90; // Tamaño original
+export const PIECES_DISTANCE = 240; // Tamaño original
 
 export const PIECE_SCALE = 0.8;
 
-// PUZZLE PIECES
-
-const PIECE_1 =
+const CORNER_TOP_LEFT =
   "M40 80H20V40a19.998 19.998 0 0 1 20-20h40v20c5.519 0 10 4.481 10 10s-4.481 10-10 10v20H60c0-5.519-4.481-10-10-10s-10 4.481-10 10Z";
-const PIECE_2 =
+const CORNER_TOP_RIGHT =
   "M20 40V20h40a19.998 19.998 0 0 1 20 20v40H60c0 5.519-4.481 10-10 10s-10-4.481-10-10H20V60c5.519 0 10-4.481 10-10s-4.481-10-10-10Z";
-const PIECE_3 =
+const CORNER_BOTTOM_LEFT =
   "M80 60v20H40a19.998 19.998 0 0 1-20-20V20h20c0-5.519 4.481-10 10-10s10 4.481 10 10h20v20c-5.519 0-10 4.481-10 10s4.481 10 10 10Z";
-const PIECE_4 =
+const CORNER_BOTTOM_RIGHT =
   "M60 20h20v40a19.998 19.998 0 0 1-20 20H20V60c-5.519 0-10-4.481-10-10s4.481-10 10-10V20h20c0 5.519 4.481 10 10 10s10-4.481 10-10Z";
+const PIECE_TOP_CENTER = 
+  "M20 20h60v20c5.519 0 10 4.481 10 10s-4.481 10-10 10v20H60c0-5.519-4.481-10-10-10s-10 4.481-10 10H20V60c5.519 0 10-4.481 10-10s-4.481-10-10-10V20Z";
+const PIECE_RIGHT_CENTER = 
+  "M 20 20 h20 c0 5.519 4.481 10 10 10 s10-4.481 10-10 h20 V80 h-20 c0 5.519-4.481 10-10 10 s-10-4.481-10-10 h-20 v-20 c5.519 0 10-4.481 10-10 s-4.481-10-10-10 v-20";
+const PIECE_BOTTOM_CENTER =
+ "M 20 20 h20 c0-5.519 4.481-10 10-10 s10 4.481 10 10 h20 v20 c-5.519 0-10 4.481-10 10 s4.481 10 10 10 v20 H20 v-20 c-5.519 0-10-4.481-10-10 s4.481-10 10-10 v-20";
+const PIECE_LEFT_CENTER = 
+  "M80 60v20H60c0-5.519-4.481-10-10-10s-10 4.481-10 10H20V20h20c0-5.519 4.481-10 10-10s10 4.481 10 10h20v20c-5.519 0-10 4.481-10 10s4.481 10 10 10Z";
+const PIECE_CENTER = 
+  "M 20 20 h20 c0-5.519 4.481-10 10-10 s10 4.481 10 10 h20 v20 c5.519 0 10 4.481 10 10 s-4.481 10-10 10 v20 h-20 c0-5.519-4.481-10-10-10 s-10 4.481-10 10 h-20 v-20 c-5.519 0-10-4.481-10-10 s4.481-10 10-10 v-20";
 
 export const PUZZLE_PIECES = [
-  { x: -1, y: -1, path: PIECE_1 },
-  { x: 1, y: -1, path: PIECE_2 },
-  { x: -1, y: 1, path: PIECE_3 },
-  { x: 1, y: 1, path: PIECE_4 },
+  // Fila 1 (superior)
+  { x: -1, y: -1, path: CORNER_TOP_LEFT },           // Esquina sup-izq (original)
+  { x: 0, y: -1, path: PIECE_TOP_CENTER },   // Borde superior (MODIFICAR)
+  { x: 1, y: -1, path: CORNER_TOP_RIGHT },            // Esquina sup-der (original)
+  
+  // Fila 2 (media)
+  { x: -1, y: 0, path: PIECE_LEFT_CENTER },  // Borde izquierdo (MODIFICAR)
+  { x: 0, y: 0, path: PIECE_CENTER },        // Centro (MODIFICAR)
+  { x: 1, y: 0, path: PIECE_RIGHT_CENTER },  // Borde derecho (MODIFICAR)
+  
+  // Fila 3 (inferior)
+  { x: -1, y: 1, path: CORNER_BOTTOM_LEFT },            // Esquina inf-izq (original)
+  { x: 0, y: 1, path: PIECE_BOTTOM_CENTER }, // Borde inferior (MODIFICAR)
+  { x: 1, y: 1, path: CORNER_BOTTOM_RIGHT },             // Esquina inf-der (original)
 ];
 
 // SHAPES

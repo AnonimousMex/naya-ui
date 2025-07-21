@@ -16,8 +16,9 @@ type Props = {
 function PuzzleSpot({ index, shape }: Props) {
   const piece = PUZZLE_PIECES[index];
 
-  const x = (PUZZLE_PIECE_SIZE / 2) * piece.x;
-  const y = (PUZZLE_PIECE_SIZE / 2) * piece.y;
+  // Cálculo para grid 3x3: espaciado completo entre piezas
+  const x = PUZZLE_PIECE_SIZE * piece.x;
+  const y = PUZZLE_PIECE_SIZE * piece.y;
 
   return (
     <View
