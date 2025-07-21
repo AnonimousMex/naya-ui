@@ -1,79 +1,56 @@
-import React, { useState, useCallback, useMemo } from "react";
-import { View, Text, Alert, Dimensions } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { GameHeader } from "@/components/GameHeader";
 import { NavbarComponent } from "@/components/NavBar";
 import { IMAGES } from "@/constants/images";
+import { router } from "expo-router";
+import React from "react";
+import { ScrollView, View, Text, TouchableOpacity, Image } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Ionicons } from "@expo/vector-icons";
 
-const EmorganizaMainPage = () => {
-  const [puzzleImage, setPuzzleImage] = useState(IMAGES.HAPPY_AXOLOTL_HEAD);
-  const dimensions = useMemo(() => {
-    const screenWidth = Dimensions.get('window').width;
-    const screenHeight = Dimensions.get('window').height;
-    return {
-      screenWidth,
-      screenHeight,
-      containerSize: {
-        width: screenWidth * 0.8 - 8,
-        height: screenWidth * 0.8 - 8,
-      }
-    };
-  }, []);
-  const topBarHeight = 70;
-  const titleHeight = 60;
-  const navbarHeight = 90;
-  const puzzleImageTop = topBarHeight + titleHeight + 20;
-  const whiteContainerTop = dimensions.screenHeight - 350 - navbarHeight;
-  const handlePuzzleComplete = useCallback(() => {
-    Alert.alert(
-      "¡Felicitaciones!",
-      "Has completado el rompecabezas exitosamente",
-      [
-        {
-          text: "Continuar",
-          onPress: () => {
-          },
-        },
-      ]
-    );
-  }, []);
+function EmorganizaMainPage() {
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <View className="flex-1 min-h-screen bg-pink-200 relative">
-        <PuzzleGame
-          imageSource={puzzleImage}
-          containerSize={dimensions.containerSize}
-          onComplete={handlePuzzleComplete}
-          puzzleImageTop={puzzleImageTop}
-          whiteContainerTop={whiteContainerTop}
-        />
-        <View className="h-[70px] w-full" />
-        <View className="flex flex-col items-center mt-0 mb-4">
-          <Text className="text-[26px] font-UrbanistBold text-gray-730 tracking-wide">Emorganiza</Text>
+    <SafeAreaView className="w-full h-full bg-pink-200 pt-24">
+      <View className="absolute top-0 left-0 right-0 z-50 bg-transparent">
+        <SafeAreaView
+          edges={["top"]}
+          className="flex items-center justify-center mt-2"
+        >
+          <GameHeader
+            energyActive={2}
+            name="Rodrigo"
+            avatar={IMAGES.HAPPY_CAT_HEAD}
+          />
+        </SafeAreaView>
+      </View>
+
+      <ScrollView
+        contentContainerStyle={{ alignItems: "center" }}
+        className="pt-5"
+      >
+        <View className="bg-gray-200 rounded-2xl w-10/12 aspect-square items-center justify-center shadow-md">
+        
         </View>
-        <View className="flex justify-center items-center px-4">
-          <View style={dimensions.containerSize} />
-        </View>
+        
         <View className="flex justify-center items-center mt-4">
-          <View className="w-[280px] bg-white items-center py-3 rounded-full border-2 border-gray-50">
-            <Text className="text-gray-90 font-UrbanistExtraBold text-[16px]">
+          <View className="w-[280px] bg-white items-center py-3 rounded-full border-4 border-gray-20">
+            <Text className="text-gray-30 font-UrbanistExtraBold text-[16px]">
               Arma el rompecabezas
             </Text>
           </View>
         </View>
-        <View className="flex-1 flex flex-col justify-end">
-          <View className="bg-white rounded-t-[50px] px-6 pt-6 pb-8 min-h-[300px] w-full mt-8 relative">
-          </View>
-        </View>
-        <SafeAreaView
-          edges={["bottom"]}
-          className="bg-white absolute bottom-0 left-0 right-0 z-50"
-        >
-          <NavbarComponent />
-        </SafeAreaView>
+      </ScrollView>
+      <View className="flex-1 flex flex-col justify-end">
+        <View className="bg-white rounded-t-[50px] px-6 pt-6 pb-8 min-h-[300px] w-full mt-8 relative"></View>
       </View>
-    </GestureHandlerRootView>
+
+      <SafeAreaView
+        edges={["bottom"]}
+        className="bg-white absolute bottom-0 left-0 right-0 z-50"
+      >
+        <NavbarComponent />
+      </SafeAreaView>
+    </SafeAreaView>
   );
-};
+}
 
 export default EmorganizaMainPage;

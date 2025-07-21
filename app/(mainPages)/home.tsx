@@ -46,7 +46,7 @@ function Home() {
             name="Emorganiza"
             background={IMAGES.EMORGANIZA_IMAGE}
             onPressButton={() => {
-              router.push("/(mainPages)/insignias");
+              router.push("/(emorganiza)/emorganiza-main-page");
             }}
           />
         </View>

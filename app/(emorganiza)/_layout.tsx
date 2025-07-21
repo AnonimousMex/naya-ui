@@ -6,7 +6,7 @@ export default function Layout() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <Stack>
         <Stack.Screen
-          name="Puzzle"
+          name="emorganiza-main-page"
           options={{ headerShown: false }}
         />
       </Stack>
