@@ -6,6 +6,10 @@ export const URL_PATHS = {
     CONNECTION_PATIENT_WITH_THERAPIST: "/auth/connect-patient-with-therapist",
     CHANGE_PASSWORD: "/auth/password-change-request",
     DAILY_MESSAGE: "/auth/daily",
+    SELECT_PROFILE: "/auth/select-profile",
+  },
+  ANIMAL: {
+    LIST_ANIMALS: "/animals",
   },
   THERAPIST: {
     SCHEDULE_APPOINTMENT: "/schedule-appointment",

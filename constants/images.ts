@@ -122,6 +122,7 @@ import storyButtonBunnyLocked from "@/assets/images/storyPath/locked-button/bunn
 import storyButtonCatLocked from "@/assets/images/storyPath/locked-button/cat_button_locked.png";
 import storyButtonLionLocked from "@/assets/images/storyPath/locked-button/lion_button_locked.png";
 import storyButtonPandaLocked from "@/assets/images/storyPath/locked-button/panda_button_locked.png";
+import unknownHead from "@/assets/images/animals/unknown-head.png";
 
 export const ICONS = {
   EMAIL_ICON: emailIcon,
@@ -219,6 +220,17 @@ export const IMAGES = {
   SHAME_AXOLOTL_2: shameAxolotl2,
   SHAME_BUNNY_1: shameBunny1,
   SHAME_BUNNY_2: shameBunny2,
+  HAPPY_AXOLOTL_HEAD: happyAxolotlHead,
+  HAPPY_CAT_HEAD: happyCatHead,
+  HAPPY_LION_HEAD: happyLionHead,
+  HAPPY_BUNNY_HEAD: happyBunnyHead,
+  HAPPY_PANDA_HEAD: happyPandaHead,
+  UNKNOWN_HEAD: unknownHead,
+  MEDAL_ICON: medalIcon,
+  HELP_ICON: helpIcon,
+  LOGOUT_ICON: logOutIcon,
+  STREAK_ICON: streakIcon,
+  EXP_ICON: expIcon,
   EMORGANIZA_IMAGE: emorganizaImage,
   MEMOCIONES_IMAGE: memocionesImage,
   PANDA_SPIA_IMAGE: pandaSpiaImage,
@@ -249,4 +261,5 @@ export const IMAGES = {
   LOGOUT_ICON: logOutIcon,
   STREAK_ICON: streakIcon,
   EXP_ICON: expIcon,
+  CHANGE_PASSWORD_LION: changePasswordLion
 };

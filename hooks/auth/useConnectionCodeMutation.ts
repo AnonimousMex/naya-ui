@@ -39,10 +39,10 @@ export const useConnectionCodeMutation = (
         message: ERRORS.INTERNAL_SERVER_ERROR.message,
       });
 
-      if (code === ERRORS.E013.code) {
-        setError("code", { message: ERRORS.E013.message });
+      if (code === ERRORS.E015.code) {
+        setError("code", { message: ERRORS.E015.message });
         return showSnackbar({
-          message: ERRORS.E013.message,
+          message: ERRORS.E015.message,
           type: "error",
         });
       }

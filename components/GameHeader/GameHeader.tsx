@@ -17,10 +17,9 @@ const GameHeader = ({
   const { width, height } = Dimensions.get("window");
   const fontSize = width * 0.06;
   const energyInactive = 3-energyActive
-  const boderColor = useColorAnimal(avatar) 
-  
+
   return (
-    <View className={`p-[0.7rem] rounded-[3rem] w-[93%] ${boderColor}`}>
+    <View className={`p-[0.7rem] rounded-[3rem] w-[93%] bg-blue-200 `}>
       <View
         className="flex flex-row justify-between items-center p-1 rounded-full bg-white px-2"
       >
