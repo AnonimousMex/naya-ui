@@ -1,7 +1,12 @@
-import React, { useState } from "react";
+// Home.tsx
+import React, { useState, useCallback } from "react";
 import { ScrollView, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { router } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { HTTP } from "@/config/axios";
+import { URL_PATHS } from "@/constants/urlPaths";
 
 import { GameHeader } from "@/components/GameHeader";
 import { LargePanel, ShortPanel } from "@/components/HomeComponents";
@@ -9,22 +14,71 @@ import { CloudBackground } from "@/components/MainPanesComponents/CloudBackgroun
 import { NavbarComponent } from "@/components/NavBar";
 import PlayAffirmation from "@/components/PlayAffirmation";
 import { IMAGES } from "@/constants/images";
+import { useConsumeEnergyMutation } from "@/hooks/games/useConsumeEnergyMutation";
+
+import EnergyAlert from "@/components/EnergyAlert";
+
+const useEnergy = () => {
+  const [energy, setEnergy] = useState(0);
+
+  const fetchEnergy = async () => {
+    try {
+      const token = await AsyncStorage.getItem("accessToken");
+      if (!token) throw new Error("No auth token found");
+
+      const { data } = await HTTP.get<{ current_energy: number }>(
+        URL_PATHS.ENERGIES.GET_ENERGY,
+        {
+          headers: { Authorization: token },
+        },
+      );
+      setEnergy(data.current_energy);
+    } catch (e) {
+      console.error("Error al obtener energía:", e);
+      setEnergy(0);
+    }
+  };
+
+  return { energy, fetchEnergy };
+};
 
 function Home() {
   const [modalVisible, setModalVisible] = useState(false);
   const [nextRoute, setNextRoute] = useState<string | null>(null);
+  const [energyAlertVisible, setEnergyAlertVisible] = useState(false);
+
+  const { energy, fetchEnergy } = useEnergy();
+  const { mutate: consumeEnergy } = useConsumeEnergyMutation();
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchEnergy();
+    }, []),
+  );
 
   const askToPlay = (route: `/${string}`) => {
+    if (energy <= 0) {
+      setEnergyAlertVisible(true);
+      return;
+    }
     setNextRoute(route);
     setModalVisible(true);
   };
 
   const handleConfirm = () => {
     setModalVisible(false);
-    if (nextRoute) {
-      router.push(nextRoute);
-      setNextRoute(null);
-    }
+    consumeEnergy(undefined, {
+      onSuccess: () => {
+        if (nextRoute) {
+          router.push(nextRoute);
+          setNextRoute(null);
+          fetchEnergy();
+        }
+      },
+      onError: () => {
+        setEnergyAlertVisible(true);
+      },
+    });
   };
 
   return (
@@ -37,9 +91,9 @@ function Home() {
           className="flex items-center justify-center mt-2"
         >
           <GameHeader
-            energyActive={2}
             name="Rodrigo"
             avatar={IMAGES.HAPPY_CAT_HEAD}
+            energy={energy}
           />
         </SafeAreaView>
       </View>
@@ -99,6 +153,11 @@ function Home() {
           setNextRoute(null);
         }}
         onConfirm={handleConfirm}
+      />
+
+      <EnergyAlert
+        visible={energyAlertVisible}
+        onClose={() => setEnergyAlertVisible(false)}
       />
     </SafeAreaView>
   );

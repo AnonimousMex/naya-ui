@@ -21,6 +21,6 @@ export const URL_PATHS = {
   },
   ENERGIES: {
     GET_ENERGY: "/energy/current_energies",
-    CONSUME_ENERGY: "/energy/consume-energy",
+    CONSUME_ENERGY: "/energy/consume",
   },
 };
