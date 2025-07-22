@@ -1,7 +1,6 @@
 import { HTTP } from "@/config/axios";
 import { URL_PATHS } from "@/constants/urlPaths";
 import {
-  TConnectionCode,
   TConnectionCodeSchema,
   TSignInSchema,
   TSignUp,

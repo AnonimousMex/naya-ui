@@ -1,12 +1,12 @@
 import { HTTP } from "@/config/axios";
 import { URL_PATHS } from "@/constants/urlPaths";
-import { TNoContentStatusResponse } from "@/models/Common";
 import {
   TCreateAppointmentRequest,
   TSingleDataResponse,
   TListAppointmentResponse,
   TRescheduleAppointment,
   TListPatientsResponse,
+  TNoContentStatusResponse
 } from "@/models/Common";
 import { TCloseConnection } from "@/models/therapist";
 

@@ -1,16 +1,17 @@
+import { IMAGES } from '@/constants/images'
 import { ImageSourcePropType } from 'react-native'
 
 export const useColorAnimal = (animalImage: ImageSourcePropType) => {
   //this file is provicional
-  if(animalImage === 38){
+  if(animalImage === IMAGES.HAPPY_AXOLOTL_HEAD){
     return "bg-pink-100"
-  }else if(animalImage === 41){
+  }else if(animalImage === IMAGES.HAPPY_BUNNY_HEAD){
     return "bg-blue-200"
-  }else if(animalImage === 39){
+  }else if(animalImage === IMAGES.HAPPY_CAT_HEAD){
     return "bg-brown-20"
-  }else if(animalImage === 40){
+  }else if(animalImage === IMAGES.HAPPY_LION_HEAD){
     return "bg-orange-200"
-  }else if(animalImage === 43){
+  }else if(animalImage === IMAGES.HAPPY_PANDA_HEAD){
     return "bg-gray-300"
   }
   
