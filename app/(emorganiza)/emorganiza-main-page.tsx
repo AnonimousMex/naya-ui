@@ -101,7 +101,12 @@ function EmorganizaMainPage() {
           className="w-10/12 aspect-square items-center justify-center"
         >
           {PUZZLE_PIECES.map((_, i) => (
-            <PuzzleSpot key={`spot-${i}`} index={i} shape={shape} />
+            <PuzzleSpot
+              key={`spot-${i}`}
+              index={i}
+              shape={shape}
+              imageSource={IMAGES.HAPPY_CAT_HEAD}
+            />
           ))}
           {PUZZLE_PIECES.map((_, i) => (
             <PuzzlePiece

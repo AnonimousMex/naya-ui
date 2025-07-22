@@ -11,9 +11,10 @@ import Shape from "./Shape";
 type Props = {
   index: number;
   shape: string;
+  imageSource?: any;
 };
 
-function PuzzleSpot({ index, shape }: Props) {
+function PuzzleSpot({ index, shape, imageSource }: Props) {
   const piece = PUZZLE_PIECES[index];
 
   // Cálculo para grid 3x3: espaciado completo entre piezas
@@ -27,7 +28,7 @@ function PuzzleSpot({ index, shape }: Props) {
         { transform: [{ translateX: x }, { translateY: y }] },
       ]}
     >
-      <Shape type="spot" shape={shape} piece={piece} />
+      <Shape type="spot" shape={shape} piece={piece} imageSource={imageSource} />
     </View>
   );
 }
