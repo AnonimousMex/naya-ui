@@ -16,4 +16,7 @@ export const URL_PATHS = {
     LIST_PATIENTS: "/therapist/list-patients",
     CLOSE_CONNETION: "/disconnect-patient",
   },
+  GAME: {
+    GAME_LIST: "/games"
+  }
 };

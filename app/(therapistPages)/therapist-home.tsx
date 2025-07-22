@@ -27,7 +27,7 @@ const CARD_WIDTH =
   
 const TherapistHome = () => {
   
-  const {mutate, data , }= useListPatientsMutation()
+  const {mutate, data }= useListPatientsMutation()
   const [displayPatients, setDisplayPatients] = useState<TPatient[]>([]);
 
   useEffect(() => {

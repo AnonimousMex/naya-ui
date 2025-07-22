@@ -49,9 +49,17 @@ export type TAppointment = {
 export type TCancelAppointmentRequest = {     
   id: string;
 };
+export type TGame = {
+  id: string;
+  name: string;
+  description: string;
+  image_url: string;
+}
+
+export type TGameListResponse = TGame[];
 
 export type TListAppointmentResponse = TAppointment[];
-;
+
 
 export const emptyListAppointmentResponse: TSingleDataResponse<TListAppointmentResponse> = {
   status: 200,

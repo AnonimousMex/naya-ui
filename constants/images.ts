@@ -52,12 +52,12 @@ import happyBunnyHead from "@/assets/images/animals/happy/happy-bunny/happy-bunn
 import happyBunny2 from "@/assets/images/animals/happy/happy-bunny/happy-bunny-2.png";
 import happyPandaHead from "@/assets/images/animals/happy/happy-panda/happy-panda-head.png";
 import happyAxolotl2 from "@/assets/images/animals/happy/happy-axolotl/happy-axolotl-2.png";
-import emorganizaImage from "@/assets/images/home/homepage/emorganiza-image.png";
-import memocionesImage from "@/assets/images/home/homepage/memociones-image.png";
+import emorganizaImage from "@/assets/images/home/homepage/emorganiza-background-image.png";
+import memocionesImage from "@/assets/images/home/homepage/memorganiza-background-image.png";
 import pandaSpiaImage from "@/assets/images/home/homepage/panda-spia-image.png";
 import suenaAlgoImage from "@/assets/images/home/homepage/suenaalgo_image.png";
-import backgroundDetetiveImage from "@/assets/images/home/homepage/background-detective-image.png";
-import backgroundSuenaAlgoImage from "@/assets/images/home/homepage/background-suena-algo-image.png";
+import backgroundDetetiveImage from "@/assets/images/home/homepage/detective-background-image.png";
+import backgroundSuenaAlgoImage from "@/assets/images/home/homepage/suenaalgo-background-image.png";
 import medal1 from "@/assets/images/insignias/medal-1.png";
 import medal2 from "@/assets/images/insignias/medal-2.png";
 import medal3 from "@/assets/images/insignias/medal-3.png";
