@@ -1,5 +1,5 @@
 import { memo } from "react";
-import Svg, { ClipPath, Defs, Path, Use } from "react-native-svg";
+import Svg, { ClipPath, Defs, Path, Use, Pattern, Image } from "react-native-svg";
 
 import { COLORS, SVG_BOX_SIZE, SVG_SIZE } from "../../constants/puzzleConstants";
 
@@ -11,14 +11,22 @@ type Props = {
     y: number;
     path: string;
   };
+  imageSource?: any;
 };
 
 
-function Shape({ type, shape, piece }: Props) {
-  const pathX = Math.round(-(SVG_SIZE / 2) - (SVG_SIZE / 2) * piece.x);
-  const pathY = Math.round(-(SVG_SIZE / 2) - (SVG_SIZE / 2) * piece.y);
+function Shape({ type, shape, piece, imageSource }: Props) {
+  const shapePathX = Math.round(-(SVG_SIZE / 2) - (SVG_SIZE / 2) * piece.x);
+  const shapePathY = Math.round(-(SVG_SIZE / 2) - (SVG_SIZE / 2) * piece.y);
 
   const isPiece = type === "piece";
+
+  const PUZZLE_BOARD_SIZE = SVG_SIZE * 3;
+  const pieceOffset = (SVG_BOX_SIZE - SVG_SIZE) / 2;
+  const normX = piece.x + 1;
+  const normY = piece.y + 1;
+  const imageX = pieceOffset - normX * SVG_SIZE;
+  const imageY = pieceOffset - normY * SVG_SIZE;
 
   return (
     <Svg
@@ -27,25 +35,44 @@ function Shape({ type, shape, piece }: Props) {
       viewBox={`0 0 ${SVG_BOX_SIZE} ${SVG_BOX_SIZE}`}
     >
       <Defs>
-        <ClipPath id="shape">
-          <Path d={shape} x={pathX} y={pathY} />
+        <ClipPath id="pieceClip">
+          <Path d={piece.path} />
         </ClipPath>
         <Path id="puzzle" d={piece.path} />
+        <ClipPath id="shape">
+          <Path d={shape} x={shapePathX} y={shapePathY} />
+        </ClipPath>
       </Defs>
-      {isPiece && (
-        <Use href="#puzzle" fill={isPiece ? COLORS.white : COLORS.lightGrey} />
+
+      {isPiece && imageSource ? (
+        <Image
+          href={imageSource}
+          x={imageX}
+          y={imageY}
+          width={PUZZLE_BOARD_SIZE}
+          height={PUZZLE_BOARD_SIZE}
+          preserveAspectRatio="xMidYMid slice"
+          clipPath="url(#pieceClip)"
+        />
+      ) : (
+        <>
+          {isPiece && <Use href="#puzzle" fill={COLORS.white} />}
+          <Use
+            href="#puzzle"
+            fill={isPiece ? COLORS.primary : COLORS.lightGrey}
+            clipPath="url(#shape)"
+          />
+        </>
       )}
-      <Use
-        href="#puzzle"
-        fill={isPiece ? COLORS.primary : COLORS.lightGrey}
-        clipPath="url(#shape)"
-      />
+
+      {/* Borde siempre visible */}
       <Use
         href="#puzzle"
         stroke={isPiece ? COLORS.black : COLORS.darkGrey}
-        strokeWidth="4"
+        strokeWidth="3"
         strokeLinecap="round"
         strokeLinejoin="round"
+        fill="none"
       />
     </Svg>
   );

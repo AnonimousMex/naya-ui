@@ -31,9 +31,10 @@ type Props = {
   shape: string;
   shuffledPieces: number[];
   correctPieces: SharedValue<number>;
+  imageSource?: any;
 };
 
-function PuzzlePiece({ index, shape, shuffledPieces, correctPieces }: Props) {
+function PuzzlePiece({ index, shape, shuffledPieces, correctPieces, imageSource }: Props) {
   const shuffledIndex = shuffledPieces[index];
   const piece = PUZZLE_PIECES[index];
   const shuffledPiece = PUZZLE_PIECES[shuffledIndex];
@@ -110,7 +111,7 @@ function PuzzlePiece({ index, shape, shuffledPieces, correctPieces }: Props) {
   return (
     <PanGestureHandler onGestureEvent={panGestureHandler}>
       <Animated.View style={[styles.container, animatedStyle]}>
-        <Shape type="piece" shape={shape} piece={piece} />
+        <Shape type="piece" shape={shape} piece={piece} imageSource={imageSource} />
       </Animated.View>
     </PanGestureHandler>
   );

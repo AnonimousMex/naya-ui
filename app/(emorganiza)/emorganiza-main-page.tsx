@@ -105,11 +105,12 @@ function EmorganizaMainPage() {
           ))}
           {PUZZLE_PIECES.map((_, i) => (
             <PuzzlePiece
-              key={`spot-${i}`}
+              key={`piece-${i}`}
               index={i}
               shape={shape}
               shuffledPieces={shuffledPieces}
               correctPieces={correctPieces}
+              imageSource={IMAGES.HAPPY_CAT_HEAD}
             />
           ))}
         </Animated.View>
