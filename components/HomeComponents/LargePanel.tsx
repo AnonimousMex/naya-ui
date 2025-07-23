@@ -23,7 +23,7 @@ const LargePanel = ({
     comingSoon,
 }: TLargePanel) => {
 
-    const { width, height } = Dimensions.get("window");
+    const { width } = Dimensions.get("window");
     const fontSize = width * 0.06;
 
     return (

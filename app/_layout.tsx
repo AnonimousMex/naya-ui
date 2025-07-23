@@ -60,8 +60,9 @@ export default function RootLayout() {
             options={{ headerShown: false }}
           />
           <Stack.Screen name="(memociones)" options={{ headerShown: false }} />
+          <Stack.Screen name="(detectiveEmociones)" options={{ headerShown: false }} />
           <Stack.Screen name="+not-found" />
-        </Stack>
+        </Stack> 
       </SnackbarProvider>
     </QueryClientProvider>
   );

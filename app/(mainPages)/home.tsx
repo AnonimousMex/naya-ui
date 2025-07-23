@@ -31,7 +31,7 @@ function Home() {
           backgroundColor="bg-purple-300"
           animalImage={IMAGES.PANDA_SPIA_IMAGE}
           onPressButton={() => {
-            router.push("/(mainPages)/insignias");
+            router.push("/(detectiveEmociones)/detective-emociones-page");
           }}
         />
         <View className="flex-row justify-between my-5 ">

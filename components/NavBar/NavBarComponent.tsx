@@ -12,7 +12,7 @@ const NavbarComponent: React.FC<NavbarComponentProps> = ({
 }) => {
   const widthAndHeight = "w-9 h-9";
   const bg = isTherapist ? "bg-pink-400" : "bg-red-900";
-  const navBg = "bg-white";
+  const navBg = "bg-transparent";
 
   return (
     <View className={`${navBg} w-full`}>
