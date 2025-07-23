@@ -220,6 +220,7 @@ export const IMAGES = {
   SHAME_AXOLOTL_2: shameAxolotl2,
   SHAME_BUNNY_1: shameBunny1,
   SHAME_BUNNY_2: shameBunny2,
+  HAPPY_AXOLOTL_HEAD: happyAxolotlHead,
   HAPPY_CAT_HEAD: happyCatHead,
   HAPPY_LION_HEAD: happyLionHead,
   HAPPY_BUNNY_HEAD: happyBunnyHead,
