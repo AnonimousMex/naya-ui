@@ -6,7 +6,6 @@ import { router } from "expo-router";
 import React from "react";
 import { ScrollView, View, Text, TouchableOpacity, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Ionicons } from "@expo/vector-icons";
 import { PuzzleSpot, PuzzlePiece } from "@/components/puzzle";
 import {
   PIECES_DISTANCE,
@@ -47,7 +46,7 @@ function EmorganizaMainPage() {
   }, [shuffledPieces]);
 
   useAnimatedReaction(
-    () => correctPieces.value >= 9, // Cambiado de 4 a 9 para 3x3
+    () => correctPieces.value >= 9, 
     (isDone) => {
       if (isDone) {
         scale.value = withDelay(
@@ -72,11 +71,11 @@ function EmorganizaMainPage() {
     container: {
       justifyContent: "center",
       alignItems: "center",
-      width: 3 * 240, // 3x3 grid: 3 * PIECES_DISTANCE
-      height: 3 * 240, // 3x3 grid: 3 * PIECES_DISTANCE
+      width: 3 * 240, 
+      height: 3 * 240, 
       alignSelf: "center",
       marginTop: 40,
-      backgroundColor: "white", // Optional: for debugging visibility
+      backgroundColor: "white", 
     },
   });
 
@@ -105,7 +104,7 @@ function EmorganizaMainPage() {
               key={`spot-${i}`}
               index={i}
               shape={shape}
-              imageSource={IMAGES.HAPPY_CAT_HEAD}
+              imageSource={IMAGES.HAPPY_BUNNY_2}
             />
           ))}
           {PUZZLE_PIECES.map((_, i) => (
@@ -115,7 +114,7 @@ function EmorganizaMainPage() {
               shape={shape}
               shuffledPieces={shuffledPieces}
               correctPieces={correctPieces}
-              imageSource={IMAGES.HAPPY_CAT_HEAD}
+              imageSource={IMAGES.HAPPY_BUNNY_2}
             />
           ))}
         </Animated.View>

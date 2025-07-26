@@ -105,8 +105,6 @@ function Shape({ type, shape, piece, imageSource }: Props) {
           )}
         </>
       )}
-
-      {/* Borde siempre visible */}
       <Use
         href="#puzzle"
         stroke={isPiece ? COLORS.black : COLORS.darkGrey}

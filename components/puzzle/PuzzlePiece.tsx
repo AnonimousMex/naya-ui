@@ -42,7 +42,6 @@ function PuzzlePiece({ index, shape, shuffledPieces, correctPieces, imageSource 
   const randomRotation = getRandomRotation();
   const safeSpacing = PUZZLE_PIECE_SIZE / 2;
 
-  // Usar el mismo cálculo que PuzzleSpot para grid 3x3
   const initialX = Math.round(PUZZLE_PIECE_SIZE * piece.x);
   const initialY = Math.round(PUZZLE_PIECE_SIZE * piece.y);
   const shuffledX = Math.round(SVG_SIZE * shuffledPiece.x);

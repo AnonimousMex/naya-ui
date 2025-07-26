@@ -1,4 +1,3 @@
-// COLORS
 
 export const COLORS = {
   primary: "#1a91ff",
@@ -7,16 +6,11 @@ export const COLORS = {
   lightGrey: "#e2e8f0",
   darkGrey: "#cbd5e1",
 };
-
-// SIZES
-
-// Sizes for the svgs (100x100)
-export const SVG_BOX_SIZE = 100; //original 100
+export const SVG_BOX_SIZE = 100; 
 export const SVG_SIZE = 60;
-// Sizes to be rendered - MANTENER TAMAÑO ORIGINAL DE LAS PIEZAS
-export const PUZZLE_PIECE_BOX_SIZE = 200; // Aumentado para piezas más grandes
-export const PUZZLE_PIECE_SIZE = 120; // Aumentado para piezas más grandes
-export const PIECES_DISTANCE = 210; // Aumentado para tablero más grande
+export const PUZZLE_PIECE_BOX_SIZE = 200;
+export const PUZZLE_PIECE_SIZE = 120; 
+export const PIECES_DISTANCE = 210; 
 
 export const PIECE_SCALE = 0.6;
 
@@ -41,22 +35,17 @@ const PIECE_CENTER =
 
 export const PUZZLE_PIECES = [
   // Fila 1 (superior)
-  { x: -1, y: -1, path: CORNER_TOP_LEFT },           // Esquina sup-izq (original)
-  { x: 0, y: -1, path: PIECE_TOP_CENTER },   // Borde superior (MODIFICAR)
-  { x: 1, y: -1, path: CORNER_TOP_RIGHT },            // Esquina sup-der (original)
-  
-  // Fila 2 (media)
-  { x: -1, y: 0, path: PIECE_LEFT_CENTER },  // Borde izquierdo (MODIFICAR)
-  { x: 0, y: 0, path: PIECE_CENTER },        // Centro (MODIFICAR)
-  { x: 1, y: 0, path: PIECE_RIGHT_CENTER },  // Borde derecho (MODIFICAR)
-  
-  // Fila 3 (inferior)
-  { x: -1, y: 1, path: CORNER_BOTTOM_LEFT },            // Esquina inf-izq (original)
-  { x: 0, y: 1, path: PIECE_BOTTOM_CENTER }, // Borde inferior (MODIFICAR)
-  { x: 1, y: 1, path: CORNER_BOTTOM_RIGHT },             // Esquina inf-der (original)
+  { x: -1, y: -1, path: CORNER_TOP_LEFT },    
+  { x: 0, y: -1, path: PIECE_TOP_CENTER },   
+  { x: 1, y: -1, path: CORNER_TOP_RIGHT },   
+  { x: -1, y: 0, path: PIECE_LEFT_CENTER }, 
+  { x: 0, y: 0, path: PIECE_CENTER },       
+  { x: 1, y: 0, path: PIECE_RIGHT_CENTER }, 
+  { x: -1, y: 1, path: CORNER_BOTTOM_LEFT },    
+  { x: 0, y: 1, path: PIECE_BOTTOM_CENTER },
+  { x: 1, y: 1, path: CORNER_BOTTOM_RIGHT },          
 ];
 
-// SHAPES
 
 const CIRCLE_SHAPE =
   "M80 30c-12.033 0-23.078 4.26-31.71 11.352C37.126 50.525 30 64.437 30 80c0 27.596 22.404 50 50 50s50-22.404 50-50-22.404-50-50-50Z";
