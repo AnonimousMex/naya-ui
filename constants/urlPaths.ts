@@ -23,4 +23,8 @@ export const URL_PATHS = {
   GAMES: {
     GET_MEMOCIONES_PAIRS: "/pairs",
   },
+  ENERGIES: {
+    GET_ENERGY: "/energy/current_energies",
+    CONSUME_ENERGY: "/energy/consume",
+  },
 };

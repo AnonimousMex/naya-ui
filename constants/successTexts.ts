@@ -5,4 +5,5 @@ export enum SUCCESS_TEXTS {
   CODE_CONNECTION_VERIFIED = "Conexión con psicologo exitosa.",
   CODE_SENT = "El código ha sido enviado",
   CLOSE_CONNECTION = "Se ha cerrado la conexión exitosamente",
+  CONSUME_ENERGY_SUCCESS = "Hora de jugar.",
 }

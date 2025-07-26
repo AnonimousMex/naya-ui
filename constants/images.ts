@@ -225,6 +225,7 @@ export const IMAGES = {
   HAPPY_LION_HEAD: happyLionHead,
   HAPPY_BUNNY_HEAD: happyBunnyHead,
   HAPPY_PANDA_HEAD: happyPandaHead,
+  HAPPY_AXOLOTL_HEAD: happyAxolotlHead,
   UNKNOWN_HEAD: unknownHead,
   MEDAL_ICON: medalIcon,
   HELP_ICON: helpIcon,
