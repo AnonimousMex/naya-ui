@@ -1,66 +1,69 @@
-import React, { useState, useMemo, useEffect } from "react";
-import { View, FlatList, Image, Dimensions } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, FlatList, Dimensions, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import LottieView from "lottie-react-native";
+import { router } from "expo-router";
+
 import { MemocionesCard } from "@/components/MemocionesCard.tsx";
 import { CardData } from "@/components/MemocionesCard.tsx/MemocionesCard";
 import { IMAGES } from "@/constants/images";
 import { CloudBackground } from "@/components/MainPanesComponents/CloudBackground";
-import LottieView from "lottie-react-native";
 import { NavbarComponent } from "@/components/NavBar";
 import { MainButton } from "@/components/MainButton";
-import { router } from "expo-router";
+import { MEMOCIONES_SERVICE, TMemocionPair } from "@/services/memociones";
 
-const RAW_PAIRS = [
-  {
-    pairId: 1,
-    emotion: "Feliz",
-    img: IMAGES.HAPPY_AXOLOTL_1,
-    situation: "Cuando me regalan un helado 🍦",
-  },
-  {
-    pairId: 2,
-    emotion: "Triste",
-    img: IMAGES.HAPPY_BUNNY_1,
-    situation: "Cuando pierdo mi juguete favorito 😢",
-  },
-  {
-    pairId: 3,
-    emotion: "Enojo",
-    img: IMAGES.HAPPY_CAT_1,
-    situation: "Cuando alguien rompe mis cosas 😠",
-  },
-  {
-    pairId: 4,
-    emotion: "Temor",
-    img: IMAGES.HAPPY_LION_1,
-    situation: "Cuando escucho un trueno muy fuerte ⚡️",
-  },
-  {
-    pairId: 5,
-    emotion: "Vergüenza",
-    img: IMAGES.HAPPY_PANDA_HEAD,
-    situation: "Cuando se me cae la comida en público 🙈",
-  },
-  {
-    pairId: 6,
-    emotion: "Sorpresa",
-    img: IMAGES.HAPPY_AXOLOTL_2,
-    situation: "Cuando llega un invitado inesperado 😲",
-  },
-];
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 
-function shuffle<T>(arr: T[]) {
+function shuffle<T>(arr: T[]): T[] {
   return [...arr].sort(() => Math.random() - 0.5);
 }
 
-function buildDeck(): CardData[] {
+type EmotionKey =
+  | "feliz"
+  | "triste"
+  | "enojo"
+  | "temor"
+  | "vergüenza"
+  | "sorpresa";
+
+const EMOTION_IMAGES: Record<EmotionKey, any[]> = {
+  feliz: Object.entries(IMAGES)
+    .filter(([key]) => key.startsWith("HAPPY_") && !key.includes("HEAD"))
+    .map(([, value]) => value),
+  triste: Object.entries(IMAGES)
+    .filter(([key]) => key.startsWith("SAD_"))
+    .map(([, value]) => value),
+  enojo: Object.entries(IMAGES)
+    .filter(([key]) => key.startsWith("ANGRY_"))
+    .map(([, value]) => value),
+  temor: Object.entries(IMAGES)
+    .filter(([key]) => key.startsWith("FEAR_"))
+    .map(([, value]) => value),
+  vergüenza: Object.entries(IMAGES)
+    .filter(([key]) => key.startsWith("SHAME_"))
+    .map(([, value]) => value),
+  sorpresa: [IMAGES.HAPPY_AXOLOTL_2],
+};
+
+function getEmotionImage(emotion: string) {
+  const key = emotion.toLowerCase() as EmotionKey;
+  const images = EMOTION_IMAGES[key];
+
+  if (!images || images.length === 0) return IMAGES.NAYA_LOGO;
+
+  const randomIndex = Math.floor(Math.random() * images.length);
+  return images[randomIndex];
+}
+
+function buildDeckFromAPI(pairs: TMemocionPair[]): CardData[] {
   return shuffle(
-    RAW_PAIRS.flatMap((p, i) => [
+    pairs.flatMap((p, i) => [
       {
         id: i * 2,
         pairId: p.pairId,
         kind: "emotion" as const,
-        img: p.img,
+        img: getEmotionImage(p.emotion),
         text: p.emotion,
       },
       {
@@ -73,40 +76,83 @@ function buildDeck(): CardData[] {
   );
 }
 
-const windowWidth = Dimensions.get("window").width;
-const windowHeight = Dimensions.get("window").height;
-
 const MemoramaScreen = () => {
-  const DECK = useMemo(buildDeck, []);
+  const [rawPairs, setRawPairs] = useState<TMemocionPair[]>([]);
+  const [deck, setDeck] = useState<CardData[]>([]);
   const [flipped, setFlipped] = useState<number[]>([]);
-  const [matched, setMatched] = useState<number[]>([]);
+  const [matched, setMatched] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    const fetchPairs = async () => {
+      try {
+        const pairs = await MEMOCIONES_SERVICE.getPairs();
+        setRawPairs(pairs);
+        setDeck(buildDeckFromAPI(pairs));
+        setLoading(false);
+      } catch (e) {
+        console.error("Error fetching memorama pairs:", e);
+        setError(true);
+        setLoading(false);
+      }
+    };
+    fetchPairs();
+  }, []);
 
   const handleFlip = (card: CardData) => {
     if (flipped.length === 2 || flipped.includes(card.id)) return;
+
     setFlipped((prev) => {
       const now = [...prev, card.id];
+
       if (now.length === 2) {
         const [aId, bId] = now;
-        const a = DECK.find((c) => c.id === aId);
-        const b = DECK.find((c) => c.id === bId);
+        const a = deck.find((c) => c.id === aId);
+        const b = deck.find((c) => c.id === bId);
+
         if (a && b && a.pairId === b.pairId) {
-          setMatched((m) => (m.includes(a.pairId) ? m : [...m, a.pairId]));
-          setTimeout(() => setFlipped([]), 300);
+          setTimeout(() => {
+            setMatched((m) => (m.includes(a.pairId) ? m : [...m, a.pairId]));
+            setFlipped([]);
+          }, 300);
         } else {
           setTimeout(() => setFlipped([]), 1000);
         }
       }
+
       return now;
     });
   };
 
-  const allMatched = matched.length === RAW_PAIRS.length;
+  const allMatched = matched.length === rawPairs.length;
+
+  if (loading) {
+    return (
+      <SafeAreaView className="flex-1 items-center justify-center bg-pink-200">
+        <Text className="text-xl font-semibold text-gray-700">
+          Cargando memorama...
+        </Text>
+      </SafeAreaView>
+    );
+  }
+
+  if (error) {
+    return (
+      <SafeAreaView className="flex-1 items-center justify-center bg-pink-200">
+        <Text className="text-xl font-semibold text-red-600">
+          Error al cargar el juego 😢
+        </Text>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView className="flex-1 bg-pink-200">
       <CloudBackground />
+
       <FlatList
-        data={DECK}
+        data={deck}
         keyExtractor={(item) => item.id.toString()}
         numColumns={3}
         columnWrapperStyle={{

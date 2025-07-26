@@ -50,6 +50,16 @@ export const ERRORS: TError = {
     name: "USER_NOT_VERIFIED",
     message: ERROR_TEXTS.USER_NOT_VERIFIED,
   },
+  E012: {
+    code: "E012",
+    name: "FETCH_ANIMALS_ERROR",
+    message: ERROR_TEXTS.FETCH_ANIMALS_ERROR,
+  },
+  E015: {
+    code: "E015",
+    name: "PROFILE_CHOICE_REQUIRED",
+    message: ERROR_TEXTS.PROFILE_CHOICE_REQUIRED,
+  },
   E017: {
     code: "E017",
     name: "NO_APPOINTMENTS",
