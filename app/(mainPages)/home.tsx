@@ -1,18 +1,88 @@
+// Home.tsx
+import React, { useState, useCallback, useEffect } from "react";
+import { ScrollView, View, Text, ActivityIndicator } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { router, useFocusEffect } from "expo-router";
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { HTTP } from "@/config/axios";
+import { URL_PATHS } from "@/constants/urlPaths";
+
 import { GameHeader } from "@/components/GameHeader";
 import { LargePanel, ShortPanel } from "@/components/HomeComponents";
 import { CloudBackground } from "@/components/MainPanesComponents/CloudBackground";
 import { NavbarComponent } from "@/components/NavBar";
+import PlayAffirmation from "@/components/PlayAffirmation";
 import { IMAGES } from "@/constants/images";
+import { useConsumeEnergyMutation } from "@/hooks/games/useConsumeEnergyMutation";
 import { useGameListMutation } from "@/hooks/games/useGameListMutation";
 import { TGame } from "@/models/Common";
-import { router } from "expo-router";
-import React, { useEffect, useState } from "react";
-import { ActivityIndicator, ScrollView, View, Text} from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import EnergyAlert from "@/components/EnergyAlert";
 
-const Home = () => {
+const useEnergy = () => {
+  const [energy, setEnergy] = useState(0);
+
+  const fetchEnergy = async () => {
+    try {
+      const token = await AsyncStorage.getItem("accessToken");
+      if (!token) throw new Error("No auth token found");
+
+      const { data } = await HTTP.get<{ current_energy: number }>(
+        URL_PATHS.ENERGIES.GET_ENERGY,
+        {
+          headers: { Authorization: token },
+        },
+      );
+      setEnergy(data.current_energy);
+    } catch (e) {
+      console.error("Error al obtener energía:", e);
+      setEnergy(0);
+    }
+  };
+
+  return { energy, fetchEnergy };
+};
+
+function Home() {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [nextRoute, setNextRoute] = useState<string | null>(null);
+  const [energyAlertVisible, setEnergyAlertVisible] = useState(false);
   const { mutate, data, isPending} = useGameListMutation()
   const [games, setGames] = useState<TGame[]>([]);
+
+  const { energy, fetchEnergy } = useEnergy();
+  const { mutate: consumeEnergy } = useConsumeEnergyMutation();
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchEnergy();
+    }, []),
+  );
+
+  const askToPlay = (route: `/${string}`) => {
+    if (energy <= 0) {
+      setEnergyAlertVisible(true);
+      return;
+    }
+    setNextRoute(route);
+    setModalVisible(true);
+  };
+
+  const handleConfirm = () => {
+    setModalVisible(false);
+    consumeEnergy(undefined, {
+      onSuccess: () => {
+        if (nextRoute) {
+          router.push(nextRoute);
+          setNextRoute(null);
+          fetchEnergy();
+        }
+      },
+      onError: () => {
+        setEnergyAlertVisible(true);
+      },
+    });
+  };
 
   useEffect(() => {
     mutate();
@@ -38,13 +108,17 @@ const Home = () => {
   return (
     <SafeAreaView className="w-full h-full bg-pink-200">
       <CloudBackground />
+
       <View className="absolute top-0 left-0 right-0 z-50 bg-transparent">
-        <SafeAreaView edges={["top"]} className="flex items-center justify-center mt-2">
-            <GameHeader
-              energyActive={2}
-              name="Rodrigo"
-              avatar={IMAGES.HAPPY_CAT_HEAD}
-            />
+        <SafeAreaView
+          edges={["top"]}
+          className="flex items-center justify-center mt-2"
+        >
+          <GameHeader
+            name="Rodrigo"
+            avatar={IMAGES.HAPPY_CAT_HEAD}
+            energy={energy}
+          />
         </SafeAreaView>
       </View>
       <ScrollView className=" px-7" showsVerticalScrollIndicator={false}>
@@ -95,12 +169,27 @@ const Home = () => {
           />
         </View>
       </ScrollView>
+
       <SafeAreaView
         edges={["bottom"]}
         className="bg-white absolute bottom-0 left-0 right-0 z-50"
       >
         <NavbarComponent />
       </SafeAreaView>
+
+      <PlayAffirmation
+        visible={modalVisible}
+        onCancel={() => {
+          setModalVisible(false);
+          setNextRoute(null);
+        }}
+        onConfirm={handleConfirm}
+      />
+
+      <EnergyAlert
+        visible={energyAlertVisible}
+        onClose={() => setEnergyAlertVisible(false)}
+      />
     </SafeAreaView>
   );
 }

@@ -6,6 +6,10 @@ export const URL_PATHS = {
     CONNECTION_PATIENT_WITH_THERAPIST: "/auth/connect-patient-with-therapist",
     CHANGE_PASSWORD: "/auth/password-change-request",
     DAILY_MESSAGE: "/auth/daily",
+    SELECT_PROFILE: "/auth/select-profile",
+  },
+  ANIMAL: {
+    LIST_ANIMALS: "/animals",
   },
   THERAPIST: {
     SCHEDULE_APPOINTMENT: "/schedule-appointment",
@@ -16,7 +20,12 @@ export const URL_PATHS = {
     LIST_PATIENTS: "/therapist/list-patients",
     CLOSE_CONNETION: "/disconnect-patient",
   },
-  GAME: {
-    GAME_LIST: "/games"
-  }
+  GAMES: {
+    GET_MEMOCIONES_PAIRS: "/pairs",
+    GAME_LIST: "/games",
+  },
+  ENERGIES: {
+    GET_ENERGY: "/energy/current_energies",
+    CONSUME_ENERGY: "/energy/consume",
+  },
 };
