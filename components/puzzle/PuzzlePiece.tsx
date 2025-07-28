@@ -38,29 +38,24 @@ function PuzzlePiece({ index, shape, shuffledPieces, correctPieces, imageSource 
   const shuffledIndex = shuffledPieces[index];
   const piece = PUZZLE_PIECES[index];
   const shuffledPiece = PUZZLE_PIECES[shuffledIndex];
-  const delay = 1150 + index * 150;
   const randomRotation = getRandomRotation();
   const safeSpacing = PUZZLE_PIECE_SIZE / 2;
 
-  const initialX = Math.round(PUZZLE_PIECE_SIZE * piece.x);
-  const initialY = Math.round(PUZZLE_PIECE_SIZE * piece.y);
-  const shuffledX = Math.round(SVG_SIZE * shuffledPiece.x);
-  const shuffledY = Math.round(SVG_SIZE * shuffledPiece.y + 2 * PIECES_DISTANCE);
+  // Posición donde debe encajar la pieza (spot)
+  const spotX = Math.round(PUZZLE_PIECE_SIZE * piece.x);
+  const spotY = Math.round(PUZZLE_PIECE_SIZE * piece.y);
+  // Posición inicial abajo
+  const initialX = Math.round(SVG_SIZE * shuffledPiece.x);
+  const initialY = Math.round(SVG_SIZE * shuffledPiece.y + 2 * PIECES_DISTANCE);
 
   const translateX = useSharedValue(initialX);
   const translateY = useSharedValue(initialY);
-  const scale = useSharedValue(1);
-  const rotate = useSharedValue(0);
+  const scale = useSharedValue(PIECE_SCALE);
+  const rotate = useSharedValue(randomRotation);
   const z = useSharedValue(0);
-  const isEnabled = useSharedValue(0);
+  const isEnabled = useSharedValue(1);
 
-  useEffect(() => {
-    translateX.value = withDelay(delay, withSpring(shuffledX));
-    translateY.value = withDelay(delay, withSpring(shuffledY));
-    scale.value = withDelay(delay, withSpring(PIECE_SCALE));
-    rotate.value = withDelay(delay, withSpring(randomRotation));
-    isEnabled.value = withDelay(delay, withTiming(1));
-  }, [shuffledPieces]);
+  // Elimina animación inicial, las piezas aparecen directamente abajo
 
   const panGestureHandler = useAnimatedGestureHandler<
     PanGestureHandlerGestureEvent,
@@ -80,13 +75,15 @@ function PuzzlePiece({ index, shape, shuffledPieces, correctPieces, imageSource 
     },
     onEnd: () => {
       if (!isEnabled.value) return;
+      // Compara contra la posición del spot
       const isCorrect =
-        translateX.value >= initialX - safeSpacing &&
-        translateX.value <= initialX + safeSpacing &&
-        translateY.value <= initialY + safeSpacing &&
-        translateY.value >= initialY - safeSpacing;
-      translateX.value = withSpring(isCorrect ? initialX : shuffledX);
-      translateY.value = withSpring(isCorrect ? initialY : shuffledY);
+        translateX.value >= spotX - safeSpacing &&
+        translateX.value <= spotX + safeSpacing &&
+        translateY.value <= spotY + safeSpacing &&
+        translateY.value >= spotY - safeSpacing;
+      // Si encaja, va al spot; si no, regresa abajo
+      translateX.value = withSpring(isCorrect ? spotX : initialX);
+      translateY.value = withSpring(isCorrect ? spotY : initialY);
       scale.value = withSpring(isCorrect ? 1 : PIECE_SCALE);
       rotate.value = withSpring(isCorrect ? 0 : randomRotation);
       z.value = 0; // Set directly to 0 without animation

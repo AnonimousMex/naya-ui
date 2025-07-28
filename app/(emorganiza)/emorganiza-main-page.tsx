@@ -2,11 +2,13 @@ import { GameHeader } from "@/components/GameHeader";
 import { NavbarComponent } from "@/components/NavBar";
 import { IMAGES } from "@/constants/images";
 import { StyleSheet } from "react-native";
-import { router } from "expo-router";
-import React from "react";
-import { ScrollView, View, Text, TouchableOpacity, Image } from "react-native";
+import React, { useMemo } from "react";
+import { View, Text, TouchableOpacity, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { PuzzleSpot, PuzzlePiece } from "@/components/puzzle";
+// Memoized components for optimization
+const MemoPuzzleSpot = React.memo(PuzzleSpot);
+const MemoPuzzlePiece = React.memo(PuzzlePiece);
 import {
   PIECES_DISTANCE,
   PUZZLE_PIECES,
@@ -32,6 +34,16 @@ function EmorganizaMainPage() {
   const [currentRound, setCurrentRound] = useState(1);
   const [selectedEmotion, setSelectedEmotion] = useState<string | null>(null);
 
+  // Imagen dinámica por ronda (simulación, reemplaza por la que venga del backend)
+  const [image, setImage] = useState(IMAGES.HAPPY_BUNNY_2);
+  // Simulación: actualiza la imagen en cada ronda (aquí deberías hacer la petición al backend)
+  useEffect(() => {
+    // Aquí iría la lógica para obtener la imagen del backend
+    // setImage(await fetchImage(currentRound));
+    // Ejemplo: alterna entre dos imágenes
+    setImage(currentRound % 2 === 1 ? IMAGES.HAPPY_BUNNY_2 : IMAGES.HAPPY_CAT_HEAD);
+  }, [currentRound]);
+
   const shape = SHAPES[currentShape];
   const scale = useSharedValue(0);
   const correctPieces = useSharedValue(0);
@@ -45,20 +57,26 @@ function EmorganizaMainPage() {
     setPhase('puzzle');
   }, []);
 
-  // Función JS para manejar el timeout y cambio de fase
   const triggerPhaseEmotion = () => {
     setTimeout(() => {
       setPhase('emotion');
     }, 350);
   };
 
-  // Cuando termina el puzzle, pasa a la fase de emoción
+  const handleResetAndPhase = () => {
+    handleReset();
+    setPhase('emotion');
+  };
+
   useAnimatedReaction(
     () => correctPieces.value >= 9,
     (isDone) => {
       if (isDone && phase !== 'result') {
-        scale.value = withSpring(0.7, { damping: 15, stiffness: 120 });
-        runOnJS(triggerPhaseEmotion)();
+        scale.value = withTiming(0, {}, (isFinished) => {
+          if (isFinished) {
+            runOnJS(handleResetAndPhase)();
+          }
+        });
       }
     },
   );
@@ -70,7 +88,6 @@ function EmorganizaMainPage() {
     }
   }, [phase, shuffledPieces]);
 
-  // Cuando selecciona emoción
   const handleEmotionSelect = (emotion: string) => {
     setSelectedEmotion(emotion);
     if (currentRound < 3) {
@@ -116,12 +133,10 @@ function EmorganizaMainPage() {
         </SafeAreaView>
       </View>
 
-      {/* Mostrar el round actual */}
       <View className="mt-2 mb-2">
         <Text className="text-gray-30 font-UrbanistExtraBold text-[18px]">Ronda {currentRound} de 3</Text>
       </View>
 
-      {/* Fase de rompecabezas */}
       {phase === 'puzzle' && (
         <>
           <View className="rounded-2xl w-10/12 aspect-square items-center justify-center">
@@ -130,21 +145,21 @@ function EmorganizaMainPage() {
               className="w-10/12 aspect-square items-center justify-center"
             >
               {PUZZLE_PIECES.map((_, i) => (
-                <PuzzleSpot
+                <MemoPuzzleSpot
                   key={`spot-${i}`}
                   index={i}
                   shape={shape}
-                  imageSource={IMAGES.HAPPY_BUNNY_2}
+                  imageSource={image}
                 />
               ))}
               {PUZZLE_PIECES.map((_, i) => (
-                <PuzzlePiece
+                <MemoPuzzlePiece
                   key={`piece-${i}`}
                   index={i}
                   shape={shape}
                   shuffledPieces={shuffledPieces}
                   correctPieces={correctPieces}
-                  imageSource={IMAGES.HAPPY_BUNNY_2}
+                  imageSource={image}
                 />
               ))}
             </Animated.View>
@@ -158,12 +173,12 @@ function EmorganizaMainPage() {
         </>
       )}
 
-      {/* Fase de selección de emoción */}
+
       {phase === 'emotion' && (
         <>
           <View className="rounded-2xl w-10/12 aspect-square items-center justify-center">
             <Image
-              source={IMAGES.HAPPY_BUNNY_2}
+              source={image}
               style={{ width: '100%', height: '100%', resizeMode: 'contain' }}
             />
           </View>
@@ -187,7 +202,6 @@ function EmorganizaMainPage() {
         </>
       )}
 
-      {/* Fase de resultado final */}
       {phase === 'result' && (
         <View className="flex flex-col items-center justify-center mt-8">
           <Text className="font-UrbanistExtraBold text-[22px] mb-4">¡Juego terminado!</Text>
