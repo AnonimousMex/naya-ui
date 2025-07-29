@@ -3,7 +3,7 @@ export const URL_PATHS = {
     VERIFY_CODE: "/auth/verification-code",
     LOGIN: "/auth/login",
     SING_UP: "/patients",
-    CONNECTION_PATIENT_WITH_THERAPIST: "/auth/connect-patient-with-therapist"
+    CONNECTION_PATIENT_WITH_THERAPIST: "/auth/connect-patient-with-therapist",
     CHANGE_PASSWORD : "/auth/password-change-request"
   },
   THERAPIST:{
@@ -14,5 +14,9 @@ export const URL_PATHS = {
     COMPLETE_APPOINTMENT: "/complete-appointment",
     LIST_PATIENTS: "/therapist/list-patients",
     CLOSE_CONNETION: "/disconnect-patient"
+  },
+  GAMES:{
+    GET_Y_ESE_RUIDO_SOUNDS: "/sounds"
   }
+  
 };

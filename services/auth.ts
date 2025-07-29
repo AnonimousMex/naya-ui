@@ -1,6 +1,6 @@
 import { HTTP } from "@/config/axios";
 import { URL_PATHS } from "@/constants/urlPaths";
-import { TConnectionCode, TConnectionCodeSchema, TSignInSchema, TSignUp, TVerificationCodeSchema } from "@/models/Auth";
+import { TConnectionCode, TConnectionCodeSchema } from "@/models/Auth";
 import {TRequestPasswordReset, TRequestPasswordResetSchema, TSignInSchema, TSignUp, TVerificationCodeSchema } from "@/models/Auth";
 import {
   TSingleDataResponse,

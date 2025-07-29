@@ -36,6 +36,10 @@ import playIcon from "@/assets/icons/play-icon.png";
 import closeIcon from "@/assets/icons/close-circle-icon.png"
 import energyInactiveIcon from "@/assets/icons/energy-inactive-icon.png"
 import energyActiveIcon from "@/assets/icons/energy-active-icon.png"
+import playIcon2 from "@/assets/icons/play-icon-2.png";
+import headphonesIcon from "@/assets/icons/headphones-icon.png";
+import bunnyIcon from "@/assets/icons/bunny-icon.png";
+import arrowIcon from "@/assets/icons/arrow-icon.png";
 
 import cloudsImage from "@/assets/images/home/clouds.png";
 import arrowRight from "@/assets/images/arrow-right.png";
@@ -44,13 +48,17 @@ import nayaSlogan from "@/assets/images/naya-slogan.png";
 import happyCat1 from "@/assets/images/animals/happy/happy-cat/happy-cat-1.png";
 import happyLion1 from "@/assets/images/animals/happy/happy-lion/happy-lion-1.png";
 import happyBuny1 from "@/assets/images/animals/happy/happy-bunny/happy-bunny-1.png";
+import scaredBunny1 from "@/assets/images/animals/scared/scared-bunny/scared-bunny-1.png";
+import sadAxolotl1 from "@/assets/images/animals/sad/sad-axolotl/sad-axolotl-1.png";
 import happyAxolotl1 from "@/assets/images/animals/happy/happy-axolotl/happy-axolotl-1.png";
 import happyAxolotlHead from "@/assets/images/animals/happy/happy-axolotl/happy-axolotl-head.png";
 import happyCatHead from "@/assets/images/animals/happy/happy-cat/happy-cat-head.png";
 import happyLionHead from "@/assets/images/animals/happy/happy-lion/happy-lion-head.png";
+import angryLion1 from "@/assets/images/animals/angry/angry-lion/angry-lion-1.png";
 import happyBunnyHead from "@/assets/images/animals/happy/happy-bunny/happy-bunny-head.png";
 import happyBunny2 from "@/assets/images/animals/happy/happy-bunny/happy-bunny-2.png";
 import happyPandaHead from "@/assets/images/animals/happy/happy-panda/happy-panda-head.png";
+import happyPanda1 from "@/assets/images/animals/happy/happy-panda/happy-panda-1.png";
 import happyAxolotl2 from "@/assets/images/animals/happy/happy-axolotl/happy-axolotl-2.png";
 import emorganizaImage from "@/assets/images/home/homepage/emorganiza-image.png";
 import memocionesImage from "@/assets/images/home/homepage/memociones-image.png";
@@ -75,6 +83,11 @@ import storyButtonBunnyLocked from "@/assets/images/storyPath/locked-button/bunn
 import storyButtonCatLocked from "@/assets/images/storyPath/locked-button/cat_button_locked.png";
 import storyButtonLionLocked from "@/assets/images/storyPath/locked-button/lion_button_locked.png";
 import storyButtonPandaLocked from "@/assets/images/storyPath/locked-button/panda_button_locked.png";
+import confusedBunny1 from "@/assets/images/animals/confused/confused-bunny/confused-bunny-1.png";
+import confusedBunny2 from "@/assets/images/animals/confused/confused-bunny/confused-bunny-2.png";
+import shameAxolotlHead from "@/assets/images/animals/shame/shame-axolotl/shame-axolotl-head.png";
+import soundsBackground from "@/assets/images/sounds-background.png";
+
 
 
 export const ICONS = {
@@ -112,6 +125,10 @@ export const ICONS = {
   CLOSE_ICON: closeIcon,
   ENERGY_ACTIVE_ICON: energyActiveIcon,
   ENERGY_INACTIVE_ICON: energyInactiveIcon,
+  PLAY_ICON_2: playIcon2,
+  HEADPHONES_ICON: headphonesIcon,
+  BUNNY_ICON: bunnyIcon,
+  ARROW_ICON: arrowIcon,
 };
 
 export const IMAGES = {
@@ -161,4 +178,12 @@ export const IMAGES = {
   STORY_BUTTON_PANDA_LOCKED: storyButtonPandaLocked,
   DEFAULT_WOMAN_THERAPIST: defaultWomanTherapist,
   CHANGE_PASSWORD_LION: changePasswordLion,
+  CONFUSED_BUNNY_1: confusedBunny1,
+  CONFUSED_BUNNY_2: confusedBunny2,
+  HAPPY_PANDA_1 : happyPanda1,
+  ANGRY_LION_1: angryLion1,
+  SCARED_BUNNY_1: scaredBunny1,
+  SAD_AXOLOTL_1: sadAxolotl1,
+  SHAME_AXOLOTL_HEAD: shameAxolotlHead,
+  SOUNDS_BACKGROUND: soundsBackground,
 };

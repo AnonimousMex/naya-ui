@@ -59,6 +59,7 @@ export const ERRORS: TError = {
     code:"E018",
     name: "APPOINTMENT_ALREADY_EXISTS",
     message: ERROR_TEXTS.APPOINTMENT_ALREADY_EXISTS,
+  },
   E013: {
     code: "E013",
     name: "CONNECTION_WITH_THERAPIST_ALREADY_EXISTS",
