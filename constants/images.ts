@@ -40,6 +40,8 @@ import playIcon2 from "@/assets/icons/play-icon-2.png";
 import headphonesIcon from "@/assets/icons/headphones-icon.png";
 import bunnyIcon from "@/assets/icons/bunny-icon.png";
 import arrowIcon from "@/assets/icons/arrow-icon.png";
+import pauseIcon from "@/assets/icons/pause-icon.png";
+
 
 import cloudsImage from "@/assets/images/home/clouds.png";
 import arrowRight from "@/assets/images/arrow-right.png";
@@ -129,6 +131,7 @@ export const ICONS = {
   HEADPHONES_ICON: headphonesIcon,
   BUNNY_ICON: bunnyIcon,
   ARROW_ICON: arrowIcon,
+  PAUSE_ICON: pauseIcon,
 };
 
 export const IMAGES = {

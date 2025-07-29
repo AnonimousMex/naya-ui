@@ -1,5 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import { View, Text, Pressable, Image, Dimensions, ActivityIndicator } from "react-native";
+import {
+  View,
+  Text,
+  Pressable,
+  Image,
+  Dimensions,
+  ActivityIndicator,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { IMAGES } from "@/constants/images";
 import { GameHeader } from "@/components/GameHeader";
@@ -9,7 +16,10 @@ import { Audio } from "expo-av";
 import { ChoiceEmotionComponent } from "@/components/ChoiceEmotionComponent";
 import { CorrectAnswerComponent } from "@/components/CorrectAnswerComponent";
 import LottieView from "lottie-react-native";
-import { YEseRuidoSound, Y_ESE_RUIDO_SERVICE } from "@/services/y_ese_ruido";
+import {
+  YEseRuidoSound,
+  Y_ESE_RUIDO_SERVICE,
+} from "@/services/y_ese_ruido";
 
 const soundMap: Record<string, any> = {
   "/sounds/baby-cry-101477.mp3": require("@/assets/sounds/baby-cry-101477.mp3"),
@@ -20,6 +30,8 @@ const soundMap: Record<string, any> = {
   "/sounds/yell-45985.mp3": require("@/assets/sounds/yell-45985.mp3"),
 };
 
+const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
+const isSmallScreen = screenHeight < 700;
 
 const YEseRuidoScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -33,8 +45,9 @@ const YEseRuidoScreen = () => {
   const [sounds, setSounds] = useState<YEseRuidoSound[]>([]);
   const lottieRef = useRef<LottieView>(null);
 
-  const screenHeight = Dimensions.get("window").height;
-  const responsiveHeight = screenHeight * 0.65;
+  const responsiveBoxHeight = screenHeight * 0.6;
+  const lottieSize = screenWidth * 0.55;
+  const bunnySize = screenWidth * 0.35;
 
   useEffect(() => {
     const fetchSounds = async () => {
@@ -43,12 +56,10 @@ const YEseRuidoScreen = () => {
         setSounds(response);
         setLoading(false);
       } catch (e) {
-        console.error("❌ Error cargando sonidos:", e);
         setError(true);
         setLoading(false);
       }
     };
-
     fetchSounds();
   }, []);
 
@@ -65,7 +76,6 @@ const YEseRuidoScreen = () => {
       const localSound = soundMap[backendPath];
 
       if (!localSound) {
-        console.error("No se encontró el sonido local para:", backendPath);
         setError(true);
         return;
       }
@@ -128,19 +138,12 @@ const YEseRuidoScreen = () => {
 
   return (
     <SafeAreaView className="flex-1 bg-pink-100">
-      {/* Barra superior */}
-      <View className="flex-row justify-between items-center px-4 mt-5">
-        <View className="w-11/12">
-          <GameHeader energyActive={1} name="Hugo" avatar={IMAGES.HAPPY_AXOLOTL_HEAD} />
-        </View>
-        <View className="w-1/12 items-end">
-          <Pressable onPress={() => router.push("/(auth)/welcome")}>
-            <Image
-              source={IMAGES.HELP_ICON}
-              style={{ width: 33, height: 33, resizeMode: "contain" }}
-            />
-          </Pressable>
-        </View>
+      <View className="items-center px-4 mt-5">
+        <GameHeader
+          energyActive={1}
+          name="Hugo"
+          avatar={IMAGES.HAPPY_AXOLOTL_HEAD}
+        />
       </View>
 
       <View className="flex-1 items-center justify-center">
@@ -159,17 +162,26 @@ const YEseRuidoScreen = () => {
         ) : showChoices ? (
           <ChoiceEmotionComponent
             audioName={sounds[audioIndex].audio_path}
-            onSelect={(emotion) => {
+            onSelect={() => {
               setSelectedEmotion(sounds[audioIndex]);
               setShowCorrectAnswer(true);
             }}
           />
         ) : (
           <View
-            className="w-10/12 items-center justify-center border-4 border-pink-600 relative bg-white"
-            style={{ borderRadius: 70, height: responsiveHeight }}
+            className="w-10/12 items-center justify-center border-4 border-pink-600 bg-white"
+            style={{
+              borderRadius: screenWidth * 0.12,
+              height: responsiveBoxHeight,
+            }}
           >
-            <Text className="font-UrbanistExtraBold text-4xl text-center w-10/12">
+            <Text
+              className="font-UrbanistExtraBold text-center"
+              style={{
+                fontSize: screenWidth * 0.07,
+                width: "90%",
+              }}
+            >
               Escucha atentamente...
             </Text>
 
@@ -177,17 +189,21 @@ const YEseRuidoScreen = () => {
               ref={lottieRef}
               source={require("@/assets/animations/sound.json")}
               loop
-              style={{ width: 220, height: 400 }}
+              style={{
+                width: lottieSize,
+                height: lottieSize,
+                marginVertical: 20,
+              }}
             />
 
             <Image
               source={IMAGES.CONFUSED_BUNNY_2}
               style={{
                 position: "absolute",
-                bottom: -50,
+                bottom: -bunnySize * 0.3,
                 alignSelf: "center",
-                width: 150,
-                height: 150,
+                width: bunnySize,
+                height: bunnySize,
                 resizeMode: "contain",
                 marginLeft: 30,
               }}
@@ -204,7 +220,6 @@ const YEseRuidoScreen = () => {
             text="¡Vamos a jugar! Escucha muy bien. ¿Qué emoción escuchas?"
             image={IMAGES.CONFUSED_BUNNY_1}
           />
-
           <AutoDismissModal
             visible={endModalVisible}
             onClose={handleEndModalClose}

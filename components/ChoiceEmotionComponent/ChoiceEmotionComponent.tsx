@@ -6,13 +6,15 @@ import {
   Image,
   Vibration,
   ImageBackground,
+  Dimensions,
 } from "react-native";
 import { Audio, AVPlaybackStatusSuccess } from "expo-av";
 import { IMAGES, ICONS } from "@/constants/images";
 import { WrongAnswerComponent } from "@/components/WrongAnswerComponent";
 import LottieView from "lottie-react-native";
 
-// --- Tipado ---
+const { width: screenWidth } = Dimensions.get("window");
+
 type EmotionItem = {
   text: string;
   color: string;
@@ -21,11 +23,10 @@ type EmotionItem = {
 };
 
 type ChoiceEmotionProps = {
-  audioName: string; // ej: "/sounds/baby-cry-101477.mp3"
+  audioName: string;
   onSelect?: (emotion: EmotionItem) => void;
 };
 
-// --- Mapeo de audios a imports (debes asegurarte que coincidan con los de soundMap) ---
 const AUDIO_MAP: Record<string, any> = {
   "/sounds/baby-cry-101477.mp3": require("@/assets/sounds/baby-cry-101477.mp3"),
   "/sounds/baby-laugh-2-329754.mp3": require("@/assets/sounds/baby-laugh-2-329754.mp3"),
@@ -35,13 +36,13 @@ const AUDIO_MAP: Record<string, any> = {
   "/sounds/yell-45985.mp3": require("@/assets/sounds/yell-45985.mp3"),
 };
 
-// --- Emociones disponibles ---
+
 const EMOTIONS: EmotionItem[] = [
   {
     text: "Alegría",
     color: "#fbb6ce",
     borderColor: "#ec4899",
-    image: IMAGES.HAPPY_AXOLOTL_HEAD,
+    image: IMAGES.HAPPY_PANDA_1,
   },
   {
     text: "Tristeza",
@@ -63,17 +64,16 @@ const EMOTIONS: EmotionItem[] = [
   },
 ];
 
-
 const getCorrectEmotion = (audioName: string): string | null => {
   const lower = audioName.toLowerCase();
   if (lower.includes("laugh")) return "Alegría";
   if (lower.includes("cry") || lower.includes("llorando")) return "Tristeza";
-  if (lower.includes("angry") || lower.includes("growling") || lower.includes("yell")) return "Enojo";
+  if (lower.includes("angry") || lower.includes("growling") || lower.includes("yell"))
+    return "Enojo";
   if (lower.includes("fear") || lower.includes("scared")) return "Temor";
   return null;
 };
 
-// --- Obtener emociones aleatorias para distractores ---
 const getRandomEmotions = (count = 3, excludeTexts: string[] = []) => {
   const filtered = EMOTIONS.filter((e) => !excludeTexts.includes(e.text));
   const shuffled = filtered.sort(() => 0.5 - Math.random());
@@ -110,10 +110,7 @@ const ChoiceEmotionComponent = ({ audioName, onSelect }: ChoiceEmotionProps) => 
     const loadAudio = async () => {
       try {
         const audioFile = AUDIO_MAP[audioName];
-        if (!audioFile) {
-          console.warn("Audio no encontrado en AUDIO_MAP:", audioName);
-          return;
-        }
+        if (!audioFile) return;
 
         const { sound } = await Audio.Sound.createAsync(audioFile);
         setSound(sound);
@@ -123,20 +120,17 @@ const ChoiceEmotionComponent = ({ audioName, onSelect }: ChoiceEmotionProps) => 
           setDuration(status.durationMillis ?? 1);
         }
 
-        sound.setOnPlaybackStatusUpdate(async (status) => {
+        sound.setOnPlaybackStatusUpdate((status) => {
           if (!status.isLoaded) return;
           if ((status as AVPlaybackStatusSuccess).didJustFinish) {
-            await sound.stopAsync();
+            sound.stopAsync();
             setIsPlaying(false);
             setProgress(0);
-            if (intervalRef.current !== null) {
-              clearInterval(intervalRef.current);
-              intervalRef.current = null;
-            }
+            if (intervalRef.current) clearInterval(intervalRef.current);
           }
         });
-      } catch (error) {
-        console.error("Error al cargar el audio:", error);
+      } catch {
+
       }
     };
 
@@ -144,10 +138,7 @@ const ChoiceEmotionComponent = ({ audioName, onSelect }: ChoiceEmotionProps) => 
 
     return () => {
       sound?.unloadAsync();
-      if (intervalRef.current !== null) {
-        clearInterval(intervalRef.current);
-        intervalRef.current = null;
-      }
+      if (intervalRef.current) clearInterval(intervalRef.current);
     };
   }, [audioName]);
 
@@ -159,7 +150,7 @@ const ChoiceEmotionComponent = ({ audioName, onSelect }: ChoiceEmotionProps) => 
     if (isPlaying) {
       await sound.pauseAsync();
       setIsPlaying(false);
-      if (intervalRef.current !== null) clearInterval(intervalRef.current);
+      if (intervalRef.current) clearInterval(intervalRef.current);
     } else {
       await sound.playAsync();
       setIsPlaying(true);
@@ -177,7 +168,6 @@ const ChoiceEmotionComponent = ({ audioName, onSelect }: ChoiceEmotionProps) => 
     if (emotion.text === correctEmotion) {
       setShowConfetti(true);
       confettiRef.current?.play();
-
       setTimeout(() => {
         setShowConfetti(false);
         onSelect?.(emotion);
@@ -192,7 +182,7 @@ const ChoiceEmotionComponent = ({ audioName, onSelect }: ChoiceEmotionProps) => 
   const progressPercentage = Math.min((progress / duration) * 100, 100);
 
   return (
-    <View className="items-center">
+    <View className="items-center w-full">
       {showConfetti && (
         <View
           style={{
@@ -212,31 +202,47 @@ const ChoiceEmotionComponent = ({ audioName, onSelect }: ChoiceEmotionProps) => 
             source={require("@/assets/animations/correctChoice.json")}
             autoPlay
             loop={false}
-            style={{ width: 800, height: 800 }}
+            style={{
+              width: screenWidth * 1.8,
+              height: screenWidth * 1.8,
+            }}
           />
         </View>
       )}
 
-      <View className="w-full px-8 items-center mb-5">
-        <Text className="text-4xl font-UrbanistExtraBold text-center">
-          ¿Qué emoción escuchaste?
-        </Text>
-      </View>
+      <Text
+        className="text-center font-UrbanistExtraBold mt-5 mb-6"
+        style={{ fontSize: screenWidth * 0.07 }}
+      >
+        ¿Qué emoción escuchaste?
+      </Text>
 
-      <View className="flex-row items-center w-9/12 mb-6 relative rounded-3xl px-4 space-x-3 py-1 bg-white shadow-lg">
+      <View
+        className="flex-row items-center bg-white rounded-3xl px-3 py-2 shadow-lg mb-6"
+        style={{
+          width: screenWidth * 0.75,
+          maxWidth: 380,
+        }}
+      >
         <Image
           source={ICONS.HEADPHONES_ICON}
-          style={{ width: 50, height: 50 }}
-          resizeMode="contain"
+          style={{
+            width: screenWidth * 0.12,
+            height: screenWidth * 0.12,
+            resizeMode: "contain",
+          }}
         />
         <Pressable onPress={togglePlayback} className="p-2 rounded-full">
           <Image
-            source={isPlaying ? ICONS.PLAY_ICON_2 : ICONS.PLAY_ICON_2}
-            style={{ width: 30, height: 30 }}
-            resizeMode="contain"
+            source={isPlaying ? ICONS.PAUSE_ICON : ICONS.PLAY_ICON_2}
+            style={{
+              width: screenWidth * 0.072,
+              height: screenWidth * 0.072,
+              resizeMode: "contain",
+            }}
           />
         </Pressable>
-        <View className="flex-1 h-2 rounded-full bg-black-20 ml-2">
+        <View className="flex-1 h-2 rounded-full bg-black-20 ml-2 relative">
           <View
             className="h-2 bg-pink-10 rounded-full"
             style={{ width: `${progressPercentage}%` }}
@@ -247,7 +253,7 @@ const ChoiceEmotionComponent = ({ audioName, onSelect }: ChoiceEmotionProps) => 
               width: 17,
               height: 17,
               position: "absolute",
-              top: -9,
+              top: -8,
               left: `${progressPercentage}%`,
               transform: [{ translateX: -9 }],
             }}
@@ -259,54 +265,71 @@ const ChoiceEmotionComponent = ({ audioName, onSelect }: ChoiceEmotionProps) => 
       <ImageBackground
         source={IMAGES.SOUNDS_BACKGROUND}
         resizeMode="cover"
-        className="w-full mx-auto rounded-[70px] border-4 border-pink-600 px-9 py-9"
-        style={{ overflow: "hidden" }}
+        className="rounded-[70px] border-4 border-pink-600"
+        style={{
+          width: screenWidth * 0.85,
+          paddingHorizontal: screenWidth * 0.04,
+          overflow: "hidden",
+          minHeight: screenWidth * 1.3,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
       >
-        <View className="space-y-24 w-full items-center">
+        <View
+          className="w-full"
+          style={{
+            alignItems: "center",
+            marginVertical: screenWidth * 0.05,
+          }}
+        >
           {emotions.map((emotion, index) => (
             <Pressable
               key={index}
               onPress={() => handleSelect(emotion)}
-              className="flex-row items-center px-6 py-4 rounded-[35px] w-10/12 mb-5"
+              className="flex-row items-center rounded-[35px]"
               style={{
+                width: "95%",
                 backgroundColor: emotion.color,
                 borderColor: emotion.borderColor,
                 borderWidth: 4,
-                minHeight: 100,
+                minHeight: screenWidth * 0.3,
+                marginBottom: index !== emotions.length - 1 ? 25 : 0,
+                paddingHorizontal: 16,
+                paddingVertical: 12,
+                justifyContent: "flex-start",
               }}
             >
               <Image
                 source={emotion.image}
                 style={{
-                  width: 100,
-                  height: 100,
-                  marginRight: 12,
-                  marginBottom: -13,
+                  width: screenWidth * 0.25,
+                  height: screenWidth * 0.25,
+                  marginRight: 10,
+                  marginBottom: -10,
+                  resizeMode: "contain",
                 }}
-                resizeMode="contain"
               />
-              <View style={{ flex: 1, justifyContent: "center" }}>
-                <Text
-                  className="text-4xl font-UrbanistExtraBold text-white"
-                  numberOfLines={1}
-                  adjustsFontSizeToFit
-                >
-                  {emotion.text}
-                </Text>
-              </View>
+              <Text
+                className="text-white font-UrbanistExtraBold"
+                style={{ fontSize: screenWidth * 0.07 }}
+                numberOfLines={1}
+                adjustsFontSizeToFit
+              >
+                {emotion.text}
+              </Text>
             </Pressable>
           ))}
         </View>
-
-        {showWrongModal && correctEmotion && selectedWrongEmotion && (
-          <WrongAnswerComponent
-            visible={showWrongModal}
-            onClose={() => setShowWrongModal(false)}
-            correctOption={correctEmotion}
-            wrongOption={selectedWrongEmotion}
-          />
-        )}
       </ImageBackground>
+
+      {showWrongModal && correctEmotion && selectedWrongEmotion && (
+        <WrongAnswerComponent
+          visible={showWrongModal}
+          onClose={() => setShowWrongModal(false)}
+          correctOption={correctEmotion}
+          wrongOption={selectedWrongEmotion}
+        />
+      )}
     </View>
   );
 };

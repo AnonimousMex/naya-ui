@@ -10,7 +10,7 @@ import {
 import { IMAGES } from "@/constants/images";
 
 type EmotionItem = {
-  text: string; // viene en inglés desde el backend
+  text: string;
   title: string;
   body: string;
   tip: string;
@@ -23,7 +23,6 @@ type Props = {
   emotion: EmotionItem;
 };
 
-// Mapeo visual basado en la emoción traducida al español
 const EMOTION_STYLE_MAP: Record<
   string,
   { image: any; color: string; borderColor: string }
@@ -61,7 +60,7 @@ const translateEmotion = (text: string): string => {
     case "scared":
       return "Temor";
     default:
-      return "Alegría"; 
+      return "Alegría";
   }
 };
 
@@ -86,71 +85,151 @@ const CorrectAnswerComponent = ({ visible, onClose, emotion }: Props) => {
     ];
   })();
 
-  const screenHeight = Dimensions.get("window").height;
+  const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
   const containerHeight = screenHeight * 0.55;
 
   return (
-    <View className="items-center">
-      {/* Header y emoción */}
-      <View className="w-full px-8 items-center">
-        <Text className="text-4xl font-UrbanistExtraBold text-center mb-5">
+    <View style={{ alignItems: "center", paddingHorizontal: screenWidth * 0.05 }}>
+      <View
+        style={{
+          width: "100%",
+          alignItems: "center",
+          paddingHorizontal: screenWidth * 0.05,
+        }}
+      >
+        <Text
+          style={{
+            fontSize: screenWidth * 0.09,
+            fontWeight: "800",
+            textAlign: "center",
+            marginBottom: screenHeight * 0.02,
+            fontFamily: "UrbanistExtraBold",
+          }}
+        >
           ¡Correcto!
         </Text>
+
         <View
-          className="flex-row items-center px-6 py-4 rounded-[35px] w-8/12"
           style={{
+            flexDirection: "row",
+            alignItems: "center",
             backgroundColor: color,
             borderColor: borderColor,
             borderWidth: 4,
+            borderRadius: 35,
+            width: screenWidth * 0.7,
             minHeight: 100,
+            paddingHorizontal: 15,
+            paddingVertical: 10,
           }}
         >
           <Image
             source={image}
             style={{
-              width: 100,
-              height: 100,
-              marginRight: 5,
-              marginBottom: -13,
+              width: screenWidth * 0.25,
+              height: screenWidth * 0.25,
+              marginRight: 10,
+              marginBottom: -screenHeight * 0.01,
+              resizeMode: "contain",
             }}
-            resizeMode="contain"
           />
-          <Text className="text-4xl font-UrbanistExtraBold text-white">
+          <Text
+            style={{
+              fontSize: screenWidth * 0.08,
+              fontWeight: "800",
+              color: "white",
+              fontFamily: "UrbanistExtraBold",
+            }}
+          >
             {emotionTranslated}
           </Text>
         </View>
       </View>
 
-      {/* Contenido principal */}
       <View
-        className="justify-center items-center w-full mt-5"
-        style={{ height: containerHeight }}
+        style={{
+          justifyContent: "center",
+          alignItems: "center",
+          width: "100%",
+          marginTop: screenHeight * 0.03,
+          height: containerHeight,
+        }}
       >
         <ImageBackground
           source={IMAGES.SOUNDS_BACKGROUND}
           resizeMode="cover"
           imageStyle={{ borderRadius: 70 }}
-          className="w-10/12 h-full"
+          style={{
+            width: screenWidth * 0.85,
+            height: "100%",
+            justifyContent: "space-between",
+            borderRadius: 70,
+          }}
         >
-          <View className="rounded-[70px] pt-5 px-5 items-center border-4 border-pink-600 bg-white/90 flex-1 justify-between">
-            <View className="items-center w-full px-4 py-9 pb-12">
-              <Text className="text-3xl font-UrbanistExtraBold text-black-20 mb-5 text-center">
+          <View
+            className="border-pink-600"
+            style={{
+              borderRadius: 70,
+              paddingTop: screenHeight * 0.025,
+              paddingHorizontal: screenWidth * 0.05,
+              backgroundColor: "white",
+              borderWidth: 4,
+              flex: 1,
+              justifyContent: "space-between",
+              alignItems: "center",
+              paddingBottom: screenHeight * 0.04,
+            }}
+          >
+            <View
+              style={{
+                alignItems: "center",
+                width: "100%",
+                paddingHorizontal: screenWidth * 0.03,
+                paddingVertical: screenHeight * 0.03,
+                paddingBottom: screenHeight * 0.06,
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: screenWidth * 0.075,
+                  fontWeight: "800",
+                  color: "#1e293b",
+                  marginBottom: screenHeight * 0.02,
+                  textAlign: "center",
+                  fontFamily: "UrbanistExtraBold",
+                }}
+              >
                 {title}
               </Text>
 
-              <Text className="text-2xl font-UrbanistExtraBold text-center mt-5 mb-5">
-                <Text className="text-black-20">{before}</Text>
-                <Text className="text-blue-226 ">{keyword}</Text>
-                <Text className="text-black-20">{after}</Text>
+              <Text
+                style={{
+                  fontSize: screenWidth * 0.055,
+                  fontWeight: "800",
+                  textAlign: "center",
+                  marginTop: screenHeight * 0.02,
+                  marginBottom: screenHeight * 0.02,
+                  fontFamily: "UrbanistExtraBold",
+                  color: "#1e293b",
+                }}
+              >
+                <Text>{before}</Text>
+                <Text className="text-blue-226">{keyword}</Text>
+                <Text>{after}</Text>
               </Text>
 
               <Text
-                className="text-2xl font-UrbanistExtraBold text-center mt-5 mb-9"
                 style={{
+                  fontSize: screenWidth * 0.055,
+                  fontWeight: "800",
+                  textAlign: "center",
+                  marginTop: screenHeight * 0.02,
+                  marginBottom: screenHeight * 0.03,
                   color: color,
                   textShadowColor: borderColor,
                   textShadowOffset: { width: 1, height: 1 },
                   textShadowRadius: 1,
+                  fontFamily: "UrbanistExtraBold",
                 }}
               >
                 {tip}
@@ -158,9 +237,22 @@ const CorrectAnswerComponent = ({ visible, onClose, emotion }: Props) => {
 
               <Pressable
                 onPress={onClose}
-                className="bg-pink-10 py-3 px-8 rounded-full"
+                style={{
+                  backgroundColor: "#fbcfe8",
+                  paddingVertical: screenHeight * 0.015,
+                  paddingHorizontal: screenWidth * 0.1,
+                  borderRadius: 9999,
+                }}
               >
-                <Text className="text-black-20 font-UrbanistBold text-lg">
+                <Text
+                  style={{
+                    color: "#1e293b",
+                    fontWeight: "700",
+                    fontSize: screenWidth * 0.045,
+                    fontFamily: "UrbanistBold",
+                    textAlign: "center",
+                  }}
+                >
                   Continuar
                 </Text>
               </Pressable>
