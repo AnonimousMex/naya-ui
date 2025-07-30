@@ -25,12 +25,23 @@ export const useLoginMutation = (opts: LoginOpts = {}) => {
       await AsyncStorage.setItem("accessToken", access_token);
       await AsyncStorage.setItem("refreshToken", refresh_token);
 
+      let animal_id = null;
+      try {
+        const { jwtDecode } = await import("jwt-decode");
+        const decoded: any = jwtDecode(access_token);
+        animal_id = decoded.user?.animal_id ?? null;
+      } catch (e) {
+        showSnackbar({ type: "error", message: ERRORS.INTERNAL_SERVER_ERROR.message });
+      }
+
       if (parental) {
         router.replace("/(parentsPages)/parents-profile");
       } else if (user_type === "THERAPIST") {
         router.replace("/(therapistPages)/therapist-home");
+      } else if (!animal_id) {
+        router.replace("/(auth)/profile-choice");
       } else {
-        router.replace("/(auth)/connection-therapist");
+        router.replace("/(mainPages)/affirmation");
       }
 
       showSnackbar({ type: "success", message: SUCCESS_TEXTS.LOGIN_SUCCESS });

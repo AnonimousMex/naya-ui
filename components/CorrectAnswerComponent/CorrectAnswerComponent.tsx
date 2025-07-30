@@ -7,7 +7,7 @@ import {
   ImageBackground,
   Dimensions,
 } from "react-native";
-import { IMAGES } from "@/constants/images";
+import { ICONS, IMAGES } from "@/constants/images";
 
 type EmotionItem = {
   text: string;
@@ -43,7 +43,7 @@ const EMOTION_STYLE_MAP: Record<
     borderColor: "#FFB99F",
   },
   Temor: {
-    image: IMAGES.SCARED_BUNNY_1,
+    image: IMAGES.FEAR_BUNNY_3,
     color: "#800080",
     borderColor: "#C34FC3",
   },
@@ -238,24 +238,42 @@ const CorrectAnswerComponent = ({ visible, onClose, emotion }: Props) => {
               <Pressable
                 onPress={onClose}
                 style={{
-                  backgroundColor: "#fbcfe8",
+                  backgroundColor: "#D6D4FF",
                   paddingVertical: screenHeight * 0.015,
                   paddingHorizontal: screenWidth * 0.1,
                   borderRadius: 9999,
                 }}
               >
-                <Text
+                <View
                   style={{
-                    color: "#1e293b",
-                    fontWeight: "700",
-                    fontSize: screenWidth * 0.045,
-                    fontFamily: "UrbanistBold",
-                    textAlign: "center",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "center",
                   }}
                 >
-                  Continuar
-                </Text>
+                  <Text
+                    style={{
+                      color: "#000000",
+                      fontWeight: "700",
+                      fontSize: screenWidth * 0.045,
+                      fontFamily: "UrbanistBold",
+                      textAlign: "center",
+                      marginRight: screenWidth * 0.02, 
+                    }}
+                  >
+                    Continuar
+                  </Text>
+                  <Image
+                    source={ICONS.ARROW_ICON_2}
+                    style={{
+                      width: screenWidth * 0.055,
+                      height: screenWidth * 0.055,
+                      resizeMode: "contain",
+                    }}
+                  />
+                </View>
               </Pressable>
+
             </View>
           </View>
         </ImageBackground>

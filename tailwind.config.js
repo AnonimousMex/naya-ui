@@ -89,6 +89,7 @@ module.exports = {
         yellow: {
           10: "rgba(248, 230, 60, 0.17)",
           100: "#E8D9A9",
+          40: "#FFCE5C",
           500: "#FFEA2D",
         },
       },

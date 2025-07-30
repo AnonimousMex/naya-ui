@@ -8,6 +8,7 @@ export default function Layout() {
       <Stack.Screen name="achievements" options={{ headerShown: false }} />
       <Stack.Screen name="user-profile" options={{ headerShown: false }} />
       <Stack.Screen name="story-path" options={{ headerShown: false }} />
+      <Stack.Screen name="affirmation" options={{ headerShown: false }} />
     </Stack>
   );
 }

@@ -40,27 +40,27 @@ const AUDIO_MAP: Record<string, any> = {
 const EMOTIONS: EmotionItem[] = [
   {
     text: "Alegría",
-    color: "#fbb6ce",
-    borderColor: "#ec4899",
+    color: "#FFD700",
+    borderColor: "#FFEA78",
     image: IMAGES.HAPPY_PANDA_1,
   },
   {
     text: "Tristeza",
-    color: "#60a5fa",
-    borderColor: "#3b82f6",
+    color: "#1E90FF",
+    borderColor: "#7ABDFF",
     image: IMAGES.SAD_AXOLOTL_1,
   },
   {
     text: "Enojo",
-    color: "#fb7185",
-    borderColor: "#f43f5e",
+    color: "#FF4500",
+    borderColor: "#FFB99F",
     image: IMAGES.ANGRY_LION_1,
   },
   {
     text: "Temor",
-    color: "#a78bfa",
-    borderColor: "#7c3aed",
-    image: IMAGES.SCARED_BUNNY_1,
+    color: "#800080",
+    borderColor: "#C34FC3",
+    image: IMAGES.FEAR_BUNNY_3,
   },
 ];
 

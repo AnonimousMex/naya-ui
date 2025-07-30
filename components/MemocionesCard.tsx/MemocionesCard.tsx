@@ -5,7 +5,7 @@ import { MemocionesFrontCard } from "../MemocionesFrontCard";
 
 export type CardData = {
   id: number;
-  pairId: number;
+  pairId: string;
   kind: "emotion" | "situation";
   img?: any;
   text: string;

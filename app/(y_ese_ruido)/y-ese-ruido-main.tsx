@@ -20,6 +20,9 @@ import {
   YEseRuidoSound,
   Y_ESE_RUIDO_SERVICE,
 } from "@/services/y_ese_ruido";
+import { HTTP } from "@/config/axios";
+import { URL_PATHS } from "@/constants/urlPaths";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const soundMap: Record<string, any> = {
   "/sounds/baby-cry-101477.mp3": require("@/assets/sounds/baby-cry-101477.mp3"),
@@ -32,6 +35,30 @@ const soundMap: Record<string, any> = {
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 const isSmallScreen = screenHeight < 700;
+
+const useEnergy = () => {
+  const [energy, setEnergy] = useState(0);
+
+  const fetchEnergy = async () => {
+    try {
+      const token = await AsyncStorage.getItem("accessToken");
+      if (!token) throw new Error("No auth token found");
+
+      const { data } = await HTTP.get<{ current_energy: number }>(
+        URL_PATHS.ENERGIES.GET_ENERGY,
+        {
+          headers: { Authorization: token },
+        },
+      );
+      setEnergy(data.current_energy);
+    } catch (e) {
+      console.error("Error al obtener energía:", e);
+      setEnergy(0);
+    }
+  };
+
+  return { energy, fetchEnergy };
+};
 
 const YEseRuidoScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -48,6 +75,11 @@ const YEseRuidoScreen = () => {
   const responsiveBoxHeight = screenHeight * 0.6;
   const lottieSize = screenWidth * 0.55;
   const bunnySize = screenWidth * 0.35;
+  const { energy, fetchEnergy } = useEnergy();
+
+  useEffect(() => {
+    fetchEnergy();
+  }, []);
 
   useEffect(() => {
     const fetchSounds = async () => {
@@ -115,7 +147,7 @@ const YEseRuidoScreen = () => {
     if (audioIndex < sounds.length - 1) {
       setAudioIndex(audioIndex + 1);
     } else {
-      router.replace("/(auth)/welcome");
+      router.replace("/(mainPages)/home");
     }
   };
 
@@ -140,7 +172,7 @@ const YEseRuidoScreen = () => {
     <SafeAreaView className="flex-1 bg-pink-100">
       <View className="items-center px-4 mt-5">
         <GameHeader
-          energyActive={1}
+          energy={energy}
           name="Hugo"
           avatar={IMAGES.HAPPY_AXOLOTL_HEAD}
         />
