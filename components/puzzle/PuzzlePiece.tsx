@@ -16,7 +16,6 @@ import Animated, {
 
 import {
   getRandomRotation,
-  PIECES_DISTANCE,
   PIECE_SCALE,
   PUZZLE_PIECES,
   PUZZLE_PIECE_BOX_SIZE,
@@ -32,9 +31,18 @@ type Props = {
   shuffledPieces: number[];
   correctPieces: SharedValue<number>;
   imageSource?: any;
+  piecesDistance: number;
 };
 
-function PuzzlePiece({ index, shape, shuffledPieces, correctPieces, imageSource }: Props) {
+function PuzzlePiece({ index, shape, shuffledPieces, correctPieces, imageSource, piecesDistance }: Props) {
+  // Resetear posición inicial si cambia la distancia o el shuffle
+  useEffect(() => {
+    if (isEnabled.value) {
+      translateX.value = Math.round(SVG_SIZE * shuffledPiece.x);
+      translateY.value = Math.round(SVG_SIZE * shuffledPiece.y + 2 * piecesDistance);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [piecesDistance, shuffledPieces]);
   const shuffledIndex = shuffledPieces[index];
   const piece = PUZZLE_PIECES[index];
   const shuffledPiece = PUZZLE_PIECES[shuffledIndex];
@@ -46,7 +54,7 @@ function PuzzlePiece({ index, shape, shuffledPieces, correctPieces, imageSource 
   const spotY = Math.round(PUZZLE_PIECE_SIZE * piece.y);
   // Posición inicial abajo
   const initialX = Math.round(SVG_SIZE * shuffledPiece.x);
-  const initialY = Math.round(SVG_SIZE * shuffledPiece.y + 2 * PIECES_DISTANCE);
+  const initialY = Math.round(SVG_SIZE * shuffledPiece.y + 2 * piecesDistance);
 
   const translateX = useSharedValue(initialX);
   const translateY = useSharedValue(initialY);

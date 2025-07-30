@@ -15,7 +15,7 @@ const EmorganizaEmotionsPanel: React.FC<EmorganizaEmotionsPanelProps> = ({
   selectedEmotion,
 }) => {
   return (
-    <View className="bg-white rounded-t-[50px] px-6 pt-10 pb-8 min-h-[350px] w-full mt-8 relative items-center">
+    <View className="bg-white rounded-t-[50px] px-6 pt-4 w-full relative items-center">
       <View className="flex flex-row flex-wrap justify-center items-center gap-2">
         {emotions.map(({ key, color }) => (
           <EmotionButton

@@ -10,7 +10,51 @@ export const SVG_BOX_SIZE = 100;
 export const SVG_SIZE = 60;
 export const PUZZLE_PIECE_BOX_SIZE = 200;
 export const PUZZLE_PIECE_SIZE = 120; 
-export const PIECES_DISTANCE = 210; 
+
+// PIECES_DISTANCE is now dynamic, calculated based on puzzle position and available height
+// This function returns the optimal distance so that pieces never go below the white container or under the navbar
+export function getDynamicPiecesDistance({
+  puzzleY,
+  puzzleHeight,
+  containerHeight,
+  navbarHeight,
+  screenHeight,
+  minDistance = 120,
+  maxDistance = 240,
+}: {
+  puzzleY: number;
+  puzzleHeight: number;
+  containerHeight: number;
+  navbarHeight: number;
+  screenHeight: number;
+  minDistance?: number;
+  maxDistance?: number;
+}) {
+  // The available space below the puzzle is:
+  // containerHeight = total height of the white container (from its top to bottom, above navbar)
+  // puzzleY = Y position of the puzzle (from top of screen)
+  // puzzleHeight = height of the puzzle
+  // navbarHeight = height of the navbar
+  // screenHeight = total screen height
+
+  // Calculate the bottom of the puzzle
+  const puzzleBottom = puzzleY + puzzleHeight;
+  // Calculate the bottom of the white container (above navbar)
+  const containerBottom = screenHeight - navbarHeight;
+  // Calculate the top of the white container
+  const containerTop = containerBottom - containerHeight;
+  // The max allowed distance is the space from puzzle center to containerTop, minus a margin
+  const margin = 16;
+  // Queremos que las piezas nunca bajen de containerTop + margin
+  // La posición inicial de las piezas es puzzleBottom + 2*distance, así que:
+  // puzzleBottom + 2*distance <= containerBottom - margin
+  // 2*distance <= containerBottom - margin - puzzleBottom
+  // distance <= (containerBottom - margin - puzzleBottom) / 2
+  const maxByContainer = Math.floor((containerBottom - margin - puzzleBottom) / 2);
+  // Clamp the distance between minDistance and maxDistance, y nunca mayor a maxByContainer
+  const maxAllowedDistance = Math.max(minDistance, Math.min(maxByContainer, maxDistance));
+  return Math.max(minDistance, Math.min(maxAllowedDistance, maxDistance));
+}
 
 export const PIECE_SCALE = 0.6;
 
