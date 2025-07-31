@@ -11,8 +11,6 @@ export const SVG_SIZE = 60;
 export const PUZZLE_PIECE_BOX_SIZE = 200;
 export const PUZZLE_PIECE_SIZE = 120; 
 
-// PIECES_DISTANCE is now dynamic, calculated based on puzzle position and available height
-// This function returns the optimal distance so that pieces never go below the white container or under the navbar
 export function getDynamicPiecesDistance({
   puzzleY,
   puzzleHeight,
@@ -30,28 +28,12 @@ export function getDynamicPiecesDistance({
   minDistance?: number;
   maxDistance?: number;
 }) {
-  // The available space below the puzzle is:
-  // containerHeight = total height of the white container (from its top to bottom, above navbar)
-  // puzzleY = Y position of the puzzle (from top of screen)
-  // puzzleHeight = height of the puzzle
-  // navbarHeight = height of the navbar
-  // screenHeight = total screen height
 
-  // Calculate the bottom of the puzzle
   const puzzleBottom = puzzleY + puzzleHeight;
-  // Calculate the bottom of the white container (above navbar)
   const containerBottom = screenHeight - navbarHeight;
-  // Calculate the top of the white container
   const containerTop = containerBottom - containerHeight;
-  // The max allowed distance is the space from puzzle center to containerTop, minus a margin
   const margin = 16;
-  // Queremos que las piezas nunca bajen de containerTop + margin
-  // La posición inicial de las piezas es puzzleBottom + 2*distance, así que:
-  // puzzleBottom + 2*distance <= containerBottom - margin
-  // 2*distance <= containerBottom - margin - puzzleBottom
-  // distance <= (containerBottom - margin - puzzleBottom) / 2
   const maxByContainer = Math.floor((containerBottom - margin - puzzleBottom) / 2);
-  // Clamp the distance between minDistance and maxDistance, y nunca mayor a maxByContainer
   const maxAllowedDistance = Math.max(minDistance, Math.min(maxByContainer, maxDistance));
   return Math.max(minDistance, Math.min(maxAllowedDistance, maxDistance));
 }
@@ -78,7 +60,6 @@ const PIECE_CENTER =
   "M 20 20 h20 c0-5.519 4.481-10 10-10 s10 4.481 10 10 h20 v20 c5.519 0 10 4.481 10 10 s-4.481 10-10 10 v20 h-20 c0-5.519-4.481-10-10-10 s-10 4.481-10 10 h-20 v-20 c-5.519 0-10-4.481-10-10 s4.481-10 10-10 v-20";
 
 export const PUZZLE_PIECES = [
-  // Fila 1 (superior)
   { x: -1, y: -1, path: CORNER_TOP_LEFT },    
   { x: 0, y: -1, path: PIECE_TOP_CENTER },   
   { x: 1, y: -1, path: CORNER_TOP_RIGHT },   
@@ -99,8 +80,6 @@ const PENTAGON_SHAPE =
   "M81.176 28.865a2.002 2.002 0 0 0-2.352 0L29.172 64.94a2 2 0 0 0-.726 2.236l18.965 58.369a2 2 0 0 0 1.902 1.382h61.374a2 2 0 0 0 1.902-1.382l18.964-58.369a2 2 0 0 0-.726-2.236L81.176 28.865Z";
 
 export const SHAPES = [CIRCLE_SHAPE, SQUARE_SHAPE, PENTAGON_SHAPE];
-
-// FUNCTIONS
 
 export const shuffle = (array: any[]) => {
   return array

@@ -35,13 +35,11 @@ type Props = {
 };
 
 function PuzzlePiece({ index, shape, shuffledPieces, correctPieces, imageSource, piecesDistance }: Props) {
-  // Resetear posición inicial si cambia la distancia o el shuffle
   useEffect(() => {
     if (isEnabled.value) {
       translateX.value = Math.round(SVG_SIZE * shuffledPiece.x);
       translateY.value = Math.round(SVG_SIZE * shuffledPiece.y + 2 * piecesDistance);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [piecesDistance, shuffledPieces]);
   const shuffledIndex = shuffledPieces[index];
   const piece = PUZZLE_PIECES[index];
@@ -49,10 +47,8 @@ function PuzzlePiece({ index, shape, shuffledPieces, correctPieces, imageSource,
   const randomRotation = getRandomRotation();
   const safeSpacing = PUZZLE_PIECE_SIZE / 2;
 
-  // Posición donde debe encajar la pieza (spot)
   const spotX = Math.round(PUZZLE_PIECE_SIZE * piece.x);
   const spotY = Math.round(PUZZLE_PIECE_SIZE * piece.y);
-  // Posición inicial abajo
   const initialX = Math.round(SVG_SIZE * shuffledPiece.x);
   const initialY = Math.round(SVG_SIZE * shuffledPiece.y + 2 * piecesDistance);
 
@@ -62,8 +58,6 @@ function PuzzlePiece({ index, shape, shuffledPieces, correctPieces, imageSource,
   const rotate = useSharedValue(randomRotation);
   const z = useSharedValue(0);
   const isEnabled = useSharedValue(1);
-
-  // Elimina animación inicial, las piezas aparecen directamente abajo
 
   const panGestureHandler = useAnimatedGestureHandler<
     PanGestureHandlerGestureEvent,
@@ -83,18 +77,16 @@ function PuzzlePiece({ index, shape, shuffledPieces, correctPieces, imageSource,
     },
     onEnd: () => {
       if (!isEnabled.value) return;
-      // Compara contra la posición del spot
       const isCorrect =
         translateX.value >= spotX - safeSpacing &&
         translateX.value <= spotX + safeSpacing &&
         translateY.value <= spotY + safeSpacing &&
         translateY.value >= spotY - safeSpacing;
-      // Si encaja, va al spot; si no, regresa abajo
       translateX.value = withSpring(isCorrect ? spotX : initialX);
       translateY.value = withSpring(isCorrect ? spotY : initialY);
       scale.value = withSpring(isCorrect ? 1 : PIECE_SCALE);
       rotate.value = withSpring(isCorrect ? 0 : randomRotation);
-      z.value = 0; // Set directly to 0 without animation
+      z.value = 0; 
       if (isCorrect) {
         isEnabled.value = 0;
         correctPieces.value = correctPieces.value + 1;

@@ -25,6 +25,8 @@ import Animated, {
   withSpring,
   withTiming,
   runOnJS,
+  withSequence,
+  withRepeat,
 } from "react-native-reanimated";
 import { useCallback, useState, useEffect } from "react";
 
@@ -70,24 +72,20 @@ function getRandomEmotionImage(): { image: any; emotion: EmotionKey } {
 }
 
 function EmorganizaMainPage() {
-  // State to store navbar height
+  const shakeX = useSharedValue(0);
   const [navbarHeight, setNavbarHeight] = useState(0);
   const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
-  // Estados principales
   const [currentShape, setCurrentShape] = useState(0);
   const [shuffledPieces, setShuffledPieces] = useState(() =>
     shuffle([...Array(PUZZLE_PIECES.length).keys()]),
   );
-  const [phase, setPhase] = useState<"puzzle" | "emotion" | "result">("result");
+  const [phase, setPhase] = useState<"puzzle" | "emotion" | "result">("puzzle");
   const [currentRound, setCurrentRound] = useState(1);
   const [selectedEmotion, setSelectedEmotion] = useState<EmotionKey | null>(null);
   const [roundResults, setRoundResults] = useState<{ image: any; emotion: EmotionKey }[]>([]);
 
-
-
   const [image, setImage] = useState<any>(IMAGES.HAPPY_BUNNY_2);
   const [roundEmotion, setRoundEmotion] = useState<EmotionKey | null>(null);
-  // Nuevo estado para limpiar el puzzle
   const [isPuzzleLoading, setIsPuzzleLoading] = useState(false);
   const [isPuzzleTransitioning, setIsPuzzleTransitioning] = useState(false);
 
@@ -102,21 +100,16 @@ function EmorganizaMainPage() {
   const correctPieces = useSharedValue(0);
 
 
-
-  // States for layout measurements
   const [puzzleLayout, setPuzzleLayout] = useState<{y: number, height: number}>({y: 0, height: 0});
   const [containerLayout, setContainerLayout] = useState<{y: number, height: number}>({y: 0, height: 0});
 
-  // PIECES_DISTANCE seguro por defecto
   let PIECES_DISTANCE = 140;
   let puzzleScale = 1;
   const layoutReady = puzzleLayout.height > 0 && containerLayout.height > 0 && navbarHeight > 0;
   if (layoutReady) {
-    // Calcula la distancia máxima posible para que las piezas no se salgan del área blanca
     const availableSpace = (screenHeight - navbarHeight) - (puzzleLayout.y + puzzleLayout.height);
     const maxDistance = Math.max(100, Math.min(availableSpace / 2 - 16, 220));
     PIECES_DISTANCE = maxDistance + 50;
-    // Si el espacio es muy pequeño, reduce el tamaño del puzzle
     if (maxDistance < 120) {
       puzzleScale = Math.max(0.7, maxDistance / 140);
     }
@@ -131,12 +124,10 @@ function EmorganizaMainPage() {
       correctPieces.value = 0;
       setSelectedEmotion(null);
       setIsPuzzleLoading(false);
-      setIsPuzzleTransitioning(false); // Resetea el flag aquí
-    }, 300); // pequeño delay para limpiar el puzzle
+      setIsPuzzleTransitioning(false);
+    }, 300); 
   }, []);
 
-
-  // Cambia a la fase de selección de emoción.
   const handleResetAndPhase = () => {
     setPhase("emotion");
   };
@@ -176,24 +167,34 @@ function EmorganizaMainPage() {
       if (currentRound < 3) {
         const nextRound = currentRound + 1;
         setCurrentRound(nextRound);
-        // Espera a que el round cambie y luego resetea y muestra el puzzle
         setTimeout(() => {
           handleReset();
           setPhase("puzzle");
-        }, 60); // pequeño delay para asegurar el cambio de round
+        }, 60);
       } else {
         setPhase("result");
       }
     } else {
+      shakeX.value = withSequence(
+        withTiming(-12, { duration: 40 }),
+        withRepeat(withSequence(
+          withTiming(12, { duration: 80 }),
+          withTiming(-12, { duration: 80 })
+        ), 2, true),
+        withTiming(0, { duration: 40 })
+      );
       setTimeout(() => {
         setSelectedEmotion(null);
       }, 500);
     }
   };
+  const shakeStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: shakeX.value }],
+  }));
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: PIECES_DISTANCE / 2 }, { scale: scale.value }],
-  })); // Si necesitas que el boardAnimatedStyle también use la distancia, ajústalo aquí
+  }));
 
   const boardAnimatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
@@ -348,12 +349,12 @@ function EmorganizaMainPage() {
 
       {phase === "emotion" && (
         <>
-          <View style={styles.emotionPanel}>
+          <Animated.View style={[styles.emotionPanel, shakeStyle]}>
             <Image
               source={image}
               style={{ width: "100%", height: "100%", resizeMode: "contain" }}
             />
-          </View>
+          </Animated.View>
           <View style={{ justifyContent: "center", alignItems: "center", marginTop: screenHeight * 0.01, zIndex: -1 }}>
             <View style={[styles.infoPanel, { paddingVertical: screenHeight * 0.008, minHeight: screenHeight * 0.04 }]}> 
               <Text className="text-gray-30 font-UrbanistExtraBold" style={{ fontSize: screenWidth * 0.04 }}>
