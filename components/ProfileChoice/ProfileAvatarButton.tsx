@@ -1,11 +1,11 @@
 import React from "react";
 import { Pressable, View, Image, Text, Dimensions } from "react-native";
-import { ProfileAvatar } from "@/constants/profileAvatars";
+import { TAnimal } from "../../models/Animal";
 
 interface ProfileAvatarButtonProps {
-  avatar: ProfileAvatar;
+  avatar: TAnimal & { image: any; color: string };
   selected: boolean;
-  onPress: (avatar: ProfileAvatar) => void;
+  onPress: (avatar: TAnimal & { image: any; color: string }) => void;
 }
 
 const ProfileAvatarButton: React.FC<ProfileAvatarButtonProps> = ({ avatar, selected, onPress }) => {

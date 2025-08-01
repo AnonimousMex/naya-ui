@@ -17,17 +17,17 @@ const ParentsProfile = () => {
     {
       icon: ICONS.PERSON_ICON,
       text: "Información personal",
-      onPress: () => router.push("/(auth)/welcome"),
+      onPress: () => router.push("/(parentsPages)/parents-profile"),
     },
     {
       icon: ICONS.LOCK_ICON,
       text: "Progreso del niño",
-      onPress: () => router.push("/(auth)/welcome"),
+      onPress: () => router.push("/(parentsPages)/test-results"),
     },
     {
       icon: ICONS.WEB_ICON,
       text: "Ver especialistas",
-      onPress: () => router.push("/(auth)/welcome"),
+      onPress: () => router.push("/(parentsPages)/therapists-list"),
     },
     {
       icon: ICONS.VERIFIED_ICON,

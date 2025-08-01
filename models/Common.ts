@@ -1,4 +1,5 @@
 import { Control } from "react-hook-form";
+import { TAnimal } from "./Animal";
 import { TPatient } from "./therapist";
 
 export type ReactHookFormControl = Control<any, object>;
@@ -26,7 +27,15 @@ export type TSingUpToken = {
   createdAt: string;
   updatedAt: string;
   patientId: string;
-}
+};
+
+export type TListAnimalsResponse = TAnimal[];
+
+export const emptyListAnimalsResponse: TSingleDataResponse<TListAnimalsResponse> = {
+  status: 200,
+  statusMessage: "Empty default",
+  data: [],
+};
 
 export type TCreateAppointmentRequest = {
   token: string;
@@ -65,11 +74,11 @@ export type TRescheduleAppointment = {
 };
 
 export type TListPatientsResponse = TPatient[];
-;
 
 export const emptyListPatientsResponse: TSingleDataResponse<TListPatientsResponse> = {
   status: 200,
   statusMessage: 'Empty default',
   data: [] 
 };
+
 

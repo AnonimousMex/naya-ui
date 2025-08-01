@@ -21,15 +21,26 @@ const PersonCard: React.FC<PersonCardProps> = ({
   type,
 }) => {
   const handlePress = () => {
-    if (type === "therapist") {
-      router.push("/(therapistPages)/therapist-profile");
+    if (type === "patient") {
+      router.push({
+        pathname: "/(parentsPages)/therapist-cv",
+        params: {
+          id,
+          name,
+          description: `Hola, soy ${name}, terapeuta en nuestra app.`,
+          phone: "4436459525",
+          email: "correo@ejemplo.com",
+          address: "Col. husbx calle bz #221, morelia, mich",
+          image: "DEFAULT_WOMAN_THERAPIST",
+        },
+      });
     } else {
       router.push({
-        pathname:"/(therapistPages)/patient_profile",
-        params:{
+        pathname: "/(therapistPages)/patient_profile",
+        params: {
           id: id,
           name: name,
-        }
+        },
       });
     }
   };
