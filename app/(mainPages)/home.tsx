@@ -121,7 +121,9 @@ function Home() {
           <ShortPanel
             name="Emorganiza"
             background={IMAGES.EMORGANIZA_IMAGE}
-            onPressButton={() => askToPlay("/(mainPages)/insignias")}
+            onPressButton={() => {
+              askToPlay("/(emorganiza)/emorganiza-main-page");
+            }}
           />
         </View>
 
