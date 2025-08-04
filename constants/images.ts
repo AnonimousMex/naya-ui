@@ -33,9 +33,15 @@ import peopleIcon from "@/assets/icons/people_icon.png";
 import detailsIcon from "@/assets/icons/details_icon.png";
 import timerIcon from "@/assets/icons/timer-date-icon.png";
 import playIcon from "@/assets/icons/play-icon.png";
-import closeIcon from "@/assets/icons/close-circle-icon.png";
-import energyInactiveIcon from "@/assets/icons/energy-inactive-icon.png";
-import energyActiveIcon from "@/assets/icons/energy-active-icon.png";
+import closeIcon from "@/assets/icons/close-circle-icon.png"
+import energyInactiveIcon from "@/assets/icons/energy-inactive-icon.png"
+import energyActiveIcon from "@/assets/icons/energy-active-icon.png"
+import playIcon2 from "@/assets/icons/play-icon-2.png";
+import headphonesIcon from "@/assets/icons/headphones-icon.png";
+import bunnyIcon from "@/assets/icons/bunny-icon.png";
+import arrowIcon from "@/assets/icons/arrow-icon.png";
+import arrowIcon2 from "@/assets/icons/arrow-icon-2.png";
+import pauseIcon from "@/assets/icons/pause-icon.png";
 
 import cloudsImage from "@/assets/images/home/clouds.png";
 import arrowRight from "@/assets/images/arrow-right.png";
@@ -45,6 +51,7 @@ import happyCat1 from "@/assets/images/animals/happy/happy-cat/happy-cat-1.png";
 import happyCat2 from "@/assets/images/animals/happy/happy-cat/happy-cat-2.png";
 import happyCat3 from "@/assets/images/animals/happy/happy-cat/happy-cat-3.png";
 import happyLion1 from "@/assets/images/animals/happy/happy-lion/happy-lion-1.png";
+
 import happyLion2 from "@/assets/images/animals/happy/happy-lion/happy-lion-2.png";
 import happyBunny1 from "@/assets/images/animals/happy/happy-bunny/happy-bunny-1.png";
 import happyBuny3 from "@/assets/images/animals/happy/happy-bunny/happy-bunny-3.png";
@@ -79,6 +86,7 @@ import fearCat2 from "@/assets/images/animals/fear/fear-cat/fear-cat-2.png";
 import fearAxolotl1 from "@/assets/images/animals/fear/fear-axolotl/fear-axolotl-1.png";
 import fearBunny1 from "@/assets/images/animals/fear/fear-bunny/fear-bunny-1.png";
 import fearBunny2 from "@/assets/images/animals/fear/fear-bunny/fear-bunny-2.png";
+import fearBunny3 from "@/assets/images/animals/fear/fear-bunny/fear-bunny-3.png";
 import sadPanda1 from "@/assets/images/animals/sad/sad-panda/sad-panda-1.png";
 import sadPanda2 from "@/assets/images/animals/sad/sad-panda/sad-panda-2.png";
 import sadLion1 from "@/assets/images/animals/sad/sad-lion/sad-lion-1.png";
@@ -122,7 +130,12 @@ import storyButtonBunnyLocked from "@/assets/images/storyPath/locked-button/bunn
 import storyButtonCatLocked from "@/assets/images/storyPath/locked-button/cat_button_locked.png";
 import storyButtonLionLocked from "@/assets/images/storyPath/locked-button/lion_button_locked.png";
 import storyButtonPandaLocked from "@/assets/images/storyPath/locked-button/panda_button_locked.png";
+import confusedBunny1 from "@/assets/images/animals/confused/confused-bunny/confused-bunny-1.png";
+import confusedBunny2 from "@/assets/images/animals/confused/confused-bunny/confused-bunny-2.png";
+import shameAxolotlHead from "@/assets/images/animals/shame/shame-axolotl/shame-axolotl-head.png";
+import soundsBackground from "@/assets/images/sounds-background.png";
 import unknownHead from "@/assets/images/animals/unknown-head.png";
+
 
 export const ICONS = {
   EMAIL_ICON: emailIcon,
@@ -159,6 +172,12 @@ export const ICONS = {
   CLOSE_ICON: closeIcon,
   ENERGY_ACTIVE_ICON: energyActiveIcon,
   ENERGY_INACTIVE_ICON: energyInactiveIcon,
+  PLAY_ICON_2: playIcon2,
+  HEADPHONES_ICON: headphonesIcon,
+  BUNNY_ICON: bunnyIcon,
+  ARROW_ICON: arrowIcon,
+  PAUSE_ICON: pauseIcon,
+  ARROW_ICON_2: arrowIcon2,
 };
 
 export const IMAGES = {
@@ -200,6 +219,7 @@ export const IMAGES = {
   FEAR_AXOLOTL_1: fearAxolotl1,
   FEAR_BUNNY_1: fearBunny1,
   FEAR_BUNNY_2: fearBunny2,
+  FEAR_BUNNY_3: fearBunny3,
   SAD_PANDA_1: sadPanda1,
   SAD_PANDA_2: sadPanda2,
   SAD_LION_1: sadLion1,
@@ -256,4 +276,8 @@ export const IMAGES = {
   STORY_BUTTON_PANDA_LOCKED: storyButtonPandaLocked,
   DEFAULT_WOMAN_THERAPIST: defaultWomanTherapist,
   CHANGE_PASSWORD_LION: changePasswordLion,
+  CONFUSED_BUNNY_1: confusedBunny1,
+  CONFUSED_BUNNY_2: confusedBunny2,
+  SHAME_AXOLOTL_HEAD: shameAxolotlHead,
+  SOUNDS_BACKGROUND: soundsBackground,
 };
