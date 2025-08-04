@@ -133,7 +133,7 @@ function Home() {
           background={IMAGES.BACKGROUND_SUENA_ALGO_IMAGE}
           backgroundColor="bg-green-300"
           animalImage={IMAGES.SUENA_ALGO_IMAGE}
-          onPressButton={() => askToPlay("/(mainPages)/insignias")}
+          onPressButton={() => askToPlay("/(y_ese_ruido)/y-ese-ruido-main")}
         />
 
         <View className="my-4 mb-16">

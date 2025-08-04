@@ -10,6 +10,7 @@ import {
 } from "@/models/Common";
 import { TCloseConnection } from "@/models/therapist";
 
+
 export const THERAPIST_SERVICE = {
   async createAppointment({ token, ...body }: TCreateAppointmentRequest) {
     const { data } = await HTTP.post(
