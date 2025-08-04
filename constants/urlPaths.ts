@@ -20,4 +20,12 @@ export const URL_PATHS = {
     LIST_PATIENTS: "/therapist/list-patients",
     CLOSE_CONNETION: "/disconnect-patient",
   },
+  GAMES: {
+    GET_MEMOCIONES_PAIRS: "/pairs",
+    GET_Y_ESE_RUIDO_SOUNDS: "/sounds"
+  },
+  ENERGIES: {
+    GET_ENERGY: "/energy/current_energies",
+    CONSUME_ENERGY: "/energy/consume",
+  },
 };
