@@ -4,7 +4,7 @@ import { TGameListResponse, TSingleDataResponse } from '@/models/Common';
 
 export const GAME_SERVICE =  {
   async listGames():Promise<TSingleDataResponse<TGameListResponse>> {
-    const { data } =await HTTP.get(URL_PATHS.GAME.GAME_LIST);
+    const { data } =await HTTP.get(URL_PATHS.GAMES.GAME_LIST);
     return data;
   }
 }

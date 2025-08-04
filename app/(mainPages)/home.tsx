@@ -73,7 +73,7 @@ function Home() {
     consumeEnergy(undefined, {
       onSuccess: () => {
         if (nextRoute) {
-          router.push(nextRoute);
+          router.push(nextRoute as any);
           setNextRoute(null);
           fetchEnergy();
         }
@@ -128,9 +128,7 @@ function Home() {
             name={games[0].name}
             description={games[0].description}
             background={games[0].image_url}
-            onPressButton={() => {
-              router.push("/(mainPages)/insignias");
-            }}
+            onPressButton={() => askToPlay("/(mainPages)/insignias")}
           />
         )}
         <View className="flex-row justify-between my-5 ">
@@ -138,18 +136,16 @@ function Home() {
             <ShortPanel
               name={games[1].name}
               background={games[1].image_url}
-              onPressButton={() => {
-                router.push("/(memociones)/memociones-main-page");
-              }}
+              onPressButton={() =>
+              askToPlay("/(memociones)/memociones-main-page")
+            }
             />
           )}
           {games[2] && (
             <ShortPanel
               name={games[2].name}
               background={games[2].image_url}
-              onPressButton={() => {
-                router.push("/(mainPages)/insignias");
-              }}
+              onPressButton={() => askToPlay("/(mainPages)/insignias")}
             />
           )}
         </View>
@@ -158,11 +154,10 @@ function Home() {
             name={games[3].name}
             description={games[3].description}
             background={games[3].image_url}
-            onPressButton={() => {
-              router.push("/(mainPages)/insignias");
-            }}
+            onPressButton={() => askToPlay("/(y_ese_ruido)/y-ese-ruido-main")}
           />
         )}
+
         <View className="my-4 mb-16">
           <LargePanel
             comingSoon
