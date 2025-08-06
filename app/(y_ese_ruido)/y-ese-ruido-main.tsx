@@ -10,6 +10,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { IMAGES } from "@/constants/images";
 import { GameHeader } from "@/components/GameHeader";
+import { useUserHeaderData } from "@/hooks/useUserHeaderData";
 import { router } from "expo-router";
 import { AutoDismissModal } from "@/components/AutoDismissModal";
 import { Audio } from "expo-av";
@@ -36,31 +37,12 @@ const soundMap: Record<string, any> = {
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 const isSmallScreen = screenHeight < 700;
 
-const useEnergy = () => {
-  const [energy, setEnergy] = useState(0);
-
-  const fetchEnergy = async () => {
-    try {
-      const token = await AsyncStorage.getItem("accessToken");
-      if (!token) throw new Error("No auth token found");
-
-      const { data } = await HTTP.get<{ current_energy: number }>(
-        URL_PATHS.ENERGIES.GET_ENERGY,
-        {
-          headers: { Authorization: token },
-        },
-      );
-      setEnergy(data.current_energy);
-    } catch (e) {
-      console.error("Error al obtener energía:", e);
-      setEnergy(0);
-    }
-  };
-
-  return { energy, fetchEnergy };
-};
 
 const YEseRuidoScreen = () => {
+  const { energy, userName, avatar, fetchHeaderData } = useUserHeaderData();
+  useEffect(() => {
+    fetchHeaderData();
+  }, [fetchHeaderData]);
   const [modalVisible, setModalVisible] = useState(false);
   const [endModalVisible, setEndModalVisible] = useState(false);
   const [showChoices, setShowChoices] = useState(false);
@@ -75,11 +57,7 @@ const YEseRuidoScreen = () => {
   const responsiveBoxHeight = screenHeight * 0.6;
   const lottieSize = screenWidth * 0.55;
   const bunnySize = screenWidth * 0.35;
-  const { energy, fetchEnergy } = useEnergy();
 
-  useEffect(() => {
-    fetchEnergy();
-  }, []);
 
   useEffect(() => {
     const fetchSounds = async () => {
@@ -173,8 +151,8 @@ const YEseRuidoScreen = () => {
       <View className="items-center px-4 mt-5">
         <GameHeader
           energy={energy}
-          name="Hugo"
-          avatar={IMAGES.HAPPY_AXOLOTL_HEAD}
+          name={userName}
+          avatar={avatar ?? IMAGES.UNKNOWN_HEAD}
         />
       </View>
 
