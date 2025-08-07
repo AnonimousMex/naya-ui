@@ -56,7 +56,7 @@ function Home() {
   useFocusEffect(
     useCallback(() => {
       fetchEnergy();
-    }, []),
+    }, []), 
   );
 
   const askToPlay = (route: `/${string}`) => {
