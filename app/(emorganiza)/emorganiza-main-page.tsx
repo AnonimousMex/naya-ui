@@ -6,7 +6,7 @@ import React from "react";
 import { View, Text, Image } from "react-native";
 import LottieView from "lottie-react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { PuzzleSpot, PuzzlePiece } from "@/components/Puzzle";
+import { PuzzleSpot, PuzzlePiece } from "@/components/puzzle";
 import { EmorganizaEmotionsPanel } from "@/components/EmorganizaEmotionsPanel";
 import { router } from "expo-router";
 import { MainButton } from "@/components/MainButton";
