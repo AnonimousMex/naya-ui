@@ -107,12 +107,12 @@ import shameAxolotl1 from "@/assets/images/animals/shame/shame-axolotl/shame-axo
 import shameAxolotl2 from "@/assets/images/animals/shame/shame-axolotl/shame-axolotl-2.png";
 import shameBunny1 from "@/assets/images/animals/shame/shame-bunny/shame-bunny-1.png";
 import shameBunny2 from "@/assets/images/animals/shame/shame-bunny/shame-bunny-2.png";
-import emorganizaImage from "@/assets/images/home/homepage/emorganiza-image.png";
-import memocionesImage from "@/assets/images/home/homepage/memociones-image.png";
+import emorganizaImage from "@/assets/images/home/homepage/emorganiza-background-image.png";
+import memocionesImage from "@/assets/images/home/homepage/memorganiza-background-image.png";
 import pandaSpiaImage from "@/assets/images/detectiveEmociones/panda_spia_image.png";
 import suenaAlgoImage from "@/assets/images/home/homepage/suenaalgo_image.png";
-import backgroundDetetiveImage from "@/assets/images/home/homepage/background-detective-image.png";
-import backgroundSuenaAlgoImage from "@/assets/images/home/homepage/background-suena-algo-image.png";
+import backgroundDetetiveImage from "@/assets/images/home/homepage/detective-background-image.png";
+import backgroundSuenaAlgoImage from "@/assets/images/home/homepage/suenaalgo-background-image.png";
 import medal1 from "@/assets/images/insignias/medal-1.png";
 import medal2 from "@/assets/images/insignias/medal-2.png";
 import medal3 from "@/assets/images/insignias/medal-3.png";
@@ -188,6 +188,10 @@ export const ICONS = {
   CLOSE_ICON: closeIcon,
   ENERGY_ACTIVE_ICON: energyActiveIcon,
   ENERGY_INACTIVE_ICON: energyInactiveIcon,
+  MEDAL_ICON: medalIcon,
+  LOGOUT_ICON: logOutIcon,
+  STREAK_ICON: streakIcon,
+  EXP_ICON: expIcon,
   PLAY_ICON_2: playIcon2,
   HEADPHONES_ICON: headphonesIcon,
   BUNNY_ICON: bunnyIcon,
@@ -262,11 +266,6 @@ export const IMAGES = {
   HAPPY_BUNNY_HEAD: happyBunnyHead,
   HAPPY_PANDA_HEAD: happyPandaHead,
   UNKNOWN_HEAD: unknownHead,
-  MEDAL_ICON: medalIcon,
-  HELP_ICON: helpIcon,
-  LOGOUT_ICON: logOutIcon,
-  STREAK_ICON: streakIcon,
-  EXP_ICON: expIcon,
   EMORGANIZA_IMAGE: emorganizaImage,
   MEMOCIONES_IMAGE: memocionesImage,
   PANDA_SPIA_IMAGE: pandaSpiaImage,

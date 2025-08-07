@@ -1,6 +1,6 @@
 // Home.tsx
 import React, { useState, useCallback, useEffect } from "react";
-import { ScrollView, View } from "react-native";
+import { ScrollView, View, Text, ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router, useFocusEffect } from "expo-router";
 
@@ -15,7 +15,8 @@ import { NavbarComponent } from "@/components/NavBar";
 import PlayAffirmation from "@/components/PlayAffirmation";
 import { IMAGES } from "@/constants/images";
 import { useConsumeEnergyMutation } from "@/hooks/games/useConsumeEnergyMutation";
-
+import { useGameListMutation } from "@/hooks/games/useGameListMutation";
+import { TGame } from "@/models/Common";
 import EnergyAlert from "@/components/EnergyAlert";
 
 const useEnergy = () => {
@@ -44,6 +45,8 @@ function Home() {
   const [modalVisible, setModalVisible] = useState(false);
   const [nextRoute, setNextRoute] = useState<string | null>(null);
   const [energyAlertVisible, setEnergyAlertVisible] = useState(false);
+  const { mutate, data, isPending} = useGameListMutation()
+  const [games, setGames] = useState<TGame[]>([]);
 
   const { energy, fetchEnergy } = useEnergy();
   const { mutate: consumeEnergy } = useConsumeEnergyMutation();
@@ -51,7 +54,7 @@ function Home() {
   useFocusEffect(
     useCallback(() => {
       fetchEnergy();
-    }, []),
+    }, []), 
   );
   const askToPlay = (route: `/${string}`) => {
     if (energy <= 0) {
@@ -78,6 +81,27 @@ function Home() {
     });
   };
 
+  useEffect(() => {
+    mutate();
+  },[])
+
+  useEffect(() => {
+    if(data?.data){
+      setGames(data.data);
+    }
+  },[data])
+
+  if (isPending || games.length === 0) {
+    return (
+      <SafeAreaView className="w-full h-full bg-pink-200">
+        <CloudBackground />
+        <View className="flex-1 items-center justify-center">
+          <ActivityIndicator size="large" color="#0000ff" />
+          <Text className="mt-2">Cargando juegos...</Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
   return (
     <SafeAreaView className="w-full h-full bg-pink-200">
       <CloudBackground />
@@ -94,45 +118,47 @@ function Home() {
           />
         </SafeAreaView>
       </View>
-
-      <ScrollView className="px-7" showsVerticalScrollIndicator={false}>
-        <View className="mt-24" />
-
-        <LargePanel
-          name="Detective"
-          description="Explora, adivina y comprende cómo te sientes!"
-          background={IMAGES.BACKGROUND_DETECTIVE_IMAGE}
-          backgroundColor="bg-purple-300"
-          animalImage={IMAGES.PANDA_SPIA_IMAGE}
-          onPressButton={() => askToPlay("/(detectiveEmociones)/detective-emociones-page")}
-        />
-
-        <View className="flex-row justify-between my-5">
-          <ShortPanel
-            name="Memociones"
-            background={IMAGES.MEMOCIONES_IMAGE}
-            onPressButton={() =>
-              askToPlay("/(memociones)/memociones-main-page")
-            }
-          />
-          <ShortPanel
-            name="Emorganiza"
-            background={IMAGES.EMORGANIZA_IMAGE}
+      <ScrollView className=" px-7" showsVerticalScrollIndicator={false}>
+        <View className="mt-24"/>
+       {games[0] && (
+          <LargePanel
+            name={games[0].name}
+            description={games[0].description}
+            background={games[0].image_url}
             onPressButton={() => askToPlay("/(mainPages)/insignias")}
           />
+        )}
+        <View className="flex-row justify-between my-5 ">
+          {games[1] && (
+            <ShortPanel
+              name={games[1].name}
+              background={games[1].image_url}
+              onPressButton={() =>
+              askToPlay("/(memociones)/memociones-main-page")
+            }
+            />
+          )}
+          {games[2] && (
+            <ShortPanel
+              name={games[2].name}
+              background={games[2].image_url}
+              onPressButton={() => askToPlay("/(emorganiza)/emorganiza-main-page")}
+            />
+          )}
         </View>
-
-        <LargePanel
-          name="Suena algo..."
-          description="Escucha atentamente y descubrirás algo..."
-          background={IMAGES.BACKGROUND_SUENA_ALGO_IMAGE}
-          backgroundColor="bg-green-300"
-          animalImage={IMAGES.SUENA_ALGO_IMAGE}
-          onPressButton={() => askToPlay("/(y_ese_ruido)/y-ese-ruido-main")}
-        />
+        {games[3] && (
+          <LargePanel
+            name={games[3].name}
+            description={games[3].description}
+            background={games[3].image_url}
+            onPressButton={() => askToPlay("/(y_ese_ruido)/y-ese-ruido-main")}
+          />
+        )}
 
         <View className="my-4 mb-16">
-          <LargePanel comingSoon backgroundColor="bg-[#FF0000]" />
+          <LargePanel
+            comingSoon
+          />
         </View>
       </ScrollView>
 
