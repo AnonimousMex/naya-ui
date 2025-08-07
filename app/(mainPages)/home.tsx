@@ -1,5 +1,5 @@
 // Home.tsx
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { ScrollView, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router, useFocusEffect } from "expo-router";
@@ -25,7 +25,6 @@ const useEnergy = () => {
     try {
       const token = await AsyncStorage.getItem("accessToken");
       if (!token) throw new Error("No auth token found");
-
       const { data } = await HTTP.get<{ current_energy: number }>(
         URL_PATHS.ENERGIES.GET_ENERGY,
         {
@@ -34,7 +33,6 @@ const useEnergy = () => {
       );
       setEnergy(data.current_energy);
     } catch (e) {
-      console.error("Error al obtener energía:", e);
       setEnergy(0);
     }
   };
@@ -55,7 +53,6 @@ function Home() {
       fetchEnergy();
     }, []),
   );
-
   const askToPlay = (route: `/${string}`) => {
     if (energy <= 0) {
       setEnergyAlertVisible(true);

@@ -22,7 +22,8 @@ export const URL_PATHS = {
   },
   GAMES: {
     GET_MEMOCIONES_PAIRS: "/pairs",
-    GET_Y_ESE_RUIDO_SOUNDS: "/sounds"
+    GET_Y_ESE_RUIDO_SOUNDS: "/sounds",
+    GET_DETECTIVE: "/detective/game"
   },
   ENERGIES: {
     GET_ENERGY: "/energy/current_energies",
