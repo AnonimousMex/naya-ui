@@ -145,7 +145,7 @@ function Home() {
             <ShortPanel
               name={games[2].name}
               background={games[2].image_url}
-              onPressButton={() => askToPlay("/(mainPages)/insignias")}
+              onPressButton={() => askToPlay("/(emorganiza)/emorganiza-main-page")}
             />
           )}
         </View>
