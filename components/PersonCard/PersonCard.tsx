@@ -9,6 +9,7 @@ interface PersonCardProps {
   avatar?: any;
   width?: number;
   circleColor?: string;
+  animalId?: string;
   type?: "patient" | "therapist";
 }
 
@@ -18,10 +19,11 @@ const PersonCard: React.FC<PersonCardProps> = ({
   avatar,
   width,
   circleColor = "#FAD4D4",
+  animalId,
   type,
 }) => {
   const handlePress = () => {
-    if (type === "patient") {
+    if (type === "therapist") {
       router.push({
         pathname: "/(parentsPages)/therapist-cv",
         params: {
@@ -40,6 +42,9 @@ const PersonCard: React.FC<PersonCardProps> = ({
         params: {
           id: id,
           name: name,
+          avatar: JSON.stringify(avatar), 
+          circleColor: circleColor,
+          animalId: animalId || "", 
         },
       });
     }

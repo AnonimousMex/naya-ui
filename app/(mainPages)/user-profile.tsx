@@ -28,7 +28,7 @@ const UserProfile = () => {
   const [userName, setUserName] = useState("");
   const [userImage, setUserImage] = useState<any>(null);
   const [userDescription, setUserDescription] = useState("");
-  const [bgColor, setBgColor] = useState<string>("#be185d");
+  const [bgColor, setBgColor] = useState<string>("#edcedb");
 
   useEffect(() => {
     async function fetchUserData() {
@@ -45,14 +45,14 @@ const UserProfile = () => {
             if (found) {
               setUserImage(getAnimalVariantImage(found.animal_key, "happy", 3));
               setUserDescription(found.description || "");
-              setBgColor(found.color_ui || "#be185d");
+              setBgColor(found.color_ui || "#edcedb");
             }
           }
         } catch (e) {
           setUserName("");
           setUserImage(null);
           setUserDescription("");
-          setBgColor("#be185d");
+          setBgColor("#edcedb");
         }
       }
     }
@@ -74,7 +74,7 @@ const UserProfile = () => {
     },
     {
       mainText: "Conectar terapeuta",
-      onPress: () => router.push("/(auth)/activate-account"),
+      onPress: () => router.push("/(auth)/connection-therapist"),
       className: "border-orange-300 mt-8",
       textClassName: "text-orange-300",
     },
