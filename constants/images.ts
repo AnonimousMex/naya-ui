@@ -109,7 +109,7 @@ import shameBunny1 from "@/assets/images/animals/shame/shame-bunny/shame-bunny-1
 import shameBunny2 from "@/assets/images/animals/shame/shame-bunny/shame-bunny-2.png";
 import emorganizaImage from "@/assets/images/home/homepage/emorganiza-background-image.png";
 import memocionesImage from "@/assets/images/home/homepage/memorganiza-background-image.png";
-import pandaSpiaImage from "@/assets/images/home/homepage/panda-spia-image.png";
+import pandaSpiaImage from "@/assets/images/detectiveEmociones/panda_spia_image.png";
 import suenaAlgoImage from "@/assets/images/home/homepage/suenaalgo_image.png";
 import backgroundDetetiveImage from "@/assets/images/home/homepage/detective-background-image.png";
 import backgroundSuenaAlgoImage from "@/assets/images/home/homepage/suenaalgo-background-image.png";
@@ -135,6 +135,21 @@ import confusedBunny2 from "@/assets/images/animals/confused/confused-bunny/conf
 import shameAxolotlHead from "@/assets/images/animals/shame/shame-axolotl/shame-axolotl-head.png";
 import soundsBackground from "@/assets/images/sounds-background.png";
 import unknownHead from "@/assets/images/animals/unknown-head.png";
+import angryCatImage from "@/assets/images/detectiveEmociones/angry-cat-image.png"
+import angryLeonImage from "@/assets/images/detectiveEmociones/angry-leon-image.png"
+import axolotlDancingImage from "@/assets/images/detectiveEmociones/axolotl-dancing-image.png"
+import blushingCatImage from "@/assets/images/detectiveEmociones/blushing-cat-image.png"
+import blushingLionImage from "@/assets/images/detectiveEmociones/blushing-lion-image.png"
+import bunnyJumpingImage from "@/assets/images/detectiveEmociones/bunny-jumping-image.png"
+import catFallingImage from "@/assets/images/detectiveEmociones/cat-falling-image.png"
+import lionAloneImage from "@/assets/images/detectiveEmociones/lion-alone-image.png"
+import pandaCryingImage from "@/assets/images/detectiveEmociones/panda-crying-image.png"
+import pandaEatingImage from "@/assets/images/detectiveEmociones/panda-eating-image.png"
+import pettedCatImage from "@/assets/images/detectiveEmociones/petted-cat-image.png"
+import sadAxolotlImage from "@/assets/images/detectiveEmociones/sad-axolotl-image.png"
+import scaredAxolotolImage from "@/assets/images/detectiveEmociones/scared-axolotl-image.png"
+import scaredBunnyImage from "@/assets/images/detectiveEmociones/scared-bunny-image.png"
+import scaredPandeImage from "@/assets/images/detectiveEmociones/scared-panda-image.png"
 import backgroundPandaTest from "@/assets/images/test/background-panda.png"
 import petWelcome  from "@/assets/images/test/stories/pet-welcome-image.png"
 import gameWin from "@/assets/images/test/stories/game-win-image.png"
@@ -159,11 +174,7 @@ import voiceCrack  from "@/assets/images/test/stories/voice-crack-image.png"
 // import GOOD_GRADES  from "@/assets/images/test/stories/"
 
 
-""
-""
-""
-""
-""
+
 export const ICONS = {
   EMAIL_ICON: emailIcon,
   EYE_CLOSED_ICON: eyeClosedIcon,
@@ -306,6 +317,21 @@ export const IMAGES = {
   CONFUSED_BUNNY_2: confusedBunny2,
   SHAME_AXOLOTL_HEAD: shameAxolotlHead,
   SOUNDS_BACKGROUND: soundsBackground,
+  ANGRY_CAT: angryCatImage,
+  ANGRY_LEON: angryLeonImage,
+  AXOLOTL_DANCING: axolotlDancingImage,
+  BLUSHING_CAT: blushingCatImage,
+  BLUSHING_LION: blushingLionImage,
+  BUNNY_JUMPING: bunnyJumpingImage,
+  CAT_FALLING: catFallingImage,
+  LION_ALONE: lionAloneImage,
+  PANDA_CRYING: pandaCryingImage,
+  PANDA_EATING: pandaEatingImage,
+  PETTED_CAT: pettedCatImage,
+  SAD_AXOLOTL: sadAxolotlImage,
+  SCARED_AXOLOT: scaredAxolotolImage,
+  SCARED_BUNNY: scaredBunnyImage,
+  SCARED_PANDA: scaredPandeImage,
   BACKGROUND_PANDA_TEST: backgroundPandaTest,
   PET_WELCOME: petWelcome,
   GAME_WIN: gameWin,
