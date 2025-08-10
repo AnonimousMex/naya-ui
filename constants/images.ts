@@ -135,8 +135,35 @@ import confusedBunny2 from "@/assets/images/animals/confused/confused-bunny/conf
 import shameAxolotlHead from "@/assets/images/animals/shame/shame-axolotl/shame-axolotl-head.png";
 import soundsBackground from "@/assets/images/sounds-background.png";
 import unknownHead from "@/assets/images/animals/unknown-head.png";
+import backgroundPandaTest from "@/assets/images/test/background-panda.png"
+import petWelcome  from "@/assets/images/test/stories/pet-welcome-image.png"
+import gameWin from "@/assets/images/test/stories/game-win-image.png"
+import inviteHome  from "@/assets/images/test/stories/invite-home-image.png"
+import nightNoise  from "@/assets/images/test/stories/night-noise-image.png"
+import injectionFear  from "@/assets/images/test/stories/injection-fear-image.png"
+import lostStore  from "@/assets/images/test/stories/lost-store-image.png"
+import monsterMovie  from "@/assets/images/test/stories/monster-movie-image.png"
+import secretBetrayed  from "@/assets/images/test/stories/secret-betrayed-image.png"
+import falseAcusation  from "@/assets/images/test/stories/false-accusation-image.png"
+import noPLay  from "@/assets/images/test/stories/no-play-image.png"
+import cheatWin  from "@/assets/images/test/stories/cheat-win-image.png"
+import petLost  from "@/assets/images/test/stories/pet-lost-image.png"
+import noInvite  from "@/assets/images/test/stories/no-invite-image.png"
+import failedAssignamet  from "@/assets/images/test/stories/failed-assignamet-image.png"
+// import FRIEND_LEFT  from "@/assets/images/test/stories/frie"
+import noParentsFest from "@/assets/images/test/stories/no-parents-fest-image.png"
+// import FALL_RECESS  from "@/assets/images/test/stories/fail"
+// import ZIP_ERROR  from "@/assets/images/test/stories/"
+import noAnswer  from "@/assets/images/test/stories/no-answer-image.png"
+import voiceCrack  from "@/assets/images/test/stories/voice-crack-image.png"
+// import GOOD_GRADES  from "@/assets/images/test/stories/"
 
 
+""
+""
+""
+""
+""
 export const ICONS = {
   EMAIL_ICON: emailIcon,
   EYE_CLOSED_ICON: eyeClosedIcon,
@@ -279,4 +306,22 @@ export const IMAGES = {
   CONFUSED_BUNNY_2: confusedBunny2,
   SHAME_AXOLOTL_HEAD: shameAxolotlHead,
   SOUNDS_BACKGROUND: soundsBackground,
+  BACKGROUND_PANDA_TEST: backgroundPandaTest,
+  PET_WELCOME: petWelcome,
+  GAME_WIN: gameWin,
+  INVITE_HOME: inviteHome,
+  NIGHT_NOISE: nightNoise,
+  INJECTION_FEAR: injectionFear,
+  LOST_STORE: lostStore,
+  MONSTER_MOVIE: monsterMovie,
+  SECRET_BETRAYED: secretBetrayed,
+  FALSE_ACCUSATION: falseAcusation,
+  NO_PLAY: noPLay,
+  CHEAT_WIN: cheatWin,
+  PET_LOST: petLost,
+  NO_INVITE: noInvite,
+  FAILED_ASSIGNMENT: failedAssignamet,
+  NO_PARENTS_FEST: noParentsFest,
+  NO_ANSWER: noAnswer,
+  VOICE_CRACK: voiceCrack,
 };

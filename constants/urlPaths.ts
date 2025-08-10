@@ -29,4 +29,8 @@ export const URL_PATHS = {
     GET_ENERGY: "/energy/current_energies",
     CONSUME_ENERGY: "/energy/consume",
   },
+  TEST: {
+    INIT_TEST: "/test/init-test",
+    SAVE_ANSWER: "/test/send-answer"
+  },
 };
