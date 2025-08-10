@@ -5,6 +5,14 @@ export type TPatient = {
   avatar?: string; // Opcional, si lo usas
   circleColor?: string; // Opcional, si lo usas
 };
+
+export type TTherapist = {
+  therapist_id: string;
+  name: string;
+  avatar?: string;
+  circleColor?: string; 
+};
+
 export type TCloseConnection = {
   idPatient: string
 }

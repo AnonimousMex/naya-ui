@@ -20,6 +20,9 @@ export const URL_PATHS = {
     LIST_PATIENTS: "/therapist/list-patients",
     CLOSE_CONNETION: "/disconnect-patient",
   },
+  PARENTS: {
+    LIST_THERAPISTS: "/parent/list-therapists",
+  },
   GAMES: {
     GET_MEMOCIONES_PAIRS: "/pairs",
     GET_Y_ESE_RUIDO_SOUNDS: "/sounds"

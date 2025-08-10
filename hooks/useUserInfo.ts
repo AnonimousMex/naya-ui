@@ -45,5 +45,9 @@ export const useUserInfo = () => {
     getUserInfo();
   }, []);
 
-  return { userInfo, loading };
+  const getToken = async () => {
+    return await AsyncStorage.getItem("accessToken");
+  };
+
+  return { userInfo, loading, getToken };
 };
