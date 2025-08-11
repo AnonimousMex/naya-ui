@@ -101,6 +101,12 @@ const TherapistHome = () => {
                   width={cardWidth}
                   circleColor={therapist.circleColor || "#C8B8B4"}
                   type="therapist"
+                  description={therapist.description}
+                  phone={therapist.phone}
+                  email={therapist.email}
+                  address={therapist.address}
+                  specialties={therapist.specialties}
+                  experiences={therapist.experiences}
                 />
               ))}
             </View>

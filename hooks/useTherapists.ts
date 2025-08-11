@@ -24,7 +24,14 @@ export const useTherapists = () => {
       const response = await PARENTS_SERVICE.listTherapists(token);
       
       if (response.status === 200 && response.data) {
-        const therapistsWithUI = response.data.map((therapist, index) => ({
+        const backendTherapists = response.data;
+        
+        if (!backendTherapists || !Array.isArray(backendTherapists)) {
+          setError('Formato de datos inválido del servidor');
+          return;
+        }
+        
+        const therapistsWithUI = backendTherapists.map((therapist: any, index: number) => ({
           ...therapist,
           avatar: IMAGES.DEFAULT_WOMAN_THERAPIST, 
           circleColor: getRandomColor(index),
@@ -36,7 +43,6 @@ export const useTherapists = () => {
       }
     } catch (err) {
       setError('Error de conexión al cargar los terapeutas');
-      console.error('Error fetching therapists:', err);
     } finally {
       setLoading(false);
     }

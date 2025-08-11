@@ -7,6 +7,7 @@ import { router } from 'expo-router';
 import { formatError } from '@/utils/errorHandler';
 import { ERRORS } from '@/constants/errors/errorList';
 import { UseFormSetError } from 'react-hook-form';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const userSingUpMutation = (
   setError: UseFormSetError<TSignUpSchema>
@@ -17,7 +18,12 @@ export const userSingUpMutation = (
     mutationFn:(data: TSignUp) =>
         AUTH_SERVICE.singUp(data),
     
-    onSuccess: () => {
+    onSuccess: async (response, variables) => {
+      await AsyncStorage.setItem("tempCredentials", JSON.stringify({
+        email: variables.email,
+        password: variables.password
+      }));
+
       showSnackbar({
         message: SUCCESS_TEXTS.SING_UP,
         type: "success"

@@ -11,6 +11,12 @@ interface PersonCardProps {
   circleColor?: string;
   animalId?: string;
   type?: "patient" | "therapist";
+  description?: string;
+  phone?: string;
+  email?: string;
+  address?: string;
+  specialties?: Array<{ name: string; description?: string }>;
+  experiences?: Array<{ title: string; years: string; description: string }>;
 }
 
 const PersonCard: React.FC<PersonCardProps> = ({
@@ -21,6 +27,12 @@ const PersonCard: React.FC<PersonCardProps> = ({
   circleColor = "#FAD4D4",
   animalId,
   type,
+  description,
+  phone,
+  email,
+  address,
+  specialties,
+  experiences,
 }) => {
   const handlePress = () => {
     if (type === "therapist") {
@@ -29,11 +41,13 @@ const PersonCard: React.FC<PersonCardProps> = ({
         params: {
           id,
           name,
-          description: `Hola, soy ${name}, terapeuta en nuestra app.`,
-          phone: "4436459525",
-          email: "correo@ejemplo.com",
-          address: "Col. husbx calle bz #221, morelia, mich",
-          image: "DEFAULT_WOMAN_THERAPIST",
+          description: description || "No hay descripción disponible",
+          phone: phone || "No hay teléfono registrado",
+          email: email || "No hay email registrado",
+          address: address || "No hay dirección registrada",
+          specialties: JSON.stringify(specialties || []),
+          experiences: JSON.stringify(experiences || []),
+          image: "THERAPIST_PHOTO_CV",
         },
       });
     } else {

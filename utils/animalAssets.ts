@@ -12,7 +12,7 @@ export function getAnimalHeadImage(animal_key: string) {
 export function getAnimalVariantImage(animal_key: string, emotion: AnimalEmotion, variant: number) {
   // Ejemplo: HAPPY_AXOLOTL_3
   const key = `${emotion.toUpperCase()}_${animal_key.toUpperCase()}_${variant}`;
-  return IMAGES[key] || IMAGES["UNKNOWN_HEAD"];
+  return IMAGES[key] || getAnimalHeadImage(animal_key);
 }
 
 export function getAnimalEmotionImage(animal_key: string, emotion: AnimalEmotion): any[] {

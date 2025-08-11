@@ -21,7 +21,7 @@ export const useLoginMutation = (opts: LoginOpts = {}) => {
   return useMutation<TLoginTokens, unknown, TSignInSchema>({
     mutationFn: AUTH_SERVICE.login,
 
-    onSuccess: async ({ access_token, refresh_token, user_type }) => {
+    onSuccess: async ({ access_token, refresh_token, user_type }, variables) => {
       await AsyncStorage.setItem("accessToken", access_token);
       await AsyncStorage.setItem("refreshToken", refresh_token);
 
@@ -39,6 +39,7 @@ export const useLoginMutation = (opts: LoginOpts = {}) => {
       } else if (user_type === "THERAPIST") {
         router.replace("/(therapistPages)/therapist-home");
       } else if (!animal_id) {
+        await AsyncStorage.setItem("tempPassword", variables.password);
         router.replace("/(auth)/profile-choice");
       } else {
         router.replace("/(mainPages)/affirmation");
@@ -47,10 +48,28 @@ export const useLoginMutation = (opts: LoginOpts = {}) => {
       showSnackbar({ type: "success", message: SUCCESS_TEXTS.LOGIN_SUCCESS });
     },
 
-    onError: (err: any) => {
+    onError: async (err: any, variables) => {
       const { code } = formatError(err);
 
       if (code === ERRORS.E011.code) {
+        try {
+          await AUTH_SERVICE.resendVerificationCode(variables.email);
+          showSnackbar({ 
+            type: "success", 
+            message: SUCCESS_TEXTS.CODE_RESENT 
+          });
+        } catch (resendError) {
+          showSnackbar({ 
+            type: "error", 
+            message: ERRORS.E019.message 
+          });
+        }
+        
+        await AsyncStorage.setItem("tempCredentials", JSON.stringify({
+          email: variables.email,
+          password: variables.password
+        }));
+        
         showSnackbar({ type: "error", message: ERRORS.E011.message });
         router.replace("/(auth)/activate-account");
         throw err;

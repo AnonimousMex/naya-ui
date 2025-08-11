@@ -7,6 +7,7 @@ export const URL_PATHS = {
     CHANGE_PASSWORD: "/auth/password-change-request",
     DAILY_MESSAGE: "/auth/daily",
     SELECT_PROFILE: "/auth/select-profile",
+    RESEND_VERIFICATION_CODE: "/auth/resend-verification-code",
   },
   ANIMAL: {
     LIST_ANIMALS: "/animals",
