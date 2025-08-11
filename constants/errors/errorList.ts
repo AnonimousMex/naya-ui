@@ -80,4 +80,9 @@ export const ERRORS: TError = {
     name: "CONECCTION_DOES_NOT_EXIST",
     message: ERROR_TEXTS.CONNECTION_DOES_NOT_EXIST,
   },
+  E032: {
+    code: "E032",
+    name: "BADGE_ALREADY_UNLOCKED",
+    message: ERROR_TEXTS.BADGE_ALREADY_UNLOCKED,
+  },
 };

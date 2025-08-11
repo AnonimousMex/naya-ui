@@ -6,6 +6,7 @@ import {
   Image,
   Dimensions,
   ActivityIndicator,
+  Modal,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { IMAGES } from "@/constants/images";
@@ -24,6 +25,11 @@ import { HTTP } from "@/config/axios";
 import { URL_PATHS } from "@/constants/urlPaths";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+// 🔹 Imports para insignia
+import { useUnlockBadgeMutation } from "@/hooks/badges/useUnlockBadgeMutation";
+import { formatError } from "@/utils/errorHandler";
+import { InsigniaDescriptionComponent } from "@/components/InsigniaDescription";
+
 const soundMap: Record<string, any> = {
   "/sounds/baby-cry-101477.mp3": require("@/assets/sounds/baby-cry-101477.mp3"),
   "/sounds/baby-laugh-2-329754.mp3": require("@/assets/sounds/baby-laugh-2-329754.mp3"),
@@ -34,7 +40,6 @@ const soundMap: Record<string, any> = {
 };
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
-const isSmallScreen = screenHeight < 700;
 
 const useEnergy = () => {
   const [energy, setEnergy] = useState(0);
@@ -52,7 +57,6 @@ const useEnergy = () => {
       );
       setEnergy(data.current_energy);
     } catch (e) {
-      console.error("Error al obtener energía:", e);
       setEnergy(0);
     }
   };
@@ -76,6 +80,15 @@ const YEseRuidoScreen = () => {
   const lottieSize = screenWidth * 0.55;
   const bunnySize = screenWidth * 0.35;
   const { energy, fetchEnergy } = useEnergy();
+
+  const [selectedMedal, setSelectedMedal] = useState<{
+    title: string;
+    description: string;
+    image_path: string;
+  } | null>(null);
+  const [showMedalModal, setShowMedalModal] = useState(false);
+
+  const { mutateAsync: unlockBadge } = useUnlockBadgeMutation();
 
   useEffect(() => {
     fetchEnergy();
@@ -139,7 +152,7 @@ const YEseRuidoScreen = () => {
     setShowChoices(true);
   };
 
-  const handleCorrectAnswerClose = () => {
+  const handleCorrectAnswerClose = async () => {
     setShowCorrectAnswer(false);
     setSelectedEmotion(null);
     setShowChoices(false);
@@ -147,7 +160,29 @@ const YEseRuidoScreen = () => {
     if (audioIndex < sounds.length - 1) {
       setAudioIndex(audioIndex + 1);
     } else {
-      router.replace("/(mainPages)/home");
+      try {
+        const token = await AsyncStorage.getItem("accessToken");
+        if (!token) throw new Error("No auth token found");
+
+        const { data } = await unlockBadge({
+          token,
+          badge_title: "Y ese ruido",
+        });
+
+        if (data?.title && data?.description && data?.image_path) {
+          setSelectedMedal({
+            title: data.title,
+            description: data.description,
+            image_path: data.image_path,
+          });
+          setShowMedalModal(true);
+          return;
+        }
+
+        router.replace("/(mainPages)/home");
+      } catch (err: any) {
+        router.replace("/(mainPages)/home");
+      }
     }
   };
 
@@ -259,6 +294,52 @@ const YEseRuidoScreen = () => {
           />
         </>
       )}
+
+      <Modal
+        visible={showMedalModal}
+        transparent
+        animationType="slide"
+        onRequestClose={() => {
+          setShowMedalModal(false);
+          router.replace("/(mainPages)/home");
+        }}
+      >
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: "rgba(0,0,0,0.5)",
+            justifyContent: "center",
+            alignItems: "center",
+            paddingTop: 80,
+          }}
+        >
+          <Pressable
+            style={{
+              position: "absolute",
+              top: 0,
+              right: 0,
+              bottom: 0,
+              left: 0,
+            }}
+            onPress={() => {
+              setShowMedalModal(false);
+              router.replace("/(mainPages)/home");
+            }}
+          />
+          {selectedMedal && (
+            <InsigniaDescriptionComponent
+              title={selectedMedal.title}
+              description={selectedMedal.description}
+              medalImageName={selectedMedal.image_path}
+              onClose={() => {
+              setShowMedalModal(false);
+              router.replace("/(mainPages)/home");
+              }}
+            />
+
+          )}
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };

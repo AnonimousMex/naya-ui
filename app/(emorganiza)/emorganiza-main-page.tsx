@@ -11,6 +11,12 @@ import { EmorganizaEmotionsPanel } from "@/components/EmorganizaEmotionsPanel";
 import { router } from "expo-router";
 import { MainButton } from "@/components/MainButton";
 import { RoundedEmotionImage } from "@/components/RoundedEmotionImage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useUnlockBadgeMutation } from "@/hooks/badges/useUnlockBadgeMutation";
+import { InsigniaDescriptionComponent } from "@/components/InsigniaDescription";
+import { Modal, Pressable } from "react-native";
+
+
 const MemoPuzzleSpot = React.memo(PuzzleSpot);
 const MemoPuzzlePiece = React.memo(PuzzlePiece);
 import {
@@ -89,19 +95,55 @@ function EmorganizaMainPage() {
   const [isPuzzleLoading, setIsPuzzleLoading] = useState(false);
   const [isPuzzleTransitioning, setIsPuzzleTransitioning] = useState(false);
 
+  const [selectedMedal, setSelectedMedal] = useState<{
+    title: string;
+    description: string;
+    image_path: string;
+  } | null>(null);
+  const [showMedalModal, setShowMedalModal] = useState(false);
+
+  const { mutateAsync: unlockBadge } = useUnlockBadgeMutation();
+
   useEffect(() => {
     const { image, emotion } = getRandomEmotionImage();
     setImage(image);
     setRoundEmotion(emotion);
   }, [currentRound]);
 
+  useEffect(() => {
+    const unlock = async () => {
+      if (phase === "result") {
+        try {
+          const token = await AsyncStorage.getItem("accessToken");
+          if (!token) throw new Error("No auth token found");
+
+          const { data } = await unlockBadge({
+            token,
+            badge_title: "Emorganiza",  
+          });
+
+          if (data?.title && data?.description && data?.image_path) {
+            setSelectedMedal({
+              title: data.title,
+              description: data.description,
+              image_path: data.image_path,
+            });
+            setShowMedalModal(true);
+          }
+        } catch (error) {
+        }
+      }
+    };
+    unlock();
+  }, [phase]);
+
   const shape = SHAPES[currentShape];
   const scale = useSharedValue(0);
   const correctPieces = useSharedValue(0);
 
 
-  const [puzzleLayout, setPuzzleLayout] = useState<{y: number, height: number}>({y: 0, height: 0});
-  const [containerLayout, setContainerLayout] = useState<{y: number, height: number}>({y: 0, height: 0});
+  const [puzzleLayout, setPuzzleLayout] = useState<{ y: number, height: number }>({ y: 0, height: 0 });
+  const [containerLayout, setContainerLayout] = useState<{ y: number, height: number }>({ y: 0, height: 0 });
 
   let PIECES_DISTANCE = 140;
   let puzzleScale = 1;
@@ -125,7 +167,7 @@ function EmorganizaMainPage() {
       setSelectedEmotion(null);
       setIsPuzzleLoading(false);
       setIsPuzzleTransitioning(false);
-    }, 300); 
+    }, 300);
   }, []);
 
   const handleResetAndPhase = () => {
@@ -253,7 +295,7 @@ function EmorganizaMainPage() {
     bottomImagesContainer: {
       flexDirection: 'row',
       justifyContent: 'center',
-      marginTop: -screenWidth * 0.08, 
+      marginTop: -screenWidth * 0.08,
     }
   });
 
@@ -303,7 +345,7 @@ function EmorganizaMainPage() {
                 height: e.nativeEvent.layout.height
               })}
             >
-              <Animated.View style={[boardAnimatedStyle, styles.puzzlePanel, { transform: [{ scale: puzzleScale }] }] }>
+              <Animated.View style={[boardAnimatedStyle, styles.puzzlePanel, { transform: [{ scale: puzzleScale }] }]}>
                 {PUZZLE_PIECES.map((_, i) => (
                   <MemoPuzzleSpot
                     key={`spot-${i}`}
@@ -327,7 +369,7 @@ function EmorganizaMainPage() {
             </View>
 
             <View style={{ justifyContent: "center", alignItems: "center", marginTop: screenHeight * 0.01, zIndex: -1 }}>
-              <View style={[styles.infoPanel, { paddingVertical: screenHeight * 0.008, minHeight: screenHeight * 0.04 }]}> 
+              <View style={[styles.infoPanel, { paddingVertical: screenHeight * 0.008, minHeight: screenHeight * 0.04 }]}>
                 <Text className="text-gray-30 font-UrbanistExtraBold" style={{ fontSize: screenWidth * 0.04 }}>
                   Arma el rompecabezas
                 </Text>
@@ -356,32 +398,32 @@ function EmorganizaMainPage() {
             />
           </Animated.View>
           <View style={{ justifyContent: "center", alignItems: "center", marginTop: screenHeight * 0.01, zIndex: -1 }}>
-            <View style={[styles.infoPanel, { paddingVertical: screenHeight * 0.008, minHeight: screenHeight * 0.04 }]}> 
+            <View style={[styles.infoPanel, { paddingVertical: screenHeight * 0.008, minHeight: screenHeight * 0.04 }]}>
               <Text className="text-gray-30 font-UrbanistExtraBold" style={{ fontSize: screenWidth * 0.04 }}>
                 Selecciona la emoción
               </Text>
             </View>
           </View>
-      <View style={{ width: "100%", flex: 1, justifyContent: "flex-end", zIndex: -2, paddingBottom: Math.max(navbarHeight - 24, 0) }}>
-        <EmorganizaEmotionsPanel
-          emotions={emotionsWithColors}
-          onEmotionSelect={handleEmotionSelect}
-          selectedEmotion={selectedEmotion}
-        />
-      </View>
+          <View style={{ width: "100%", flex: 1, justifyContent: "flex-end", zIndex: -2, paddingBottom: Math.max(navbarHeight - 24, 0) }}>
+            <EmorganizaEmotionsPanel
+              emotions={emotionsWithColors}
+              onEmotionSelect={handleEmotionSelect}
+              selectedEmotion={selectedEmotion}
+            />
+          </View>
         </>
       )}
 
       {phase === "result" && (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', width: '100%', marginBottom: navbarHeight }}>
-            <View style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, zIndex: 999, justifyContent: "center", alignItems: "center", pointerEvents: "none" }}>
+          <View style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, zIndex: 999, justifyContent: "center", alignItems: "center", pointerEvents: "none" }}>
             <LottieView
               source={require("@/assets/animations/victory.json")}
               autoPlay
               loop={false}
               style={{ width: 500, height: 500 }}
             />
-            </View>
+          </View>
           <Text className="text-blue-900 font-UrbanistExtraBold" style={{ fontSize: screenWidth * 0.08, marginBottom: screenHeight * 0.02 }}>
             Emorganiza
           </Text>
@@ -418,7 +460,44 @@ function EmorganizaMainPage() {
       >
         <NavbarComponent />
       </SafeAreaView>
+      <Modal
+        visible={showMedalModal}
+        transparent
+        animationType="slide"
+        onRequestClose={() => {
+        setShowMedalModal(false);
+        router.push("/(mainPages)/home");
+        }}
+      >
+        <Pressable
+          style={{
+            flex: 1,
+            backgroundColor: "rgba(0,0,0,0.5)",
+            justifyContent: "center",
+            alignItems: "center",
+            paddingTop: 80,
+          }}
+          onPress={() => {
+            setShowMedalModal(false);
+            router.push("/(mainPages)/home");
+          }}
+        >
+          {selectedMedal && (
+            <InsigniaDescriptionComponent
+              title={selectedMedal.title}
+              description={selectedMedal.description}
+              medalImageName={selectedMedal.image_path}
+              onClose={() => {
+                setShowMedalModal(false);
+                router.push("/(mainPages)/home");
+              }}
+            />
+          )}
+        </Pressable>
+      </Modal>
+
     </SafeAreaView>
+
   );
 }
 
