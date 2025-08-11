@@ -7,6 +7,7 @@ export const URL_PATHS = {
     CHANGE_PASSWORD: "/auth/password-change-request",
     DAILY_MESSAGE: "/auth/daily",
     SELECT_PROFILE: "/auth/select-profile",
+    RESEND_VERIFICATION_CODE: "/auth/resend-verification-code",
   },
   ANIMAL: {
     LIST_ANIMALS: "/animals",
@@ -19,6 +20,9 @@ export const URL_PATHS = {
     COMPLETE_APPOINTMENT: "/complete-appointment",
     LIST_PATIENTS: "/therapist/list-patients",
     CLOSE_CONNETION: "/disconnect-patient",
+  },
+  PARENTS: {
+    LIST_THERAPISTS: "/parent/list-therapists",
   },
   GAMES: {
     GET_MEMOCIONES_PAIRS: "/pairs",

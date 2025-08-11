@@ -107,7 +107,7 @@ const VerificationCodeComponent = ({
       <SafeAreaView className="flex-1">
         <View className="px-7 pt-16">
           <View className="items-start">
-            <BackButton onPress={() => router.push("/(mainPages)/home")} />
+            <BackButton onPress={() => router.push("/(auth)/welcome")} />
           </View>
         </View>
         

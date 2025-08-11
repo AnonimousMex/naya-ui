@@ -4,11 +4,8 @@ import { ScrollView, View, Text, ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router, useFocusEffect } from "expo-router";
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { HTTP } from "@/config/axios";
-import { URL_PATHS } from "@/constants/urlPaths";
-
 import { GameHeader } from "@/components/GameHeader";
+import { useUserHeaderData } from "@/hooks/useUserHeaderData";
 import { LargePanel, ShortPanel } from "@/components/HomeComponents";
 import { CloudBackground } from "@/components/MainPanesComponents/CloudBackground";
 import { NavbarComponent } from "@/components/NavBar";
@@ -19,27 +16,6 @@ import { useGameListMutation } from "@/hooks/games/useGameListMutation";
 import { TGame } from "@/models/Common";
 import EnergyAlert from "@/components/EnergyAlert";
 
-const useEnergy = () => {
-  const [energy, setEnergy] = useState(0);
-
-  const fetchEnergy = async () => {
-    try {
-      const token = await AsyncStorage.getItem("accessToken");
-      if (!token) throw new Error("No auth token found");
-      const { data } = await HTTP.get<{ current_energy: number }>(
-        URL_PATHS.ENERGIES.GET_ENERGY,
-        {
-          headers: { Authorization: token },
-        },
-      );
-      setEnergy(data.current_energy);
-    } catch (e) {
-      setEnergy(0);
-    }
-  };
-
-  return { energy, fetchEnergy };
-};
 
 function Home() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -47,14 +23,13 @@ function Home() {
   const [energyAlertVisible, setEnergyAlertVisible] = useState(false);
   const { mutate, data, isPending} = useGameListMutation()
   const [games, setGames] = useState<TGame[]>([]);
-
-  const { energy, fetchEnergy } = useEnergy();
+  const { energy, userName, avatar, fetchHeaderData } = useUserHeaderData();
   const { mutate: consumeEnergy } = useConsumeEnergyMutation();
 
   useFocusEffect(
     useCallback(() => {
-      fetchEnergy();
-    }, []), 
+      fetchHeaderData();
+    }, [fetchHeaderData]),
   );
   const askToPlay = (route: `/${string}`) => {
     if (energy <= 0) {
@@ -72,7 +47,7 @@ function Home() {
         if (nextRoute) {
           router.push(nextRoute as any);
           setNextRoute(null);
-          fetchEnergy();
+          fetchHeaderData();
         }
       },
       onError: () => {
@@ -112,8 +87,8 @@ function Home() {
           className="flex items-center justify-center mt-2"
         >
           <GameHeader
-            name="Rodrigo"
-            avatar={IMAGES.HAPPY_CAT_HEAD}
+            name={userName}
+            avatar={avatar ?? IMAGES.UNKNOWN_HEAD}
             energy={energy}
           />
         </SafeAreaView>

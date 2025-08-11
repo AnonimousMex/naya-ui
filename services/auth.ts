@@ -94,6 +94,14 @@ export const AUTH_SERVICE = {
     return data;
   },
 
+  async resendVerificationCode(email: string): Promise<TNoContentStatusResponse> {
+    const { data } = await HTTP.put<TNoContentStatusResponse>(
+      URL_PATHS.AUTH.RESEND_VERIFICATION_CODE,
+      { email }
+    );
+    return data;
+  },
+
   async getDailyMessage(): Promise<{
     id: string;
     title: string;

@@ -13,7 +13,8 @@ import { router } from "expo-router";
 import { BackButton } from "@/components/BackButton";
 import { MainButton } from "@/components/MainButton";
 import { ProfileAvatarButton } from "@/components/ProfileChoice";
-import { useListAnimalsMutation } from "@/hooks/animal/useListAnimalsMutation";
+import { useAnimalList } from "@/hooks/useAnimalList";
+import { getAnimalHeadImage } from "@/utils/animalAssets";
 import { useSelectProfileMutation } from "@/hooks/auth/useSelectProfileMutation";
 import { TAnimal } from "@/models/Animal";
 import { SnackbarContext } from "@/context/SnackbarProvider";
@@ -23,37 +24,18 @@ import { ERROR_TEXTS } from "@/constants/errors/errorTexts";
 import { IMAGES } from "@/constants/images";
 
 const ProfileChoice = () => {
-  const { mutate, data } = useListAnimalsMutation();
+  const animals = useAnimalList();
   const selectProfileMutation = useSelectProfileMutation();
-  const [animals, setAnimals] = useState<TAnimal[]>([]);
   const [selected, setSelected] = useState<TAnimal | null>(null);
   const screenHeight = Dimensions.get("window").height;
   const screenWidth = Dimensions.get("window").width;
   const snackbar = useContext(SnackbarContext);
 
   useEffect(() => {
-    mutate();
-  }, []);
-
-  useEffect(() => {
-    let animalsList: TAnimal[] = [];
-    if (Array.isArray(data)) {
-      animalsList = data;
-    } else if (data?.data && Array.isArray(data.data)) {
-      animalsList = data.data;
+    if (animals.length > 0) {
+      setSelected(animals[0]);
     }
-    if (animalsList.length > 0) {
-      const mapped = animalsList.map((animal: any) => ({
-        ...animal,
-        animal_id: animal.animal_id || animal.id,
-      }));
-      setAnimals(mapped);
-      setSelected(mapped[0]);
-    } else if (data) {
-      snackbar?.showSnackbar({ message: ERROR_TEXTS.FETCH_ANIMALS_ERROR, type: "error" });
-      router.replace("/(auth)/welcome");
-    }
-  }, [data]);
+  }, [animals]);
 
   const imageSizePercentage =
     screenWidth > screenHeight - screenWidth ? 0.35 : 0.5;
@@ -83,11 +65,6 @@ const ProfileChoice = () => {
     selectProfileMutation.mutate(String(selected.animal_id));
   }
 
-  function getAnimalImage(animal: TAnimal) {
-    const key = `HAPPY_${animal.animal_key.toUpperCase()}_HEAD`;
-    return (IMAGES as Record<string, any>)[key] || (IMAGES as Record<string, any>)["UNKNOWN_HEAD"];
-  }
-
   return (
     <KeyboardAvoidingView
       className="flex-1 bg-pink-200"
@@ -109,7 +86,7 @@ const ProfileChoice = () => {
         >
           {selected && (
             <Image
-              source={getAnimalImage(selected)}
+              source={getAnimalHeadImage(selected.animal_key)}
               className="w-full h-full"
               style={{ resizeMode: "contain" }}
             />
@@ -143,7 +120,7 @@ const ProfileChoice = () => {
                 avatar={{
                   ...animal,
                   name: animal.name.charAt(0).toUpperCase() + animal.name.slice(1),
-                  image: getAnimalImage(animal),
+                  image: getAnimalHeadImage(animal.animal_key),
                   color: animal.color_ui,
                 }}
                 selected={selected?.animal_id === animal.animal_id}
