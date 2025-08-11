@@ -20,7 +20,7 @@ const NavbarComponent: React.FC<NavbarComponentProps> = ({
       <View className="flex-row justify-around items-center h-[4rem] mx-4">
         <TouchableOpacity
           onPress={() =>
-            router.push(
+            router.navigate(
               isTherapist
                 ? "/(therapistPages)/therapist-home"
                 : "/(mainPages)/home",

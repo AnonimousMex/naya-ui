@@ -23,7 +23,7 @@ import { validatePasswordMatch } from "@/utils/auth";
 import { BackButton } from "@/components/BackButton";
 import { router } from "expo-router";
 import { useSnackbar } from "@/hooks/useSnackbar";
-import { userSingUpMutation } from "@/hooks/auth/userSingUpMutation";
+import { useSingUpMutation } from "@/hooks/auth/useSingUpMutation";
 
 function SignUp() {
   const { sloganWidth, sloganHeight } = useScreenDimensions();
@@ -37,7 +37,7 @@ function SignUp() {
   const { control, handleSubmit, setError } = formMethods;
   const { showSnackbar } = useSnackbar();
 
-  const patientSingUpMutation = userSingUpMutation(setError);
+  const patientSingUpMutation = useSingUpMutation(setError);
 
   const handleOnSubmit = (data: TSignUpSchema) => {
     if (!validatePasswordMatch(data.password, data.confirmPassword)) {
