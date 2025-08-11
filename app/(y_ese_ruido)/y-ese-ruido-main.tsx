@@ -166,7 +166,7 @@ const YEseRuidoScreen = () => {
 
         const { data } = await unlockBadge({
           token,
-          badge_title: "Y ese ruido",
+          badge_title: "Algo suena",
         });
 
         if (data?.title && data?.description && data?.image_path) {
