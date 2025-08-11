@@ -18,7 +18,6 @@ export const useConsumeEnergyMutation = () => {
     },
     onSuccess: (newEnergy) => {
       showSnackbar({ type: "success", message: "Energía consumida." });
-      console.log("Nueva energía:", newEnergy);
     },
     onError: (err: any) => {
       showSnackbar({ type: "error", message: "Error al consumir energía." });

@@ -19,7 +19,7 @@ export function useSelectProfileMutation() {
       return AUTH_SERVICE.selectProfile({ user_id, id_animal: animal_id });
     },
     onSuccess: () => {
-      router.push("/(auth)/welcome");
+      router.push("/(mainPages)/home");
     },
     onError: () => {
       showSnackbar({ message: ERRORS.INTERNAL_SERVER_ERROR.message, type: "error" });
