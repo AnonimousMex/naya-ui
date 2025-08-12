@@ -5,59 +5,16 @@ import {
   Text,
   TouchableOpacity,
   Dimensions,
+  ActivityIndicator,
 } from "react-native";
 import BlueTopBar from "@/components/BlueTopBar";
 import PersonCard from "@/components/PersonCard";
 import { IMAGES } from "@/constants/images";
+import { useTherapists } from "@/hooks/useTherapists";
+import { useUserInfo } from "@/hooks/useUserInfo";
 
-const title = "¡Hola, Fernanda!";
 const description =
   "Dentro de esta sección podrás dar un vistazo a los terapeutas que están disponibles en nuestra app";
-
-const therapists = [
-  {
-    id: "1",
-    name: "Hilary Arroyo Martinez",
-    avatar: IMAGES.DEFAULT_WOMAN_THERAPIST,
-    circleColor: "#C8B8B4",
-  },
-  {
-    id: "2",
-    name: "Francisco Rivera Rodriguez",
-    avatar: IMAGES.DEFAULT_WOMAN_THERAPIST,
-    circleColor: "#F9D7B5",
-  },
-  {
-    id: "3",
-    name: "José Antonio Cisneros",
-    avatar: IMAGES.DEFAULT_WOMAN_THERAPIST,
-    circleColor: "#D6E6F2",
-  },
-  {
-    id: "4",
-    name: "Alejandra Cisneros Pascual",
-    avatar: IMAGES.DEFAULT_WOMAN_THERAPIST,
-    circleColor: "#BEE3DB",
-  },
-  {
-    id: "5",
-    name: "María Fernanda López",
-    avatar: IMAGES.DEFAULT_WOMAN_THERAPIST,
-    circleColor: "#F7CAC9",
-  },
-  {
-    id: "6",
-    name: "Carlos Alberto Gómez",
-    avatar: IMAGES.DEFAULT_WOMAN_THERAPIST,
-    circleColor: "#B5EAD7",
-  },
-  {
-    id: "7",
-    name: "Lucía Hernández Torres",
-    avatar: IMAGES.DEFAULT_WOMAN_THERAPIST,
-    circleColor: "#C7CEEA",
-  },
-];
 
 const cardMargin = 8;
 const numColumns = 2;
@@ -67,17 +24,57 @@ const cardWidth =
   (screenWidth - containerPadding - cardMargin * (numColumns + 1)) / numColumns;
 
 const TherapistHome = () => {
+  const { therapists, loading, error, refetch } = useTherapists();
+  const { userInfo } = useUserInfo();
+
+  const title = `¡Hola, ${userInfo?.name || 'Usuario'}!`;
+
+  if (loading) {
+    return (
+      <View className="flex-1 bg-pink-200">
+        <BlueTopBar title={title} description={description} />
+        <View className="flex-1 justify-center items-center">
+          <ActivityIndicator size="large" color="#0000ff" />
+          <Text className="text-gray-600 mt-4 font-UrbanistRegular">
+            Cargando terapeutas...
+          </Text>
+        </View>
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View className="flex-1 bg-pink-200">
+        <BlueTopBar title={title} description={description} />
+        <View className="flex-1 justify-center items-center px-8">
+          <Text className="text-red-500 text-center mb-4 font-UrbanistRegular">
+            {error}
+          </Text>
+          <TouchableOpacity
+            className="bg-blue-500 px-6 py-3 rounded-lg"
+            onPress={refetch}
+          >
+            <Text className="text-white font-UrbanistBold">
+              Intentar de nuevo
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  }
+
   return (
     <View className="flex-1 bg-pink-200">
       <BlueTopBar title={title} description={description} />
       <View className="px-5">
         <View className="flex-row justify-between items-center mb-2 mt-8">
           <Text className="text-brown-800 font-bold text-lg font-UrbanistBold">
-            Terapeutas disponibles
+            Terapeutas disponibles ({therapists.length})
           </Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={refetch}>
             <Text className="text-orange-400 font-bold text-sm font-UrbanistBold">
-              Ver más
+              Actualizar
             </Text>
           </TouchableOpacity>
         </View>
@@ -87,19 +84,33 @@ const TherapistHome = () => {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 32 }}
         >
-          <View className="flex-row flex-wrap justify-between">
-            {therapists.map((p) => (
-              <PersonCard
-                key={p.id}
-                id={p.id}
-                name={p.name}
-                avatar={p.avatar}
-                width={cardWidth}
-                circleColor={p.circleColor}
-                type="patient"
-              />
-            ))}
-          </View>
+          {therapists.length === 0 ? (
+            <View className="flex-1 justify-center items-center mt-20">
+              <Text className="text-gray-600 text-center font-UrbanistRegular">
+                No hay terapeutas disponibles en este momento
+              </Text>
+            </View>
+          ) : (
+            <View className="flex-row flex-wrap justify-between">
+              {therapists.map((therapist) => (
+                <PersonCard
+                  key={therapist.therapist_id}
+                  id={therapist.therapist_id}
+                  name={therapist.name}
+                  avatar={therapist.avatar || IMAGES.DEFAULT_WOMAN_THERAPIST}
+                  width={cardWidth}
+                  circleColor={therapist.circleColor || "#C8B8B4"}
+                  type="therapist"
+                  description={therapist.description}
+                  phone={therapist.phone}
+                  email={therapist.email}
+                  address={therapist.address}
+                  specialties={therapist.specialties}
+                  experiences={therapist.experiences}
+                />
+              ))}
+            </View>
+          )}
         </ScrollView>
       </View>
     </View>

@@ -15,25 +15,67 @@ import { NavbarComponent } from "@/components/NavBar";
 import { BackButton } from "@/components/BackButton";
 import {
   ButtonPatientProfile,
-  NextDateView,
+  AppointmentCard,
 } from "@/components/patientProfileComponents";
 import { HeaderInformationComponent } from "@/components/HeaderInformationComponent";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useCloseConnectionMutation } from "@/hooks/therapist/useCloseConnectionMutation";
 import { TCloseConnection } from "@/models/therapist";
+import { getAnimalVariantImage } from "@/utils/animalAssets";
+import { useUserAnimal } from "@/hooks/useUserAnimal";
+import { useListAllAppointmentsMutation } from "@/hooks/therapist/useListAllAppointmentsMutation";
+import { TAppointmentWithPatient } from "@/models/Common";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import AppointmentCardComponent from "@/components/patientProfileComponents/AppointmentCard";
 
 
 const PatientProfile = () => {
   const { width, height } = Dimensions.get("window");
-  const bgColor = "bg-pink-700";
-  const userImage = IMAGES.HAPPY_AXOLOTL_1;
   const isTablet = width >= 520;
   const dynamicHeight = isTablet ? height * 0.6 : height * 0.4;
   const params = useLocalSearchParams();
-  const { id, name } = params;
+  const { id, name, avatar, circleColor, animalId } = params;
 
+  const { animalData, animalColor } = useUserAnimal(animalId as string);
+  
+  const userImage = animalData?.animal_key 
+    ? getAnimalVariantImage(animalData.animal_key, "happy", 3)
+    : IMAGES.UNKNOWN_HEAD;
+  
   const closeConnectionMutation = useCloseConnectionMutation();
-  const [modalVisible, setModalVisible] = useState(false)
+  const [modalVisible, setModalVisible] = useState(false);
+  const [appointments, setAppointments] = useState<TAppointmentWithPatient[]>([]);
+  const listAllAppointmentsMutation = useListAllAppointmentsMutation();
+
+  const fetchPatientAppointments = async () => {
+    try {
+      const token = await AsyncStorage.getItem("accessToken");
+      if (!token) return;
+      listAllAppointmentsMutation.mutate(token, {
+        onSuccess: (response) => {
+          if (response.data) {
+            const patientAppointments = response.data.filter(
+              (appointment) => appointment.patient_id === id
+            );
+            setAppointments(patientAppointments);
+          }
+        },
+      });
+    } catch (error) {
+      console.error("Error fetching patient appointments:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchPatientAppointments();
+  }, [id]);
+
+  const nextAppointment = appointments
+    .sort((a, b) => {
+      const dateTimeA = new Date(`${a.date}T${a.time}`);
+      const dateTimeB = new Date(`${b.date}T${b.time}`);
+      return dateTimeA.getTime() - dateTimeB.getTime();
+    })[0]; 
 
   const handleOnSubmit = () =>{
     const payload: TCloseConnection = {
@@ -49,8 +91,11 @@ const PatientProfile = () => {
         showsVerticalScrollIndicator
       >
         <View
-          className={`relative ${bgColor}`}
-          style={{ height: dynamicHeight }}
+          className="relative"
+          style={{ 
+            height: dynamicHeight,
+            backgroundColor: animalColor || "#edcedb"
+          }}
         >
           <View className="absolute w-full flex-row justify-between p-7">
             <BackButton onPress={() => router.back()} />
@@ -72,12 +117,24 @@ const PatientProfile = () => {
 
         <View className="flex-1 bg-white rounded-t-3xl px-6 pt-6">
           <View className="flex justify-center items-center mb-4">
-            <NextDateView
-              patientName={name.toString()}
-              date="20 de junio del 2025"
-              hours={13}
-              minutes={1}
-            />
+            {nextAppointment ? (
+              <AppointmentCardComponent
+                appointmentId={nextAppointment.id}
+                patientId={nextAppointment.patient_id}
+                patientName={nextAppointment.patient_name || name.toString()}
+                date={nextAppointment.date}
+                time={nextAppointment.time}
+                onAppointmentUpdate={fetchPatientAppointments}
+                customTitle="Próxima Consulta"
+                customSubtitle={name.toString()}
+              />
+            ) : (
+              <View className="bg-brown-50 rounded-2xl p-4 mx-2 my-3 shadow-sm w-full">
+                <Text className="text-brown-800 font-UrbanistLight text-center">
+                  No hay citas próximas para este paciente
+                </Text>
+              </View>
+            )}
           </View>
 
           <UserStatsRow badges={12} streak={5} exp={2300} />
@@ -109,7 +166,14 @@ const PatientProfile = () => {
               name="Citas"
               icon={ICONS.CALENDAR_WHITE_ICON}
               onPress={() => {
-                router.push("/(therapistPages)/patient-appointments");
+                router.push({
+                  pathname: "/(therapistPages)/patient-appointments",
+                  params: {
+                    id: id,
+                    name: name,
+                    animalId: animalId || "",
+                  },
+                });
               }}
             />
             <ButtonPatientProfile
@@ -121,9 +185,10 @@ const PatientProfile = () => {
                   pathname: "/(therapistPages)/test-results",
                   params: {
                     id: id,
+                    name: name,
+                    animalId: animalId || "",
                   },
-                }
-                );
+                });
               }}
             />
           </View>

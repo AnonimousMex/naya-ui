@@ -55,6 +55,15 @@ export type TAppointment = {
   date: string;     
   time: string;    
 };
+
+export type TAppointmentWithPatient = {
+  id: string;
+  patient_id: string;
+  date: string;     
+  time: string;    
+  patient_name?: string;
+  patient_animal_id?: string;
+};
 export type TCancelAppointmentRequest = {     
   id: string;
 };

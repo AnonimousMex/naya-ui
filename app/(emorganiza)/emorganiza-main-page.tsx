@@ -1,4 +1,5 @@
 import { GameHeader } from "@/components/GameHeader";
+import { useUserHeaderData } from "@/hooks/useUserHeaderData";
 import { NavbarComponent } from "@/components/NavBar";
 import { IMAGES } from "@/constants/images";
 import { StyleSheet, Dimensions } from "react-native";
@@ -72,6 +73,10 @@ function getRandomEmotionImage(): { image: any; emotion: EmotionKey } {
 }
 
 function EmorganizaMainPage() {
+  const { energy, userName, avatar, fetchHeaderData } = useUserHeaderData();
+  useEffect(() => {
+    fetchHeaderData();
+  }, [fetchHeaderData]);
   const shakeX = useSharedValue(0);
   const [navbarHeight, setNavbarHeight] = useState(0);
   const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
@@ -269,9 +274,9 @@ function EmorganizaMainPage() {
           className="flex items-center justify-center mt-2"
         >
           <GameHeader
-            name="Rodrigo"
-            avatar={IMAGES.HAPPY_CAT_HEAD}
-            energy={3}
+            name={userName}
+            avatar={avatar ?? IMAGES.UNKNOWN_HEAD}
+            energy={energy}
           />
         </SafeAreaView>
       </View>

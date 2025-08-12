@@ -1,46 +1,48 @@
-import { View, Text, TouchableOpacity, Image, ScrollView } from "react-native";
+import { View, ScrollView } from "react-native";
 import {
   SafeAreaView as SafeAreaViewContext,
   SafeAreaView,
 } from "react-native-safe-area-context";
-import { BackButton } from "@/components/BackButton";
-import TherapistUpcomingAppointments from "@/components/Therapist-Appointments";
-import { router } from "expo-router";
 import { NavbarComponent } from "@/components/NavBar";
-import { IMAGES } from "@/constants/images";
 import { HeaderTitleComponent } from "@/components/HeaderTitleComponent";
+import { useEffect, useState } from "react";
+import { useListAllAppointmentsMutation } from "@/hooks/therapist/useListAllAppointmentsMutation";
+import { TAppointmentWithPatient } from "@/models/Common";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import AppointmentCard from "@/components/patientProfileComponents/AppointmentCard";
 
 const TherapistUpcomingAppoinments = () => {
-  const appointments = [
-    {
-      patient: {
-        name: "Andrea López",
-        image: IMAGES.HAPPY_AXOLOTL_HEAD,
-      },
-      datetime: new Date("2025-06-28T11:00:00"),
-    },
-    {
-      patient: {
-        name: "Carlos Ruiz",
-        image: IMAGES.HAPPY_PANDA_HEAD,
-      },
-      datetime: new Date("2025-06-28T16:30:00"),
-    },
-    {
-      patient: {
-        name: "Armando Casanova",
-        image: IMAGES.HAPPY_LION_HEAD,
-      },
-      datetime: new Date("2025-06-26T14:00:00"),
-    },
-    {
-      patient: {
-        name: "Cesar Figueroa",
-        image: IMAGES.HAPPY_BUNNY_HEAD,
-      },
-      datetime: new Date("2025-07-01T10:00:00"),
-    },
-  ];
+  const [appointments, setAppointments] = useState<TAppointmentWithPatient[]>([]);
+  const listAllAppointmentsMutation = useListAllAppointmentsMutation();
+
+  const fetchAppointments = async () => {
+    try {
+      const token = await AsyncStorage.getItem("accessToken");
+      if (!token) return;
+      listAllAppointmentsMutation.mutate(token, {
+        onSuccess: (response) => {
+          if (response.data) {
+            const formattedAppointments = response.data.map((appointment) => ({
+              ...appointment,
+            }));
+            setAppointments(formattedAppointments);
+          }
+        },
+      });
+    } catch (error) {
+      console.error("Error fetching appointments:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAppointments();
+  }, []);
+
+  const sortedAppointments = appointments.sort((a, b) => {
+    const dateTimeA = new Date(`${a.date}T${a.time}`);
+    const dateTimeB = new Date(`${b.date}T${b.time}`);
+    return dateTimeA.getTime() - dateTimeB.getTime();
+  });
 
   return (
     <SafeAreaViewContext className="flex-1 bg-slate-100">
@@ -52,7 +54,20 @@ const TherapistUpcomingAppoinments = () => {
           <HeaderTitleComponent mainText="Consultas" />
         </View>
 
-        <TherapistUpcomingAppointments appointments={appointments} />
+        <View className="px-7">
+          {sortedAppointments.map((appointment, index) => (
+            <View key={appointment.id} className={index < sortedAppointments.length - 1 ? "mb-4" : ""}>
+              <AppointmentCard
+                appointmentId={appointment.id}
+                patientId={appointment.patient_id}
+                patientName={appointment.patient_name || "Paciente"}
+                date={appointment.date}
+                time={appointment.time}
+                onAppointmentUpdate={fetchAppointments}
+              />
+            </View>
+          ))}
+        </View>
       </ScrollView>
 
       <SafeAreaView

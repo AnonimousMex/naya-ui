@@ -80,4 +80,9 @@ export const ERRORS: TError = {
     name: "CONECCTION_DOES_NOT_EXIST",
     message: ERROR_TEXTS.CONNECTION_DOES_NOT_EXIST,
   },
+  E019: {
+    code: "E019", 
+    name: "RESEND_CODE_ERROR",
+    message: ERROR_TEXTS.RESEND_CODE_ERROR,
+  },
 };

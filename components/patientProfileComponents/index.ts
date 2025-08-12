@@ -1,2 +1,2 @@
-export { default as NextDateView} from "./NextDateview"
+export { default as AppointmentCard} from "./AppointmentCard"
 export { default as ButtonPatientProfile} from "./ButtonPatientProfile"
