@@ -1,29 +1,29 @@
 import { View, Text } from "react-native";
 
 const emotionColors: Record<string, string> = {
-  fear: "#8E24AA",     
-  happy: "#FFE01B",    
-  sad: "#29A8FF",      
-  angry: "#FF4B1F",    
-  shame: "#FF90D0",    
+  Miedo: "#8E24AA",     
+  Felicidad: "#FFE01B",    
+  Tristeza: "#29A8FF",      
+  Enojo: "#FF4B1F",    
+  Verguenza: "#FF90D0",    
   neutral: "#E0E0E0",
 };
 
 const emotionBgLight: Record<string, string> = {
-  fear: "#F3E1F7",
-  happy: "#FFFBE5",
-  sad: "#EAF4FF",
-  angry: "#FFE5E0",
-  shame: "#FFE6F4",
+  Miedo: "#F3E1F7",
+  Felicidad: "#FFFBE5",
+  Tristeza: "#EAF4FF",
+  Enojo: "#FFE5E0",
+  Verguenza: "#FFE6F4",
   neutral: "#F5F5F5",
 };
 
 const emotionTextColors: Record<string, string> = {
-  fear: "#8E24AA",
-  happy: "#E08A1E",
-  sad: "#2563EB",
-  angry: "#FF4B1F",
-  shame: "#D946EF",
+  Miedo: "#8E24AA",
+  Felicidad: "#E08A1E",
+  Tristeza: "#2563EB",
+  Enojo: "#FF4B1F",
+  Verguenza: "#D946EF",
   neutral: "#757575",
 };
 

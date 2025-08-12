@@ -63,6 +63,7 @@ export default function RootLayout() {
           <Stack.Screen name="(emorganiza)" options={{ headerShown: false }} />
           <Stack.Screen name="(y_ese_ruido)/y-ese-ruido-main" options={{ headerShown: false }} />
           <Stack.Screen name="(detectiveEmociones)" options={{ headerShown: false }} />
+          <Stack.Screen name="(test)" options={{ headerShown: false }} />
           <Stack.Screen name="+not-found" />
         </Stack> 
       </SnackbarProvider>
