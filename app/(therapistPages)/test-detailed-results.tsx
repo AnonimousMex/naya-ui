@@ -185,7 +185,6 @@ const TestDetailedResults = () => {
         setTestInfo(info);
         setStatistics(stats);
         setTestResults(results);
-        console.log(testResults)
         setAnalysis({ tendency: analysisTextMap[dominant] });
       } catch (e: any) {
         setError(e?.message || "Error al cargar resultados");
