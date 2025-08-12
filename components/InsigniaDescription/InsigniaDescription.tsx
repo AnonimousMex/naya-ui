@@ -5,22 +5,26 @@ import { MainButton } from "@/components/MainButton";
 
 interface Props {
   title: string;
-  medalImageIndex: number;
+  medalImageName: string;
+  description: string;
   onClose: () => void;
 }
 
 const InsigniaDescriptionComponent: React.FC<Props> = ({
   title,
-  medalImageIndex,
+  medalImageName,
+  description,
   onClose,
 }) => {
-  const medals = [
-    IMAGES.MEDAL_1,
-    IMAGES.MEDAL_2,
-    IMAGES.MEDAL_3,
-    IMAGES.MEDAL_4,
-  ];
-  const selectedImage = medals[medalImageIndex] || IMAGES.MEDAL_1;
+
+  const medalsMap: Record<string, any> = {
+    "medal1.png": IMAGES.MEDAL_1,
+    "medal2.png": IMAGES.MEDAL_2,
+    "medal3.png": IMAGES.MEDAL_3,
+    "medal4.png": IMAGES.MEDAL_4,
+  };
+
+  const selectedImage = medalsMap[medalImageName] || IMAGES.MEDAL_1;
 
   return (
     <View className="flex-1 relative items-center justify-center">
@@ -29,7 +33,7 @@ const InsigniaDescriptionComponent: React.FC<Props> = ({
           {title || "Medalla"}
         </Text>
         <Text className="text-center text-xl text-gray-730 font-UrbanistMedium mb-8">
-          🎉Medalla de jugador por {title || "varios"} días consecutivos.🎉
+          {description}
         </Text>
         <MainButton
           mainText="Continuar"

@@ -34,6 +34,10 @@ export const URL_PATHS = {
     GET_ENERGY: "/energy/current_energies",
     CONSUME_ENERGY: "/energy/consume",
   },
+  ACHIEVEMENTS: {
+    UNLOCK_BADGE: "/unlock-badge",
+    LIST_BADGES: "/badges"
+  },
   TEST: {
     INIT_TEST: "/test/init-test",
     SAVE_ANSWER: "/test/send-answer",
