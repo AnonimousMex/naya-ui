@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   ScrollView,
   Modal,
-  Dimensions,
-  StatusBar,
   Pressable,
+  Text,
 } from "react-native";
 import { HeaderTitleComponent } from "@/components/HeaderTitleComponent";
 import { MainButton } from "@/components/MainButton";
@@ -15,15 +14,28 @@ import { InsigniaDescriptionComponent } from "@/components/InsigniaDescription";
 import { NavbarComponent } from "@/components/NavBar";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import { useListBadgesMutation } from "@/hooks/badges/useListBadgesMutation";
+
 const Insignias = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedMedal, setSelectedMedal] = useState<{
     title: string;
-    imageIndex: number;
+    description?: string;
+    image_path: string;
   } | null>(null);
 
-  const openModal = (title: string, imageIndex: number) => {
-    setSelectedMedal({ title, imageIndex });
+  const { mutateAsync, data, isError } = useListBadgesMutation();
+
+  useEffect(() => {
+    mutateAsync();
+  }, []);
+
+  const openModal = (
+    title: string,
+    description: string | undefined,
+    image_path: string
+  ) => {
+    setSelectedMedal({ title, description, image_path });
     setModalVisible(true);
   };
 
@@ -32,20 +44,36 @@ const Insignias = () => {
     setSelectedMedal(null);
   };
 
-  const { height } = Dimensions.get("window");
+  if (isError) {
+    return (
+      <SafeAreaView className="flex-1 justify-center items-center">
+        <Text>Error cargando medallas</Text>
+      </SafeAreaView>
+    );
+  }
+
+  const badges = data ?? [];
 
   return (
     <SafeAreaView className="flex-1 bg-slate-100">
       <View className="flex-1">
         <ScrollView
-          contentContainerStyle={{ paddingBottom: 30 }} //this is the navbar space
+          contentContainerStyle={{ paddingBottom: 30 }}
           showsVerticalScrollIndicator
         >
           <View className="mt-16 px-7 mb-8">
             <HeaderTitleComponent mainText="Mis Medallas" />
           </View>
 
-          <InsigniaComponent onMedalPress={openModal} />
+          {badges.length === 0 ? (
+            <View className="px-7 items-center">
+              <Text className="text-gray-500 text-2xl mt-10 font-UrbanistExtraBold text-center">
+                Aún no has desbloqueado alguna medalla.
+              </Text>
+            </View>
+          ) : (
+            <InsigniaComponent badges={badges} onMedalPress={openModal} />
+          )}
 
           <MainButton
             mainText="Ver logros"
@@ -85,7 +113,8 @@ const Insignias = () => {
           {selectedMedal && (
             <InsigniaDescriptionComponent
               title={selectedMedal.title}
-              medalImageIndex={selectedMedal.imageIndex}
+              description={selectedMedal.description ?? ""}
+              medalImageName={selectedMedal.image_path}
               onClose={closeModal}
             />
           )}

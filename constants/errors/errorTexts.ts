@@ -20,5 +20,6 @@ export enum ERROR_TEXTS {
   FETCH_ANIMALS_ERROR = "No se pudieron cargar los avatars. Por favor, intenta de nuevo.",
   PROFILE_CHOICE_REQUIRED = "Debes seleccionar un avatar de perfil.",
   CONNECTION_DOES_NOT_EXIST = "No se tiene ninguna conexión de trabajo con este paciente",
+  BADGE_ALREADY_UNLOCKED = "Y has desbloqueado esa insgnia",
   RESEND_CODE_ERROR = "Error al reenviar el código de verificación",
 }
