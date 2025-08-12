@@ -21,7 +21,7 @@ const PersonCard: React.FC<PersonCardProps> = ({
   type,
 }) => {
   const handlePress = () => {
-    if (type === "patient") {
+    if (type !== "patient") {
       router.push({
         pathname: "/(parentsPages)/therapist-cv",
         params: {

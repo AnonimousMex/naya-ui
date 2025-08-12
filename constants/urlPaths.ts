@@ -32,6 +32,12 @@ export const URL_PATHS = {
   },
   TEST: {
     INIT_TEST: "/test/init-test",
-    SAVE_ANSWER: "/test/send-answer"
+    SAVE_ANSWER: "/test/send-answer",
+    LIST_TESTS: "/test/list-test"
+  },
+  TEST_THERAPIST:{
+    TEST_INFO: "/test/test-details",
+    TEST_RESULTS: "/test/list-answers",
+    TEST_STATICS: "/test/percentage-answers"
   },
 };

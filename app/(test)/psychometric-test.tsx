@@ -89,7 +89,6 @@ const PsycometricTest = () => {
     [],
   );
 
-  // Traer energía cuando la pantalla entra en foco
   useFocusEffect(
     useCallback(() => {
       fetchEnergy();
@@ -97,20 +96,14 @@ const PsycometricTest = () => {
     }, []),
   );
 
-  // ----- Cargar historias desde API -----
   useEffect(() => {
     const loadTest = async () => {
       try {
         setLoading(true);
         const token = await AsyncStorage.getItem('accessToken');
-
-        // Ajusta el endpoint a tu constante real:
-        // Ejemplos: URL_PATHS.TEST.INIT_TEST  ó  URL_PATHS.TEST.GET_TEST
         const { data } = await HTTP.get<any>(URL_PATHS.TEST.INIT_TEST, {
           headers: { Authorization: token },
         });
-        // Estructura esperada como la que nos compartiste:
-        // { status, statusMessage, data: { test_id, stories: [...] } }
         setTestId(data?.data?.test_id ?? null);
         setStories(Array.isArray(data?.data?.stories) ? data.data.stories : []);
         setCurrentStoryIndex(0);
@@ -172,7 +165,7 @@ const PsycometricTest = () => {
           answer_id: answerId,
         },
       );
-      await new Promise(res => setTimeout(res, 2000));
+      await new Promise(res => setTimeout(res, 1000));
       // Mostrar "Modal de salida"
       setCurrentStep(STEP.OUTRO);
     } catch (e) {

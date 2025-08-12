@@ -73,7 +73,7 @@ const PatientProfile = () => {
         <View className="flex-1 bg-white rounded-t-3xl px-6 pt-6">
           <View className="flex justify-center items-center mb-4">
             <NextDateView
-              patientName="Rodrigo vega Espinoza"
+              patientName={name.toString()}
               date="20 de junio del 2025"
               hours={13}
               minutes={1}
@@ -92,7 +92,7 @@ const PatientProfile = () => {
                   Ayuda 
                 </Text>
                 <Image
-                  source={IMAGES.HELP_ICON}
+                  source={ICONS.HELP_ICON}
                   style={{
                     width: width < 390 ? 14 : 18,
                     height: height < 390 ? 14 : 18,
@@ -117,7 +117,13 @@ const PatientProfile = () => {
               name="Resultados"
               icon={ICONS.PLAY_ICON}
               onPress={() => {
-                router.push("/(therapistPages)/test-results");
+                router.push({
+                  pathname: "/(therapistPages)/test-results",
+                  params: {
+                    id: id,
+                  },
+                }
+                );
               }}
             />
           </View>

@@ -40,7 +40,7 @@ const UserProfile = () => {
     },
     {
       mainText: "Conectar terapeuta",
-      onPress: () => router.push("/(auth)/activate-account"),
+      onPress: () => router.push("/(auth)/connection-therapist"),
       className: "border-orange-300 mt-8",
       textClassName: "text-orange-300",
     },
