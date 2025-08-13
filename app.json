@@ -4,14 +4,16 @@
     "slug": "naya-ui",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/icon_rosado_1024.png",
     "scheme": "nayaui",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
+    "newArchEnabled": false,
     "ios": {
       "supportsTablet": true
     },
     "android": {
+      "package": "com.tuorg.nayaui",
+        "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -28,7 +30,7 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
+          "image": "./assets/images/splash.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
@@ -37,6 +39,15 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "50813704-9cb2-4e93-8f49-79b8529398cc"
+      },
+      "EXPO_PUBLIC_SUPABASE_URL": "https://malhrkfbyrbfjcebtnkp.supabase.co",
+      "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1hbGhya2ZieXJiZmpjZWJ0bmtwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ5ODAyMzksImV4cCI6MjA3MDU1NjIzOX0.0CsylUCb2ersPII4010J0e36POzlZAaT-6dmdyfgKjE",
+      "EXPO_PUBLIC_API_BASE_URL": "https://naya-api-os0j.onrender.com/api/v1"
     }
   }
 }
