@@ -20,27 +20,27 @@ function shuffle<T>(arr: T[]): T[] {
 }
 
 type EmotionKey =
-  | "feliz"
-  | "triste"
+  | "felicidad"
+  | "tristeza"
   | "enojo"
-  | "temor"
-  | "vergüenza"
+  | "miedo"
+  | "verguenza"
   | "sorpresa";
 
 const EMOTION_IMAGES: Record<EmotionKey, any[]> = {
-  feliz: Object.entries(IMAGES)
+  felicidad: Object.entries(IMAGES)
     .filter(([key]) => key.startsWith("HAPPY_") && !key.includes("HEAD"))
     .map(([, value]) => value),
-  triste: Object.entries(IMAGES)
+  tristeza: Object.entries(IMAGES)
     .filter(([key]) => key.startsWith("SAD_"))
     .map(([, value]) => value),
   enojo: Object.entries(IMAGES)
     .filter(([key]) => key.startsWith("ANGRY_"))
     .map(([, value]) => value),
-  temor: Object.entries(IMAGES)
+  miedo: Object.entries(IMAGES)
     .filter(([key]) => key.startsWith("FEAR_"))
     .map(([, value]) => value),
-  vergüenza: Object.entries(IMAGES)
+  verguenza: Object.entries(IMAGES)   
     .filter(([key]) => key.startsWith("SHAME_"))
     .map(([, value]) => value),
   sorpresa: [IMAGES.HAPPY_AXOLOTL_2],
