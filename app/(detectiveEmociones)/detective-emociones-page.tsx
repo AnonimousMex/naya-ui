@@ -242,7 +242,7 @@ const DetectiveEmocionesPage = () => {
             numberOfLines={2}
             adjustsFontSizeToFit
           >
-            ¡Correcto! El personaje se sintió...
+            ¡Correcto! El personaje se sintió con...
           </Text>
           <View className='items-center'>
             {currentQuestion.options.map((option: any, index: number) => (

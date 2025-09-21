@@ -100,7 +100,7 @@ function Home() {
             name={games[0].name}
             description={games[0].description}
             background={games[0].image_url}
-            onPressButton={() => askToPlay("/(mainPages)/insignias")}
+            onPressButton={() => askToPlay("/(detectiveEmociones)/detective-emociones-page")}
           />
         )}
         <View className="flex-row justify-between my-5 ">
