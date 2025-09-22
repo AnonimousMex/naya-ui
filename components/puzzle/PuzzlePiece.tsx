@@ -1,17 +1,14 @@
 import { useEffect } from "react";
 import { StyleSheet } from "react-native";
-import {
-  PanGestureHandler,
-  PanGestureHandlerGestureEvent,
-} from "react-native-gesture-handler";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
   SharedValue,
-  useAnimatedGestureHandler,
   useAnimatedStyle,
   useSharedValue,
   withDelay,
   withSpring,
   withTiming,
+  runOnJS,
 } from "react-native-reanimated";
 
 import {
@@ -58,24 +55,21 @@ function PuzzlePiece({ index, shape, shuffledPieces, correctPieces, imageSource,
   const rotate = useSharedValue(randomRotation);
   const z = useSharedValue(0);
   const isEnabled = useSharedValue(1);
+  const startPosition = useSharedValue({ x: 0, y: 0 });
 
-  const panGestureHandler = useAnimatedGestureHandler<
-    PanGestureHandlerGestureEvent,
-    { x: number; y: number }
-  >({
-    onStart: (_, ctx) => {
-      ctx.x = translateX.value;
-      ctx.y = translateY.value;
-    },
-    onActive: ({ translationX, translationY }, ctx) => {
+  const panGesture = Gesture.Pan()
+    .onStart(() => {
+      startPosition.value = { x: translateX.value, y: translateY.value };
+    })
+    .onUpdate(({ translationX, translationY }) => {
       if (!isEnabled.value) return;
-      translateX.value = ctx.x + translationX;
-      translateY.value = ctx.y + translationY;
+      translateX.value = startPosition.value.x + translationX;
+      translateY.value = startPosition.value.y + translationY;
       scale.value = withSpring(1);
       rotate.value = withSpring(0);
       z.value = 1;
-    },
-    onEnd: () => {
+    })
+    .onEnd(() => {
       if (!isEnabled.value) return;
       const isCorrect =
         translateX.value >= spotX - safeSpacing &&
@@ -91,8 +85,7 @@ function PuzzlePiece({ index, shape, shuffledPieces, correctPieces, imageSource,
         isEnabled.value = 0;
         correctPieces.value = correctPieces.value + 1;
       }
-    },
-  });
+    });
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [
@@ -105,11 +98,11 @@ function PuzzlePiece({ index, shape, shuffledPieces, correctPieces, imageSource,
   }));
 
   return (
-    <PanGestureHandler onGestureEvent={panGestureHandler}>
+    <GestureDetector gesture={panGesture}>
       <Animated.View style={[styles.container, animatedStyle]}>
         <Shape type="piece" shape={shape} piece={piece} imageSource={imageSource} />
       </Animated.View>
-    </PanGestureHandler>
+    </GestureDetector>
   );
 }
 
