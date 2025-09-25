@@ -168,11 +168,11 @@ import noInvite  from "@/assets/images/test/stories/no-invite-image.png"
 import failedAssignamet  from "@/assets/images/test/stories/failed-assignamet-image.png"
 // import FRIEND_LEFT  from "@/assets/images/test/stories/frie"
 import noParentsFest from "@/assets/images/test/stories/no-parents-fest-image.png"
-// import FALL_RECESS  from "@/assets/images/test/stories/fail"
-// import ZIP_ERROR  from "@/assets/images/test/stories/"
+import fallRecess  from "@/assets/images/test/stories/fall-recess-image.png"
+import zipError  from "@/assets/images/test/stories/zip-image.png"
 import noAnswer  from "@/assets/images/test/stories/no-answer-image.png"
 import voiceCrack  from "@/assets/images/test/stories/voice-crack-image.png"
-// import GOOD_GRADES  from "@/assets/images/test/stories/"
+import goodGrades  from "@/assets/images/test/stories/good-grades-image.png"
 
 
 
@@ -350,6 +350,9 @@ export const IMAGES = {
   NO_INVITE: noInvite,
   FAILED_ASSIGNMENT: failedAssignamet,
   NO_PARENTS_FEST: noParentsFest,
+  FALL_RECESS: fallRecess,
+  ZIP_ERROR: zipError,
   NO_ANSWER: noAnswer,
   VOICE_CRACK: voiceCrack,
+  GOOD_GRADES: goodGrades,
 };

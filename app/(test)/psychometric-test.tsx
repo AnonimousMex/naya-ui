@@ -1,10 +1,13 @@
 import { GameHeader } from '@/components/GameHeader';
 import { MainButton } from '@/components/MainButton';
 import { CloudBackground } from '@/components/MainPanesComponents/CloudBackground';
+import { AudioButton } from '@/components/AudioButton';
 import { IMAGES } from '@/constants/images';
 import { LOCAL_PSYCHOMETRIC_TEST } from '@/constants/localData/psychometricTest';
+import { STORY_AUDIOS, ANSWER_AUDIOS, AudioNumber } from '@/constants/audioConstants';
 import { useScreenDimensions } from '@/utils/dimensions';
 import { useUserHeaderData } from '@/hooks/useUserHeaderData';
+import { useAudio } from '@/hooks/useAudio';
 import { router, useFocusEffect } from 'expo-router';
 import LottieView from 'lottie-react-native';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -52,6 +55,10 @@ const PsycometricTest = () => {
   const { energy, fetchEnergy } = useEnergy();
   const { userName, avatar } = useUserHeaderData();
 
+  // ----- Audio hooks -----
+  const storyAudio = useAudio();
+  const answerAudio = useAudio();
+
   // ----- Estado de datos / flujo -----
   const [loading, setLoading] = useState(true);
   const [testId, setTestId] = useState<string | null>(null);
@@ -78,8 +85,14 @@ const PsycometricTest = () => {
   useFocusEffect(
     useCallback(() => {
       fetchEnergy();
-      setShowStory(false)
-    }, []),
+      setShowStory(false);
+      
+      // Limpiar audios al entrar/salir de la pantalla
+      return () => {
+        storyAudio.stopAudio();
+        answerAudio.stopAudio();
+      };
+    }, [storyAudio.stopAudio, answerAudio.stopAudio]),
   );
 
   useEffect(() => {
@@ -146,6 +159,10 @@ const PsycometricTest = () => {
   // ----- Manejo de respuesta del usuario -----
   const handleAnswer = async (answerId: string) => { 
     try {
+      // Detener todos los audios al seleccionar una respuesta
+      storyAudio.stopAudio();
+      answerAudio.stopAudio();
+      
       // Guardado local de respuestas (sin backend)
       console.log('Respuesta seleccionada:', answerId);
       await new Promise(res => setTimeout(res, 1000));
@@ -159,10 +176,49 @@ const PsycometricTest = () => {
   };
 
   const currentStory = stories[currentStoryIndex];
+  
+  // Función para obtener el número del audio basado en el ID
+  const getAudioNumber = (storyId: string): AudioNumber | null => {
+    const match = storyId.match(/test_(\d+)/);
+    if (match) {
+      const number = parseInt(match[1], 10);
+      return (number >= 1 && number <= 10) ? (number as AudioNumber) : null;
+    }
+    return null;
+  };
+
   const resolveImage = (key?: string) => {
-  if (!key) return IMAGES.UNKNOWN_HEAD;                  
-  return (IMAGES as any)[key] ?? IMAGES.UNKNOWN_HEAD;    
-};
+    if (!key) return IMAGES.UNKNOWN_HEAD;                  
+    return (IMAGES as any)[key] ?? IMAGES.UNKNOWN_HEAD;    
+  };
+
+  // Función para reproducir audio de historia
+  const playStoryAudio = useCallback(async () => {
+    if (!currentStory) return;
+    
+    const audioNumber = getAudioNumber(currentStory.id);
+    if (audioNumber && STORY_AUDIOS[audioNumber]) {
+      await storyAudio.playAudio(STORY_AUDIOS[audioNumber]);
+    }
+  }, [currentStory, storyAudio]);
+
+  // Función para reproducir audio de respuestas
+  const playAnswerAudio = useCallback(async () => {
+    if (!currentStory) return;
+    
+    const audioNumber = getAudioNumber(currentStory.id);
+    if (audioNumber && ANSWER_AUDIOS[audioNumber]) {
+      await answerAudio.playAudio(ANSWER_AUDIOS[audioNumber]);
+    }
+  }, [currentStory, answerAudio]);
+
+  // ----- Detener audios cuando cambie la historia -----
+  useEffect(() => {
+    // Parar audios anteriores cuando cambie de historia
+    storyAudio.stopAudio();
+    answerAudio.stopAudio();
+  }, [currentStoryIndex, storyAudio.stopAudio, answerAudio.stopAudio]);
+
   // ----- UI -----
   if (loading) {
     return (
@@ -183,10 +239,19 @@ const PsycometricTest = () => {
 
       <View className={`mt-24 h-[${height}]`}>
         <View className="">
-          <View className={`flex items-center `}>
+          <View className={`flex items-center relative`}>
             <TouchableOpacity onPress={() => setShowStory(true)}>
               <Image source={ resolveImage(currentStory?.image_url) } className="h-[25rem] mb-2 " resizeMode="contain"  />
             </TouchableOpacity>
+            {/* Botón de audio sobre la imagen */}
+            <View style={{ position: 'absolute', top: 20, right: 20 }}>
+              <AudioButton
+                isPlaying={storyAudio.isPlaying}
+                isLoading={storyAudio.isLoading}
+                onPress={playStoryAudio}
+                size={50}
+              />
+            </View>
           </View>
         </View> 
 
@@ -211,7 +276,12 @@ const PsycometricTest = () => {
 
               <TouchableOpacity
                 className="bg-white self-center px-10 py-2 rounded-full shadow-lg"
-                onPress={() => setCurrentStep(STEP.QUESTION_HEADER)}
+                onPress={() => {
+                  // Detener audios al continuar
+                  storyAudio.stopAudio();
+                  answerAudio.stopAudio();
+                  setCurrentStep(STEP.QUESTION_HEADER);
+                }}
               >
                 <Text
                   className="text-pink-90 font-UrbanistExtraBold text-center "
@@ -250,16 +320,27 @@ const PsycometricTest = () => {
               ========================================= */}
           {currentStep === STEP.OPTIONS && currentStory && (
             <View >
-              <Text
-                className="mb-8 text-center px-5 font-UrbanistExtraBold text-brown-800 "
-                style={{ fontSize: fontSize + 7 }}
-                adjustsFontSizeToFit={true}
-                minimumFontScale={1}
-                maxFontSizeMultiplier={2.5}
-                onPress={() => setShowStory(true)}
-              >
-                {currentStory.question }
-              </Text>
+              <View className="relative mb-8">
+                <Text
+                  className="text-center px-5 font-UrbanistExtraBold text-brown-800 "
+                  style={{ fontSize: fontSize + 7 }}
+                  adjustsFontSizeToFit={true}
+                  minimumFontScale={1}
+                  maxFontSizeMultiplier={2.5}
+                  onPress={() => setShowStory(true)}
+                >
+                  {currentStory.question }
+                </Text>
+                {/* Botón de audio para respuestas */}
+                <View style={{ position: 'absolute', top: -30, right: 10 }}>
+                  <AudioButton
+                    isPlaying={answerAudio.isPlaying}
+                    isLoading={answerAudio.isLoading}
+                    onPress={playAnswerAudio}
+                    size={40}
+                  />
+                </View>
+              </View>
 
               <View className="mx-8 flex flex-row flex-wrap justify-between" style={{ gap: 12 }}>
                 {currentStory.answers.map((ans) => (
