@@ -1,34 +1,20 @@
 import { GameHeader } from '@/components/GameHeader';
 import { MainButton } from '@/components/MainButton';
 import { CloudBackground } from '@/components/MainPanesComponents/CloudBackground';
-import { HTTP } from '@/config/axios';
 import { IMAGES } from '@/constants/images';
-import { URL_PATHS } from '@/constants/urlPaths';
+import { LOCAL_PSYCHOMETRIC_TEST } from '@/constants/localData/psychometricTest';
 import { useScreenDimensions } from '@/utils/dimensions';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useUserHeaderData } from '@/hooks/useUserHeaderData';
 import { router, useFocusEffect } from 'expo-router';
 import LottieView from 'lottie-react-native';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Modal, Text, View, Image, Dimensions, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+// Energía fija para modo local
 const useEnergy = () => {
-  const [energy, setEnergy] = useState(0);
-
-  const fetchEnergy = async () => {
-    try {
-      const token = await AsyncStorage.getItem('accessToken');
-      if (!token) throw new Error('No auth token found');
-      const { data } = await HTTP.get<{ current_energy: number }>(
-        URL_PATHS.ENERGIES.GET_ENERGY,
-        { headers: { Authorization: token } },
-      );
-      setEnergy(data.current_energy);
-    } catch (e) {
-      setEnergy(0);
-    }
-  };
-
+  const energy = 3;
+  const fetchEnergy = () => {};
   return { energy, fetchEnergy };
 };
 
@@ -48,13 +34,12 @@ const STEP = {
   OUTRO: 4,
 } as const;
 
-type StoryAnswer = { id: string; name: string };
+type StoryAnswer = { id: string; answer_text: string; emotion_id: string; emotion_name: string };
 type StoryItem = {
   id: string;
   title: string;
   story: string;
   image_url: string;
-  question_id: string;
   question: string;
   answers: StoryAnswer[];
 };
@@ -65,6 +50,7 @@ const PsycometricTest = () => {
   const { height } = useScreenDimensions();
 
   const { energy, fetchEnergy } = useEnergy();
+  const { userName, avatar } = useUserHeaderData();
 
   // ----- Estado de datos / flujo -----
   const [loading, setLoading] = useState(true);
@@ -97,15 +83,17 @@ const PsycometricTest = () => {
   );
 
   useEffect(() => {
-    const loadTest = async () => {
+    const loadTest = () => {
       try {
         setLoading(true);
-        const token = await AsyncStorage.getItem('accessToken');
-        const { data } = await HTTP.get<any>(URL_PATHS.TEST.INIT_TEST, {
-          headers: { Authorization: token },
-        });
-        setTestId(data?.data?.test_id ?? null);
-        setStories(Array.isArray(data?.data?.stories) ? data.data.stories : []);
+        // Usar datos locales del test psicométrico - seleccionar 5 historias aleatorias
+        setTestId('local_test');
+        
+        // Mezclar el array y tomar solo las primeras 5 historias
+        const shuffled = [...LOCAL_PSYCHOMETRIC_TEST].sort(() => 0.5 - Math.random());
+        const selectedStories = shuffled.slice(0, 5);
+        
+        setStories(selectedStories);
         setCurrentStoryIndex(0);
         setCurrentStep(STEP.INTRO);
       } catch (err) {
@@ -158,13 +146,8 @@ const PsycometricTest = () => {
   // ----- Manejo de respuesta del usuario -----
   const handleAnswer = async (answerId: string) => { 
     try {
-      await HTTP.post(
-        URL_PATHS.TEST.SAVE_ANSWER,
-        {
-          test_id: testId,
-          answer_id: answerId,
-        },
-      );
+      // Guardado local de respuestas (sin backend)
+      console.log('Respuesta seleccionada:', answerId);
       await new Promise(res => setTimeout(res, 1000));
       // Mostrar "Modal de salida"
       setCurrentStep(STEP.OUTRO);
@@ -194,7 +177,7 @@ const PsycometricTest = () => {
       <CloudBackground />
       <View className="absolute top-0 left-0 right-0 z-50 bg-transparent">
         <SafeAreaView edges={['top']} className="flex items-center justify-center mt-2">
-          <GameHeader energy={energy} name="Rodrigo" avatar={IMAGES.HAPPY_CAT_HEAD} />
+          <GameHeader energy={energy} name={userName} avatar={avatar ? IMAGES[avatar as keyof typeof IMAGES] : IMAGES.HAPPY_CAT_HEAD} />
         </SafeAreaView>
       </View>
 
@@ -295,7 +278,7 @@ const PsycometricTest = () => {
                       minimumFontScale={1}
                       maxFontSizeMultiplier={2.5}
                     >
-                      {ans.name}
+                      {ans.answer_text}
                     </Text>
                   </TouchableOpacity>
                 ))}

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { jwtDecode } from "jwt-decode";
-import { useAnimalList } from "@/hooks/useAnimalList";
+import { LOCAL_ANIMALS } from "@/constants/localData";
 import { IMAGES } from "@/constants/images";
+import { getAnimalHeadImage } from "@/utils/animalAssets";
 
 interface UseUserAnimalReturn {
   animalImage: any;
@@ -12,7 +12,6 @@ interface UseUserAnimalReturn {
 }
 
 export const useUserAnimal = (animalId?: string | number): UseUserAnimalReturn => {
-  const animals = useAnimalList();
   const [animalImage, setAnimalImage] = useState<any>(IMAGES.UNKNOWN_HEAD);
   const [animalColor, setAnimalColor] = useState<string>("#ffff");
   const [animalData, setAnimalData] = useState<any>(null);
@@ -24,24 +23,21 @@ export const useUserAnimal = (animalId?: string | number): UseUserAnimalReturn =
         let targetAnimalId = animalId;
         
         if (!targetAnimalId) {
-          const token = await AsyncStorage.getItem("accessToken");
-          if (token) {
-            const decoded: any = jwtDecode(token);
-            targetAnimalId = decoded.user?.animal_id;
+          // Obtener animal_id del AsyncStorage
+          const storedAnimalId = await AsyncStorage.getItem("animalId");
+          if (storedAnimalId) {
+            targetAnimalId = storedAnimalId;
           }
         }
 
-        if (targetAnimalId && animals.length > 0) {
-          const found = animals.find(
-            (a: any) => String(a.animal_id) === String(targetAnimalId),
+        if (targetAnimalId) {
+          const found = LOCAL_ANIMALS.find(
+            (a: any) => String(a.id) === String(targetAnimalId),
           );
           
           if (found) {
-            const animalKey = found.animal_key.toUpperCase();
-            const headImageKey = `HAPPY_${animalKey}_HEAD`;
-            const headImage = IMAGES[headImageKey as keyof typeof IMAGES];
-
-            setAnimalImage(headImage || IMAGES.UNKNOWN_HEAD);
+            const headImage = getAnimalHeadImage(found.animal_key);
+            setAnimalImage(headImage);
             setAnimalColor(found.color_ui || "#edcedb");
             setAnimalData(found);
           }
@@ -53,12 +49,8 @@ export const useUserAnimal = (animalId?: string | number): UseUserAnimalReturn =
       }
     }
 
-    if (animals.length > 0 || animalId) {
-      fetchAnimalData();
-    } else if (animals.length === 0 && !animalId) {
-      setLoading(false);
-    }
-  }, [animals, animalId]);
+    fetchAnimalData();
+  }, [animalId]);
 
   return {
     animalImage,

@@ -13,8 +13,7 @@ import { InsigniaComponent } from "@/components/InsigniaComponent";
 import { InsigniaDescriptionComponent } from "@/components/InsigniaDescription";
 import { NavbarComponent } from "@/components/NavBar";
 import { SafeAreaView } from "react-native-safe-area-context";
-
-import { useListBadgesMutation } from "@/hooks/badges/useListBadgesMutation";
+import { LOCAL_BADGES } from "@/constants/localData/badges";
 
 const Insignias = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -24,11 +23,8 @@ const Insignias = () => {
     image_path: string;
   } | null>(null);
 
-  const { mutateAsync, data, isError } = useListBadgesMutation();
-
-  useEffect(() => {
-    mutateAsync();
-  }, []);
+  // Usar datos locales de badges - mostrar solo algunos badges como ejemplo
+  const badges = LOCAL_BADGES.slice(0, 5); // Mostrar solo las primeras 5 badges
 
   const openModal = (
     title: string,
@@ -43,16 +39,6 @@ const Insignias = () => {
     setModalVisible(false);
     setSelectedMedal(null);
   };
-
-  if (isError) {
-    return (
-      <SafeAreaView className="flex-1 justify-center items-center">
-        <Text>Error cargando medallas</Text>
-      </SafeAreaView>
-    );
-  }
-
-  const badges = data ?? [];
 
   return (
     <SafeAreaView className="flex-1 bg-slate-100">

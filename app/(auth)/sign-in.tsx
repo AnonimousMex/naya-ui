@@ -5,6 +5,7 @@ import {
   Platform,
   View,
   Text,
+  TouchableOpacity,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,7 +23,8 @@ import InputField from "@/components/InputField/InputField";
 import { MainButton } from "@/components/MainButton";
 import { BackButton } from "@/components/BackButton";
 import { useSnackbar } from "@/hooks/useSnackbar";
-import { useLoginMutation } from "@/hooks/auth/useLoginMutation";
+import { LOCAL_USERS } from "@/constants/localData";
+
 
 function Login() {
   const { sloganWidth, sloganHeight, axolotlLoginHeight, axolotlLoginWidth } =
@@ -30,7 +32,6 @@ function Login() {
   const { showSnackbar } = useSnackbar();
   const { mode } = useLocalSearchParams<{ mode?: string }>();
   const isParental = mode === "parental";
-  const loginMutation = useLoginMutation({ parental: isParental });
 
   const formMethods = useForm<TSignInSchema>({
     resolver: zodResolver(signInSchema),
@@ -40,7 +41,33 @@ function Login() {
   const { control, handleSubmit } = formMethods;
 
   const handleOnSubmit = (data: TSignInSchema) => {
-    loginMutation.mutate(data);
+    const user = LOCAL_USERS.find(
+      (u) => u.email === data.email && u.password === data.password && u.active
+    );
+    if (!user) {
+      showSnackbar({
+        type: "error",
+        message: "Credenciales incorrectas o usuario inactivo",
+      });
+      return;
+    }
+    // Guardar usuario en localStorage (AsyncStorage)
+    import("@react-native-async-storage/async-storage").then((AsyncStorage) => {
+      AsyncStorage.default.setItem("userId", user.id);
+      AsyncStorage.default.setItem("userType", user.user_type);
+      if (user.animal_id) {
+        AsyncStorage.default.setItem("animalId", user.animal_id);
+      }
+    });
+    // Redirigir según tipo de usuario
+    if (isParental) {
+      router.replace("/(parentsPages)/parents-profile");
+    } else if (user.user_type === "THERAPIST") {
+      router.replace("/(therapistPages)/therapist-home");
+    } else {
+      router.replace("/(mainPages)/affirmation");
+    }
+    showSnackbar({ type: "success", message: "Inicio de sesión exitoso" });
   };
 
   const onInvalidForm = () =>
@@ -62,15 +89,24 @@ function Login() {
             <BackButton onPress={() => router.push("/(auth)/welcome")} />
           </View>
 
-          <Image
-            className="mt-4 mb-8 self-center"
-            source={IMAGES.NAYA_SLOGAN}
-            style={{
-              width: sloganWidth,
-              height: sloganHeight,
-              resizeMode: "contain",
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => {
+              formMethods.setValue("email", "fernanda@gmail.com");
+              formMethods.setValue("password", "Hola123*");
             }}
-          />
+            accessibilityLabel="Botón secreto ajolote"
+          >
+            <Image
+              className="mt-4 mb-8 self-center"
+              source={IMAGES.NAYA_SLOGAN}
+              style={{
+                width: sloganWidth,
+                height: sloganHeight,
+                resizeMode: "contain",
+              }}
+            />
+          </TouchableOpacity>
 
           <FormProvider {...formMethods}>
             <InputField
@@ -101,7 +137,7 @@ function Login() {
             <MainButton
               mainText={isParental ? "Acceder" : "Iniciar Sesión"}
               onPress={handleSubmit(handleOnSubmit, onInvalidForm)}
-              isLoading={loginMutation.isPending}
+              isLoading={false}
               className="w-80 py-3 mt-11 mb-10"
               style={{ height: 50 }}
             />
@@ -119,15 +155,24 @@ function Login() {
             )}
           </FormProvider>
 
-          <Image
-            className="mb-0 self-center"
-            source={IMAGES.HAPPY_AXOLOTL_2}
-            style={{
-              width: axolotlLoginWidth,
-              height: axolotlLoginHeight,
-              resizeMode: "contain",
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => {
+              formMethods.setValue("email", "daniel@gmail.com");
+              formMethods.setValue("password", "Hola123*");
             }}
-          />
+            accessibilityLabel="Botón secreto ajolote"
+          >
+            <Image
+              className="mb-0 self-center"
+              source={IMAGES.HAPPY_AXOLOTL_2}
+              style={{
+                width: axolotlLoginWidth,
+                height: axolotlLoginHeight,
+                resizeMode: "contain",
+              }}
+            />
+          </TouchableOpacity>
         </ScrollView>
       </SafeAreaView>
     </KeyboardAvoidingView>

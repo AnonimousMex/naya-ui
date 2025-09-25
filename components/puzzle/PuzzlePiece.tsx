@@ -53,7 +53,7 @@ function PuzzlePiece({ index, shape, shuffledPieces, correctPieces, imageSource,
   const translateY = useSharedValue(initialY);
   const scale = useSharedValue(PIECE_SCALE);
   const rotate = useSharedValue(randomRotation);
-  const z = useSharedValue(0);
+  const z = useSharedValue(2); // Z-index inicial para piezas sueltas
   const isEnabled = useSharedValue(1);
   const startPosition = useSharedValue({ x: 0, y: 0 });
 
@@ -67,7 +67,7 @@ function PuzzlePiece({ index, shape, shuffledPieces, correctPieces, imageSource,
       translateY.value = startPosition.value.y + translationY;
       scale.value = withSpring(1);
       rotate.value = withSpring(0);
-      z.value = 1;
+      z.value = 10; // Z-index alto para piezas siendo arrastradas
     })
     .onEnd(() => {
       if (!isEnabled.value) return;
@@ -80,7 +80,9 @@ function PuzzlePiece({ index, shape, shuffledPieces, correctPieces, imageSource,
       translateY.value = withSpring(isCorrect ? spotY : initialY);
       scale.value = withSpring(isCorrect ? 1 : PIECE_SCALE);
       rotate.value = withSpring(isCorrect ? 0 : randomRotation);
-      z.value = 0; 
+      // Piezas colocadas correctamente tienen z-index bajo (-2)
+      // Piezas sueltas mantienen z-index medio (1)
+      z.value = isCorrect ? 1 : 2; 
       if (isCorrect) {
         isEnabled.value = 0;
         correctPieces.value = correctPieces.value + 1;

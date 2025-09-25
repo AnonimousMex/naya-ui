@@ -17,14 +17,13 @@ import UserProfileButtonsColumn, {
 import { NavbarComponent } from "@/components/NavBar";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { jwtDecode } from "jwt-decode";
-import { useAnimalList } from "@/hooks/useAnimalList";
+import { LOCAL_USERS } from "@/constants/localData/users";
+import { LOCAL_ANIMALS } from "@/constants/localData/animals";
 import { getAnimalVariantImage } from "@/utils/animalAssets";
 
 const UserProfile = () => {
   const { width, height } = Dimensions.get("window");
   const fontSize = width * 0.06;
-  const animals = useAnimalList();
   const [userName, setUserName] = useState("");
   const [userImage, setUserImage] = useState<any>(null);
   const [userDescription, setUserDescription] = useState("");
@@ -32,20 +31,27 @@ const UserProfile = () => {
 
   useEffect(() => {
     async function fetchUserData() {
-      const token = await AsyncStorage.getItem("accessToken");
-      if (token) {
+      const userId = await AsyncStorage.getItem("userId");
+      if (userId) {
         try {
-          const decoded: any = jwtDecode(token);
-          setUserName(decoded.user?.name || "");
-          const animal_id = decoded.user?.animal_id;
-          if (animal_id && animals.length > 0) {
-            const found = animals.find(
-              (a: any) => String(a.animal_id) === String(animal_id),
-            );
-            if (found) {
-              setUserImage(getAnimalVariantImage(found.animal_key, "happy", 3));
-              setUserDescription(found.description || "");
-              setBgColor(found.color_ui || "#edcedb");
+          // Buscar usuario en datos locales
+          const user = LOCAL_USERS.find(u => u.id === userId);
+          if (user) {
+            setUserName(user.name);
+            
+            // Si el usuario tiene animal_id, buscar datos del animal
+            if (user.animal_id) {
+              const animal = LOCAL_ANIMALS.find(a => a.id === user.animal_id);
+              if (animal) {
+                setUserImage(getAnimalVariantImage(animal.animal_key, "happy", 3));
+                setUserDescription(animal.description || "");
+                setBgColor(animal.color_ui || "#edcedb");
+              }
+            } else {
+              // Usuario sin animal (como terapeuta)
+              setUserImage(null);
+              setUserDescription("Usuario del sistema");
+              setBgColor("#edcedb");
             }
           }
         } catch (e) {
@@ -57,7 +63,7 @@ const UserProfile = () => {
       }
     }
     fetchUserData();
-  }, [animals]);
+  }, []);
   const isTablet = width >= 520;
   const dynamicHeight = isTablet ? height * 0.6 : height * 0.4;
 
@@ -80,7 +86,11 @@ const UserProfile = () => {
     },
     {
       mainText: "Cerrar Sesión",
-      onPress: () => router.push("/(auth)/welcome"),
+      onPress: async () => {
+        // Limpiar datos locales al cerrar sesión
+        await AsyncStorage.multiRemove(["userId", "userType", "animalId"]);
+        router.push("/(auth)/welcome");
+      },
       className: "border-red-800 mt-10",
       textClassName: "text-red-800",
       imageSource: ICONS.LOGOUT_ICON,
@@ -138,7 +148,7 @@ const UserProfile = () => {
             <Text className="text-center font-UrbanistBold text-gray-730 text-sm mb-4 mt-2">
               {userDescription}
             </Text>
-            <UserStatsRow badges={12} streak={5} exp={2300} />
+            <UserStatsRow badges={1} streak={1} exp={300} />
 
             <View
               style={{

@@ -76,7 +76,7 @@ function SignUp() {
       <SafeAreaView>
         <ScrollView className="mt-8 px-7" showsVerticalScrollIndicator={false}>
           <View className="items-start">
-            <BackButton onPress={() => router.push("/(auth)/welcome")} />
+            <BackButton onPress={() => router.push("/(auth)/sign-in")} />
           </View>
           <Image
             className="mt-4 mb-8 self-center"

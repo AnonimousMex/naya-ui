@@ -3,15 +3,16 @@ import { GameHeader } from '@/components/GameHeader'
 import { MainButton } from '@/components/MainButton'
 import { CloudBackground } from '@/components/MainPanesComponents/CloudBackground'
 import { NavbarComponent } from '@/components/NavBar'
-import { HTTP } from '@/config/axios'
 import { IMAGES } from '@/constants/images'
-import { URL_PATHS } from '@/constants/urlPaths'
+import { LOCAL_DETECTIVE_QUESTIONS } from '@/constants/localData/detectiveQuestions'
+import { LOCAL_USERS } from '@/constants/localData/users'
+import { LOCAL_ANIMALS } from '@/constants/localData/animals'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { useQuery } from '@tanstack/react-query'
 import { router, useFocusEffect } from 'expo-router'
+import { getAnimalHeadImage } from '@/utils/animalAssets'
 import LottieView from 'lottie-react-native'
 import React, { useCallback, useState } from 'react'
-import { View, Text, Dimensions, Image, TouchableOpacity, Modal, ActivityIndicator } from 'react-native'
+import { View, Text, Dimensions, Image, TouchableOpacity, Modal } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 // Mapeo de emociones a colores
@@ -32,22 +33,10 @@ const STORY_IMAGES: Record<string, any> = {
 }
 
 const useEnergy = () => {
-  const [energy, setEnergy] = useState(0);
+  const [energy, setEnergy] = useState(3); // Siempre energía = 3
 
   const fetchEnergy = async () => {
-    try {
-      const token = await AsyncStorage.getItem("accessToken");
-      if (!token) throw new Error("No auth token found");
-      const { data } = await HTTP.get<{ current_energy: number }>(
-        URL_PATHS.ENERGIES.GET_ENERGY,
-        {
-          headers: { Authorization: token },
-        },
-      );
-      setEnergy(data.current_energy);
-    } catch (e) {
-      setEnergy(0);
-    }
+    setEnergy(3); // Siempre mantener energía en 3
   };
 
   return { energy, fetchEnergy };
@@ -63,16 +52,35 @@ const DetectiveEmocionesPage = () => {
   const [gameCompleted, setGameCompleted] = useState(false)
   const [pressedIndexes, setPressedIndexes] = useState<number[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [userName, setUserName] = useState("Usuario");
+  const [userAvatar, setUserAvatar] = useState<any>(null);
   const { energy, fetchEnergy } = useEnergy();
 
-  // Fetch questions from backend
-  const { data: questionsData, isLoading, error } = useQuery({
-  queryKey: ['emotionQuestions'], 
-  queryFn: async () => {
-    const response = await HTTP.get(URL_PATHS.GAMES.GET_DETECTIVE);
-    return response.data.data;
-  }
-});
+  // Usar datos locales en lugar de backend
+  const questionsData = LOCAL_DETECTIVE_QUESTIONS;
+  const isLoading = false;
+  const error = null;
+
+  // Fetch user data from local storage
+  const fetchUserData = async () => {
+    try {
+      const userId = await AsyncStorage.getItem("userId");
+      if (userId) {
+        const user = LOCAL_USERS.find(u => u.id === userId);
+        if (user) {
+          setUserName(user.name);
+          if (user.animal_id) {
+            const animal = LOCAL_ANIMALS.find(a => a.id === user.animal_id);
+            if (animal) {
+              setUserAvatar(getAnimalHeadImage(animal.animal_key));
+            }
+          }
+        }
+      }
+    } catch (e) {
+      console.log("Error fetching user data:", e);
+    }
+  };
 
   const handleAnswer = (index: number) => {
     if (!questionsData || !questionsData[currentQuestionIndex]) return;
@@ -114,30 +122,28 @@ const DetectiveEmocionesPage = () => {
   useFocusEffect(
     useCallback(() => {
       fetchEnergy();
+      fetchUserData();
     }, []),
   );
 
-  if (isLoading) {
+  // No need for loading states with local data
+  if (!questionsData || questionsData.length === 0) {
     return (
       <SafeAreaView className="flex-1 bg-pink-200 justify-center items-center">
-        <ActivityIndicator size="large" color="#0000ff" />
-      </SafeAreaView>
-    );
-  }
-
-  if (error || !questionsData || questionsData.length === 0) {
-    return (
-      <SafeAreaView className="flex-1 bg-pink-200 justify-center items-center">
-        <Text className="text-lg">Error al cargar las preguntas</Text>
+        <Text className="text-lg">No hay preguntas disponibles</Text>
       </SafeAreaView>
     );
   }
 
   const currentQuestion = questionsData[currentQuestionIndex];
-  const getImage = (image: string) => {
-        return IMAGES[image as keyof typeof IMAGES]
-    };
-  const sourceImage = getImage(currentQuestion.image)
+  const getImage = (imageKey: string) => {
+    // Asegurar que la clave existe en IMAGES
+    if (imageKey && IMAGES[imageKey as keyof typeof IMAGES]) {
+      return IMAGES[imageKey as keyof typeof IMAGES];
+    }
+    return IMAGES.UNKNOWN_HEAD; // Fallback image
+  };
+  const sourceImage = getImage(currentQuestion.image);
   return (
     <SafeAreaView className="flex-1 bg-pink-200 ">
       <CloudBackground />
@@ -145,12 +151,12 @@ const DetectiveEmocionesPage = () => {
         <SafeAreaView edges={["top"]} className="flex items-center justify-center mt-2">
           <GameHeader
             energy={energy}
-            name="Rodrigo"
-            avatar={IMAGES.HAPPY_CAT_HEAD}
+            name={userName}
+            avatar={userAvatar || IMAGES.HAPPY_CAT_HEAD}
           />
         </SafeAreaView>
       </View>
-      <View className={`mt-24 mb-12 h-[80%]`}>
+      <View className={`mt-24 mb-20 h-[75%]`}>
         <Text 
           className='font-UrbanistExtraBold text-center self-center'
           style={{ fontSize: fontSize + 5 }}
@@ -168,7 +174,12 @@ const DetectiveEmocionesPage = () => {
             <Image 
               source={ sourceImage || IMAGES.UNKNOWN_HEAD}
               className="h-80 mb-6"
-              resizeMode="contain"
+              style={{ 
+                resizeMode: "contain",
+                width: '106%',
+                borderRadius: 24,
+                overflow: 'hidden'
+              }}
             /> 
             <Text 
               className='font-UrbanistExtraBold text-center'
@@ -219,7 +230,12 @@ const DetectiveEmocionesPage = () => {
             <Image 
               source={sourceImage || IMAGES.UNKNOWN_HEAD}
               className="h-80 mb-6"
-              resizeMode="contain"
+              style={{ 
+                resizeMode: "contain",
+                width: '100%',
+                borderRadius: 24,
+                overflow: 'hidden'
+              }}
             /> 
             <Text 
               className='font-UrbanistExtraBold text-center'
@@ -294,6 +310,14 @@ const DetectiveEmocionesPage = () => {
           />
         </View>
       </Modal>
+
+      {/* Navbar */}
+      <SafeAreaView
+        edges={["bottom"]}
+        className="bg-white absolute bottom-0 left-0 right-0 z-50 pb-2"
+      >
+        <NavbarComponent />
+      </SafeAreaView>
     </SafeAreaView>
   );
 };

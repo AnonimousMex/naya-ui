@@ -10,7 +10,7 @@ import { IMAGES } from "@/constants/images";
 import { CloudBackground } from "@/components/MainPanesComponents/CloudBackground";
 import { NavbarComponent } from "@/components/NavBar";
 import { MainButton } from "@/components/MainButton";
-import { MEMOCIONES_SERVICE, TMemocionPair } from "@/services/memociones";
+import { LOCAL_MEMOCIONES_PAIRS, MemocionPair } from "@/constants/localData/memociones";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -46,7 +46,44 @@ const EMOTION_IMAGES: Record<EmotionKey, any[]> = {
   sorpresa: [IMAGES.HAPPY_AXOLOTL_2],
 };
 
-function getEmotionImage(emotion: string) {
+function getEmotionImage(emotion: string, animalKey?: string) {
+  // Si tenemos un animal específico, intentar obtener su imagen de esa emoción
+  if (animalKey) {
+    let emotionPrefix = "";
+    switch (emotion.toLowerCase()) {
+      case "felicidad":
+        emotionPrefix = "HAPPY_";
+        break;
+      case "tristeza":
+        emotionPrefix = "SAD_";
+        break;
+      case "enojo":
+        emotionPrefix = "ANGRY_";
+        break;
+      case "miedo":
+        emotionPrefix = "FEAR_";
+        break;
+      case "verguenza":
+        emotionPrefix = "SHAME_";
+        break;
+      default:
+        emotionPrefix = "HAPPY_";
+    }
+    
+    // Buscar imagen específica del animal
+    const specificKey = `${emotionPrefix}${animalKey.toUpperCase()}_1`;
+    if (IMAGES[specificKey as keyof typeof IMAGES]) {
+      return IMAGES[specificKey as keyof typeof IMAGES];
+    }
+    
+    // Fallback: buscar cualquier variante del animal con esa emoción
+    const fallbackKey = `${emotionPrefix}${animalKey.toUpperCase()}_2`;
+    if (IMAGES[fallbackKey as keyof typeof IMAGES]) {
+      return IMAGES[fallbackKey as keyof typeof IMAGES];
+    }
+  }
+
+  // Fallback original
   const key = emotion.toLowerCase() as EmotionKey;
   const images = EMOTION_IMAGES[key];
 
@@ -56,14 +93,14 @@ function getEmotionImage(emotion: string) {
   return images[randomIndex];
 }
 
-function buildDeckFromAPI(pairs: TMemocionPair[]): CardData[] {
+function buildDeckFromAPI(pairs: MemocionPair[]): CardData[] {
   return shuffle(
     pairs.flatMap((p, i) => [
       {
         id: i * 2,
         pairId: p.pairId,
         kind: "emotion" as const,
-        img: getEmotionImage(p.emotion),
+        img: getEmotionImage(p.emotion, p.animalKey),
         text: p.emotion,
       },
       {
@@ -77,27 +114,25 @@ function buildDeckFromAPI(pairs: TMemocionPair[]): CardData[] {
 }
 
 const MemoramaScreen = () => {
-  const [rawPairs, setRawPairs] = useState<TMemocionPair[]>([]);
+  const [rawPairs, setRawPairs] = useState<MemocionPair[]>([]);
   const [deck, setDeck] = useState<CardData[]>([]);
   const [flipped, setFlipped] = useState<number[]>([]);
   const [matched, setMatched] = useState<string[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false); // No loading needed for local data
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    const fetchPairs = async () => {
-      try {
-        const pairs = await MEMOCIONES_SERVICE.getPairs();
-        setRawPairs(pairs);
-        setDeck(buildDeckFromAPI(pairs));
-        setLoading(false);
-      } catch (e) {
-        console.error("Error fetching memorama pairs:", e);
-        setError(true);
-        setLoading(false);
-      }
-    };
-    fetchPairs();
+    // Usar datos locales en lugar del servicio
+    try {
+      const pairs = LOCAL_MEMOCIONES_PAIRS;
+      setRawPairs(pairs);
+      setDeck(buildDeckFromAPI(pairs));
+      setLoading(false);
+    } catch (e) {
+      console.error("Error loading local memorama pairs:", e);
+      setError(true);
+      setLoading(false);
+    }
   }, []);
 
   const handleFlip = (card: CardData) => {

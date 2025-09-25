@@ -12,10 +12,12 @@ import { EmorganizaEmotionsPanel } from "@/components/EmorganizaEmotionsPanel";
 import { router } from "expo-router";
 import { MainButton } from "@/components/MainButton";
 import { RoundedEmotionImage } from "@/components/RoundedEmotionImage";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useUnlockBadgeMutation } from "@/hooks/badges/useUnlockBadgeMutation";
 import { InsigniaDescriptionComponent } from "@/components/InsigniaDescription";
 import { Modal, Pressable } from "react-native";
+import { LOCAL_BADGES } from "@/constants/localData/badges";
+import { LOCAL_USERS, LOCAL_ANIMALS } from "@/constants/localData";
+import { getAnimalHeadImage } from "@/utils/animalAssets";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 const MemoPuzzleSpot = React.memo(PuzzleSpot);
@@ -79,10 +81,40 @@ function getRandomEmotionImage(): { image: any; emotion: EmotionKey } {
 }
 
 function EmorganizaMainPage() {
-  const { energy, userName, avatar, fetchHeaderData } = useUserHeaderData();
+  const [energy, setEnergy] = useState(3);
+  const [userName, setUserName] = useState("");
+  const [avatar, setAvatar] = useState<string | null>(null);
+
+  const fetchUserData = useCallback(async () => {
+    try {
+      const userId = await AsyncStorage.getItem("userId");
+      if (userId) {
+        const user = LOCAL_USERS.find(u => u.id === userId);
+        if (user) {
+          setUserName(user.name);
+          
+          // Si el usuario tiene un animal asignado, mostrar su avatar
+          if (user.animal_id) {
+            const animal = LOCAL_ANIMALS.find(a => a.id === user.animal_id);
+            if (animal) {
+              setAvatar(getAnimalHeadImage(animal.animal_key));
+            } else {
+              setAvatar(IMAGES.UNKNOWN_HEAD);
+            }
+          } else {
+            setAvatar(IMAGES.UNKNOWN_HEAD);
+          }
+        }
+      }
+      setEnergy(3); // Siempre 3 energías
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  }, []);
+
   useEffect(() => {
-    fetchHeaderData();
-  }, [fetchHeaderData]);
+    fetchUserData();
+  }, [fetchUserData]);
   const shakeX = useSharedValue(0);
   const [navbarHeight, setNavbarHeight] = useState(0);
   const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
@@ -107,8 +139,6 @@ function EmorganizaMainPage() {
   } | null>(null);
   const [showMedalModal, setShowMedalModal] = useState(false);
 
-  const { mutateAsync: unlockBadge } = useUnlockBadgeMutation();
-
   useEffect(() => {
     const { image, emotion } = getRandomEmotionImage();
     setImage(image);
@@ -116,30 +146,22 @@ function EmorganizaMainPage() {
   }, [currentRound]);
 
   useEffect(() => {
-    const unlock = async () => {
-      if (phase === "result") {
-        try {
-          const token = await AsyncStorage.getItem("accessToken");
-          if (!token) throw new Error("No auth token found");
-
-          const { data } = await unlockBadge({
-            token,
-            badge_title: "Emorganiza",  
-          });
-
-          if (data?.title && data?.description && data?.image_path) {
-            setSelectedMedal({
-              title: data.title,
-              description: data.description,
-              image_path: data.image_path,
-            });
-            setShowMedalModal(true);
-          }
-        } catch (error) {
-        }
+    if (phase === "result") {
+      // Mostrar badge local de Emorganiza al completar el juego
+      const emorganizaBadge = LOCAL_BADGES.find(badge => 
+        badge.title.toLowerCase().includes("emorganiza") || 
+        badge.description.toLowerCase().includes("emorganiza")
+      );
+      
+      if (emorganizaBadge) {
+        setSelectedMedal({
+          title: emorganizaBadge.title,
+          description: emorganizaBadge.description,
+          image_path: emorganizaBadge.image_path,
+        });
+        setShowMedalModal(true);
       }
-    };
-    unlock();
+    }
   }, [phase]);
 
   const shape = SHAPES[currentShape];
@@ -150,16 +172,16 @@ function EmorganizaMainPage() {
   const [puzzleLayout, setPuzzleLayout] = useState<{ y: number, height: number }>({ y: 0, height: 0 });
   const [containerLayout, setContainerLayout] = useState<{ y: number, height: number }>({ y: 0, height: 0 });
 
-  let PIECES_DISTANCE = 140;
-  let puzzleScale = 1;
+  let PIECES_DISTANCE = screenWidth * 0.4; // Más espacio entre piezas
+  let puzzleScale = 1.2; // Hacer las piezas más grandes por defecto
+  
   const layoutReady = puzzleLayout.height > 0 && containerLayout.height > 0 && navbarHeight > 0;
   if (layoutReady) {
-    const availableSpace = (screenHeight - navbarHeight) - (puzzleLayout.y + puzzleLayout.height);
-    const maxDistance = Math.max(100, Math.min(availableSpace / 2 - 16, 220));
-    PIECES_DISTANCE = maxDistance + 50;
-    if (maxDistance < 120) {
-      puzzleScale = Math.max(0.7, maxDistance / 140);
-    }
+    const availableSpace = (screenHeight - navbarHeight - 100) - (puzzleLayout.y + puzzleLayout.height);
+    const maxDistance = Math.max(screenWidth * 0.3, Math.min(availableSpace / 2.5, screenWidth * 0.5));
+    PIECES_DISTANCE = maxDistance;
+    // Mantener escala más grande y responsive
+    puzzleScale = Math.max(1.0, Math.min(1.3, screenWidth / 400));
   }
 
 
@@ -198,8 +220,6 @@ function EmorganizaMainPage() {
         stiffness: 80,
         mass: 1,
         overshootClamping: false,
-        restSpeedThreshold: 0.01,
-        restDisplacementThreshold: 0.01,
       });
     }
   }, [phase, shuffledPieces, isPuzzleLoading]);
@@ -259,20 +279,22 @@ function EmorganizaMainPage() {
     },
     puzzlePanel: {
       borderRadius: 24,
-      width: screenWidth * 0.9,
+      width: screenWidth * 0.95, // Más ancho
       aspectRatio: 1,
       alignItems: "center",
       justifyContent: "center",
+      marginHorizontal: screenWidth * 0.025, // Centrado
     },
     emotionPanel: {
       borderRadius: 40,
-      width: screenWidth * 0.9,
+      width: screenWidth * 0.95, // Más ancho
       aspectRatio: 1,
       alignItems: "center",
       justifyContent: "center",
       backgroundColor: '#ededed',
       borderColor: '#d2d2d2',
       borderWidth: 6,
+      marginHorizontal: screenWidth * 0.025, // Centrado
     },
     infoPanel: {
       width: screenWidth * 0.8,
@@ -307,8 +329,7 @@ function EmorganizaMainPage() {
 
 
   return (
-    <SafeAreaView className="w-full h-full bg-pink-200 pt-24 items-center" edges={["top", "bottom"]}>
-
+    <SafeAreaView className="w-full h-full bg-pink-200 items-center" edges={["top", "bottom"]}>
 
       <View className="absolute top-0 left-0 right-0 z-50 bg-transparent">
         <SafeAreaView
@@ -324,7 +345,7 @@ function EmorganizaMainPage() {
       </View>
 
       {phase !== 'result' && (
-        <View style={{ marginTop: screenHeight * 0.015, marginBottom: screenHeight * 0.015 }}>
+        <View style={{ marginTop: screenHeight * 0.08, marginBottom: screenHeight * 0.01 }}>
           <Text className="text-gray-30 font-UrbanistExtraBold" style={{ fontSize: screenWidth * 0.045 }}>
             Ronda {currentRound} de 3
           </Text>
@@ -373,9 +394,9 @@ function EmorganizaMainPage() {
               </Animated.View>
             </View>
 
-            <View style={{ justifyContent: "center", alignItems: "center", marginTop: screenHeight * 0.01, zIndex: -1 }}>
-              <View style={[styles.infoPanel, { paddingVertical: screenHeight * 0.008, minHeight: screenHeight * 0.04 }]}>
-                <Text className="text-gray-30 font-UrbanistExtraBold" style={{ fontSize: screenWidth * 0.04 }}>
+            <View style={{ justifyContent: "center", alignItems: "center", marginTop: screenHeight * 0.02, marginBottom: screenHeight * 0.01, zIndex: -1 }}>
+              <View style={[styles.infoPanel, { paddingVertical: screenHeight * 0.012, minHeight: screenHeight * 0.05 }]}>
+                <Text className="text-gray-30 font-UrbanistExtraBold" style={{ fontSize: screenWidth * 0.042 }}>
                   Arma el rompecabezas
                 </Text>
               </View>
@@ -388,7 +409,19 @@ function EmorganizaMainPage() {
                 height: e.nativeEvent.layout.height
               })}
             >
-              <View style={{ backgroundColor: "white", borderTopLeftRadius: 50, borderTopRightRadius: 50, paddingHorizontal: screenWidth * 0.06, paddingTop: screenHeight * 0.03, paddingBottom: screenHeight * 0.04, minHeight: screenHeight * 0.25, width: "100%", marginTop: screenHeight * 0.04, position: "relative" }} />
+              <View style={{ 
+                backgroundColor: "white", 
+                borderTopLeftRadius: 50, 
+                borderTopRightRadius: 50, 
+                paddingHorizontal: screenWidth * 0.06, 
+                paddingTop: screenHeight * 0.02, 
+                paddingBottom: 0, // Sin padding bottom para pegarlo al navbar
+                minHeight: screenHeight * 0.3, // Más altura
+                width: "100%", 
+                marginTop: 0, // Sin margin top
+                position: "relative",
+                marginBottom: -24 // Conectar con el navbar
+              }} />
             </View>
           </>
         )
@@ -402,14 +435,35 @@ function EmorganizaMainPage() {
               style={{ width: "100%", height: "100%", resizeMode: "contain" }}
             />
           </Animated.View>
-          <View style={{ justifyContent: "center", alignItems: "center", marginTop: screenHeight * 0.01, zIndex: -1 }}>
-            <View style={[styles.infoPanel, { paddingVertical: screenHeight * 0.008, minHeight: screenHeight * 0.04 }]}>
-              <Text className="text-gray-30 font-UrbanistExtraBold" style={{ fontSize: screenWidth * 0.04 }}>
+          <View style={{ 
+            justifyContent: "center", 
+            alignItems: "center", 
+            marginTop: screenHeight * 0.02, 
+            marginBottom: screenHeight * 0.02, 
+            zIndex: 10,
+            paddingHorizontal: screenWidth * 0.05
+          }}>
+            <View style={[styles.infoPanel, { 
+              paddingVertical: screenHeight * 0.012, 
+              minHeight: screenHeight * 0.05,
+              shadowColor: "#000",
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.1,
+              shadowRadius: 4,
+              elevation: 5
+            }]}>
+              <Text className="text-gray-30 font-UrbanistExtraBold" style={{ fontSize: screenWidth * 0.042 }}>
                 Selecciona la emoción
               </Text>
             </View>
           </View>
-          <View style={{ width: "100%", flex: 1, justifyContent: "flex-end", zIndex: -2, paddingBottom: Math.max(navbarHeight - 24, 0) }}>
+          <View style={{ 
+            width: "100%", 
+            flex: 1, 
+            justifyContent: "flex-end", 
+            paddingBottom: 0, // Sin navbar, sin necesidad de padding
+            marginTop: -screenHeight * 0.01
+          }}>
             <EmorganizaEmotionsPanel
               emotions={emotionsWithColors}
               onEmotionSelect={handleEmotionSelect}
@@ -458,13 +512,15 @@ function EmorganizaMainPage() {
         </View>
       )}
 
-      <SafeAreaView
-        edges={["bottom"]}
-        className="bg-white absolute bottom-0 left-0 right-0 z-50 pb-6"
-        onLayout={e => setNavbarHeight(e.nativeEvent.layout.height)}
-      >
-        <NavbarComponent />
-      </SafeAreaView>
+      {phase !== "emotion" && (
+        <SafeAreaView
+          edges={["bottom"]}
+          className="bg-white absolute bottom-0 left-0 right-0 z-50 pb-6"
+          onLayout={e => setNavbarHeight(e.nativeEvent.layout.height)}
+        >
+          <NavbarComponent />
+        </SafeAreaView>
+      )}
       <Modal
         visible={showMedalModal}
         transparent
