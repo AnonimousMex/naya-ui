@@ -40,6 +40,11 @@ const ParentsProfile = () => {
       onPress: () => router.push("/(parentsPages)/test-results"),
     },
     {
+      icon: ICONS.BOOK_NAV_ICON,
+      text: "Guías educativas",
+      onPress: () => router.push("/(parentsPages)/educational-guides"),
+    },
+    {
       icon: ICONS.WEB_ICON,
       text: "Ver especialistas",
       onPress: () => router.push("/(parentsPages)/therapists-list"),

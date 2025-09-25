@@ -42,6 +42,7 @@ import bunnyIcon from "@/assets/icons/bunny-icon.png";
 import arrowIcon from "@/assets/icons/arrow-icon.png";
 import arrowIcon2 from "@/assets/icons/arrow-icon-2.png";
 import pauseIcon from "@/assets/icons/pause-icon.png";
+import GuidesIcon from "@/assets/icons/guides.png";
 
 import cloudsImage from "@/assets/images/home/clouds.png";
 import arrowRight from "@/assets/images/arrow-right.png";
@@ -176,6 +177,7 @@ import voiceCrack  from "@/assets/images/test/stories/voice-crack-image.png"
 
 
 export const ICONS = {
+  GUIDES_ICON: GuidesIcon,
   EMAIL_ICON: emailIcon,
   EYE_CLOSED_ICON: eyeClosedIcon,
   EYE_OPEN_ICON: eyeOpenIcon,
