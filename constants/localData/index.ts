@@ -7,3 +7,4 @@ export { LOCAL_SITUATIONS } from './situations';
 export { LOCAL_BADGES } from './badges';
 export { LOCAL_DETECTIVE_QUESTIONS } from './detectiveQuestions';
 export { LOCAL_MEMOCIONES_PAIRS } from './memociones';
+export { LOCAL_THERAPISTS } from './therapists';

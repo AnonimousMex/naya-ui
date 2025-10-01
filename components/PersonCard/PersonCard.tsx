@@ -36,6 +36,10 @@ const PersonCard: React.FC<PersonCardProps> = ({
 }) => {
   const handlePress = () => {
     if (type === "therapist") {
+      // Determinar si es terapeuta hombre por el nombre
+      const isMaleTherapist = name.includes("Carlos") || name.includes("Roberto") || name.includes("Dr.") || name.includes("Mtro.");
+      const cvImageKey = isMaleTherapist ? "THERAPIST_MALE_PHOTO_CV" : "THERAPIST_PHOTO_CV";
+      
       router.push({
         pathname: "/(parentsPages)/therapist-cv",
         params: {
@@ -47,7 +51,7 @@ const PersonCard: React.FC<PersonCardProps> = ({
           address: address || "No hay dirección registrada",
           specialties: JSON.stringify(specialties || []),
           experiences: JSON.stringify(experiences || []),
-          image: "THERAPIST_PHOTO_CV",
+          image: cvImageKey,
         },
       });
     } else {

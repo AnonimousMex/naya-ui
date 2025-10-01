@@ -4,159 +4,133 @@ import {
   Dimensions,
   Text,
   Pressable,
-  TouchableOpacity,
+  ScrollView,
   ActivityIndicator,
-  FlatList,
 } from "react-native";
-import * as NavigationBar from "expo-navigation-bar";
 import { ICONS, IMAGES } from "@/constants/images";
 import { BackButton } from "@/components/BackButton";
 import { router, useLocalSearchParams } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { HeaderInformationComponent } from "@/components/HeaderInformationComponent";
+import { AnswersTest } from "@/components/AnswersTest";
 import { MainButton } from "@/components/MainButton";
+import { useLocalPatients } from "@/hooks/useLocalPatients";
+import { useEffect, useState } from "react";
+import { AnswerComponent } from "@/components/AnswerComponent";
 import { NavbarComponent } from "@/components/NavBar";
-import { useEffect, useState, useMemo } from "react";
-import { HTTP } from "@/config/axios";
-import { URL_PATHS } from "@/constants/urlPaths";
-
-type TestRecord = {
-  id: string;
-  created_at: string;
-  user_id: string;
-};
-
-type ApiResponse = {
-  status: number;
-  statusMessage: string;
-  data: TestRecord[];
-  pagination: unknown | null;
-};
 
 const TestResults = () => {
   const params = useLocalSearchParams();
-  const paramId = params?.id;
-  const normalizedId = useMemo(
-    () => (Array.isArray(paramId) ? paramId[0] : (paramId as string | undefined)),
-    [paramId]
-  );
-
-  const [patientId, setpatientId] = useState<string | null>(null);
-  const [firstTest, setFirstTest] = useState<string>("dd/mm/aaaa");
+  const patientId = Array.isArray(params?.id) ? params.id[0] : params?.id as string;
+  
   const { width, height } = Dimensions.get("window");
-
-  const [tests, setTests] = useState<TestRecord[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-
-  useEffect(() => {
-    NavigationBar.setBackgroundColorAsync("#FFF27C");
-    NavigationBar.setButtonStyleAsync("dark");
-  }, []);
+  const { getPatientById, getPatientTestResult } = useLocalPatients();
+  const [patient, setPatient] = useState<any>(null);
+  const [testResult, setTestResult] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (normalizedId) {
-      setpatientId(normalizedId);
-    }
-  }, [normalizedId]);
-
-  useEffect(() => {
-    const loadTests = async () => {
-      if (!patientId) return; 
-      try {
-        setLoading(true);
-        const payload = { patient_id: patientId };
-        const { data } = await HTTP.post<ApiResponse>(
-          URL_PATHS.TEST.LIST_TESTS, // o el endpoint que reciba el user_id
-          payload,
-        );
-        const items = Array.isArray(data?.data) ? data.data : [];
-        const ordered = [...items].sort(
-          (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-        );
-        setTests(ordered);
-      } catch (err) {
-        console.error("Error loading tests:", err);
-        setTests([]);
-      } finally {
-        setLoading(false);
+    const loadPatientData = async () => {
+      if (patientId) {
+        try {
+          const patientData = getPatientById(patientId);
+          const testData = getPatientTestResult(patientId);
+          
+          setPatient(patientData);
+          setTestResult(testData);
+        } catch (error) {
+          console.error('Error loading patient data:', error);
+        }
       }
+      setLoading(false);
     };
 
-    loadTests();
+    loadPatientData();
   }, [patientId]);
 
-  const formatDate = (iso: string) => {
-    try {
-      const d = new Date(iso);
-      const dia = d.toLocaleDateString("es-MX", { day: "2-digit" });
-      const mesCorto = d.toLocaleDateString("es-MX", { month: "short" }).replace(".", "");
-      const anio = d.getFullYear();
-      return `${dia}/${mesCorto}/${anio}`;
-    } catch {
-      return iso;
-    }
+  // Función para formatear fecha
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('es-ES', {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric'
+    });
   };
 
-  const bgColorClasses = {
-    happy: "bg-[#FFF27C]",
-    angry: "bg-[#DE4E41]",
-    sad: "bg-[#8AC2FF]",
-    shame: "bg-[#F2AAAE]",
-    fear: "bg-[#D6D4FF]",
+  // Configuración de colores y personajes según emoción
+  const getEmotionConfig = (emotion: string) => {
+    const configs = {
+      "Tristeza": {
+        bgColor: "bg-[#8AC2FF]",
+        image: IMAGES.SHAME_AXOLOTL_HEAD,
+        description: "La tristeza es una emoción natural que nos ayuda a procesar pérdidas y cambios."
+      },
+      "Enojo": {
+        bgColor: "bg-[#DE4E41]", 
+        image: IMAGES.ANGRY_CAT,
+        description: "El enojo nos indica que algo no está bien y nos motiva a hacer cambios."
+      },
+      "Alegría": {
+        bgColor: "bg-[#FFF27C]",
+        image: IMAGES.HAPPY_AXOLOTL_1,
+        description: "La alegría fortalece nuestras relaciones y nos ayuda a disfrutar la vida."
+      },
+      "Vergüenza": {
+        bgColor: "bg-[#F2AAAE]",
+        image: IMAGES.SHAME_AXOLOTL_HEAD,
+        description: "La vergüenza nos ayuda a reflexionar sobre nuestras acciones y crecer."
+      },
+      "Balance": {
+        bgColor: "bg-[#D6D4FF]",
+        image: IMAGES.CONFUSED_BUNNY_1,
+        description: "Un balance emocional indica una gran capacidad de adaptación y bienestar."
+      }
+    };
+    
+    return configs[emotion as keyof typeof configs] || configs["Balance"];
   };
 
-  const userEmotion = "happy";
-  const bgColor = bgColorClasses[userEmotion] || "bg-white";
-  const userImage = IMAGES.HAPPY_AXOLOTL_1;
+  if (loading) {
+    return (
+      <SafeAreaView className="bg-slate-100 flex-1 justify-center items-center">
+        <ActivityIndicator size="large" color="#8B4513" />
+        <Text className="mt-4 text-gray-600 font-UrbanistMedium">Cargando datos del paciente...</Text>
+      </SafeAreaView>
+    );
+  }
+
+  if (!patient || !testResult) {
+    return (
+      <SafeAreaView className="bg-slate-100 flex-1 justify-center items-center">
+        <Text className="text-gray-600 font-UrbanistMedium text-center px-8">
+          No se encontraron datos del test para este paciente
+        </Text>
+        <MainButton
+          mainText="Volver"
+          onPress={() => router.back()}
+          className="mt-6"
+        />
+      </SafeAreaView>
+    );
+  }
+
+  const emotionConfig = getEmotionConfig(testResult.predominantEmotion);
   const isTablet = width >= 520;
   const dynamicHeight = isTablet ? height * 0.6 : height * 0.4;
   const fontSize = width * 0.06;
 
-  const todayLabel = formatDate(new Date().toISOString());
-
-  const renderItem = ({ item, index }: { item: TestRecord; index: number }) => (
-    <TouchableOpacity
-      className="border-2 border-brown-800 items-center justify-between rounded-3xl py-2 px-2 bg-white mb-3 flex-row"
-      onPress={() =>
-        router.push({
-          pathname: "/(therapistPages)/test-detailed-results",
-          params: { test_id: item.id },
-        })
-      }
-    >
-      <View className="w-[75%] px-2">
-        <Text
-          className="font-UrbanistExtraBold text-[2rem] text-start"
-          style={{ fontSize }}
-          numberOfLines={1}
-          adjustsFontSizeToFit
-          minimumFontScale={0.8}
-          maxFontSizeMultiplier={1.5}
-        >
-          {`Test ${index + 1}`}
-        </Text>
-        <Text
-          className="font-UrbanistExtraBold text-start text-gray-30"
-          style={{ fontSize: fontSize - 6 }}
-          numberOfLines={1}
-          adjustsFontSizeToFit
-          minimumFontScale={0.8}
-          maxFontSizeMultiplier={1.5}
-        >
-          {`Fecha: ${formatDate(item.created_at)}`}
-        </Text>
-      </View>
-      <Image source={ICONS.BACK_RIGHT_ICON} className="h-9" resizeMode="contain" />
-    </TouchableOpacity>
-  );
-
   return (
     <SafeAreaView className="bg-slate-100 flex-1">
       {/* Encabezado con fondo y personaje */}
-      <View className={`relative ${bgColor}`} style={{ height: dynamicHeight }}>
+      <View className={`relative ${emotionConfig.bgColor}`} style={{ height: dynamicHeight }}>
         <View className="absolute w-full flex-row justify-between p-7">
           <BackButton onPress={() => router.back()} />
-          <HeaderInformationComponent type="date" label={`Resueltos`} borderColor="#E4B18E" />
+          <HeaderInformationComponent 
+            type="date" 
+            label={`${patient.name}`} 
+            borderColor="#E4B18E" 
+          />
         </View>
 
         <View className="flex-1 justify-end items-center">
@@ -165,11 +139,11 @@ const TestResults = () => {
               className="text-brown-800 font-UrbanistBold text-2xl mb-8 text-center px-5"
               style={{ letterSpacing: -1 }}
             >
-              EL ultimo Test lo realizo el dd/mm/aa. Da clic en Ver Más
+              Último test realizado el {formatDate(testResult.test_date)}
             </Text>
           </View>
           <Image
-            source={userImage}
+            source={emotionConfig.image}
             className="mb-[-80] w-64 h-64"
             style={{ resizeMode: "contain" }}
           />
@@ -178,65 +152,94 @@ const TestResults = () => {
 
       {/* Contenido principal */}
       <View className="flex-1 bg-white rounded-t-3xl px-6 pt-1">
-        <View className="w-full flex-row justify-end">
-          <Pressable onPress={() => router.push("/(auth)/welcome")} className="px-3 rounded-md mt-4">
-            <View className="flex-row items-center ">
-              <Text className="text-black text-base font-UrbanistBold">Ayuda</Text>
-              <Image
-                source={ICONS.HELP_ICON}
-                style={{
-                  width: width < 390 ? 14 : 18,
-                  height: height < 390 ? 14 : 18,
-                  resizeMode: "contain",
-                  marginLeft: 5,
-                }}
-              />
-            </View>
-          </Pressable>
-        </View>
-
-        <MainButton
-          mainText="Ver más"
-          onPress={() => {
-            router.push({
-              pathname: "/(therapistPages)/test-detailed-results",
-              params: { test_id: tests[0].id },
-            })
-          }}
-          className="w-80 py-3 mt-6"
-        />
-
-        <Text
-          className="font-UrbanistExtraBold text-center text-brown-100 mb-3 mt-4"
-          style={{ fontSize: fontSize + 5 }}
-          numberOfLines={1}
-          adjustsFontSizeToFit
-          minimumFontScale={0.8}
-          maxFontSizeMultiplier={1.5}
+        <ScrollView 
+          contentContainerStyle={{ paddingBottom: 120 }}
+          showsVerticalScrollIndicator={false}
         >
-          Test Resueltos
-        </Text>
+          <View className="w-full flex-row justify-end">
+            <Pressable onPress={() => router.push("/(auth)/welcome")} className="px-3 rounded-md mt-4">
+              <View className="flex-row items-center">
+                <Text className="text-black text-base font-UrbanistBold">Ayuda</Text>
+                <Image
+                  source={ICONS.HELP_ICON}
+                  style={{
+                    width: width < 390 ? 14 : 18,
+                    height: height < 390 ? 14 : 18,
+                    resizeMode: "contain",
+                    marginLeft: 5,
+                  }}
+                />
+              </View>
+            </Pressable>
+          </View>
 
-        {/* Lista de tests */}
-        {loading || !patientId ? (
-          <View className="items-center justify-center py-8">
-            <ActivityIndicator />
-            <Text className="mt-2 text-gray-500">
-              {patientId ? "Cargando..." : "Cargando usuario..."}
+          <MainButton
+            mainText="Ver detalles completos"
+            onPress={() => {
+              router.push({
+                pathname: "/(therapistPages)/test-detailed-results",
+                params: { id: patientId },
+              });
+            }}
+            className="w-80 py-3 mt-6"
+          />
+
+          <Text
+            className="font-UrbanistExtraBold text-center text-brown-100 mb-6 mt-8"
+            style={{ fontSize: fontSize + 2 }}
+          >
+            Resultado: {testResult.predominantEmotion}
+          </Text>
+
+          {/* Descripción de la emoción */}
+          <View className="bg-gray-50 rounded-3xl p-6 mb-6">
+            <Text className="font-UrbanistMedium text-gray-700 text-center leading-6">
+              {emotionConfig.description}
             </Text>
           </View>
-        ) : tests.length === 0 ? (
-          <View className="items-center justify-center py-8">
-            <Text className="text-gray-500">Aún no hay tests resueltos. </Text>
+
+          {/* Estadísticas emocionales */}
+          <Text className="font-UrbanistBold text-lg text-brown-100 mb-4">
+            Distribución Emocional:
+          </Text>
+          
+          {Object.entries(testResult.emotionCounts).map(([emotion, count]) => {
+            const countNum = typeof count === 'number' ? count : 0;
+            return (
+              <View key={emotion} className="flex-row justify-between items-center mb-3 bg-gray-50 p-4 rounded-2xl">
+                <Text className="font-UrbanistMedium text-gray-700">{emotion}</Text>
+                <View className="flex-row items-center">
+                  <Text className="font-UrbanistBold text-brown-100 mr-2">{countNum}</Text>
+                  <View 
+                    className="h-3 bg-brown-200 rounded-full"
+                    style={{ width: Math.max((countNum / 10) * 100, 20) }}
+                  />
+                </View>
+              </View>
+            );
+          })}
+
+          {/* Información del paciente */}
+          <View className="mt-6 bg-blue-50 rounded-3xl p-6">
+            <Text className="font-UrbanistBold text-lg text-brown-100 mb-4">
+              Información del Paciente:
+            </Text>
+            <Text className="font-UrbanistMedium text-gray-700 mb-2">
+              <Text className="font-UrbanistBold">Edad:</Text> {patient.age} años
+            </Text>
+            <Text className="font-UrbanistMedium text-gray-700 mb-2">
+              <Text className="font-UrbanistBold">Tutor:</Text> {patient.tutor_name} ({patient.tutor_relationship})
+            </Text>
+            <Text className="font-UrbanistMedium text-gray-700 mb-2">
+              <Text className="font-UrbanistBold">Progreso:</Text> {patient.totalSessions} sesiones, {patient.moodImprovement}% mejora
+            </Text>
+            {patient.nextAppointment && (
+              <Text className="font-UrbanistMedium text-gray-700">
+                <Text className="font-UrbanistBold">Próxima cita:</Text> {patient.nextAppointment.date} a las {patient.nextAppointment.time}
+              </Text>
+            )}
           </View>
-        ) : (
-          <FlatList
-            data={tests}
-            keyExtractor={(item) => item.id}
-            renderItem={renderItem}
-            contentContainerStyle={{ paddingBottom: 120 }}
-          />
-        )}
+        </ScrollView>
       </View>
 
       {/* Navbar fija */}

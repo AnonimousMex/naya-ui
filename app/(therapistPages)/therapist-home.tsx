@@ -5,6 +5,7 @@ import {
   Text,
   TouchableOpacity,
   Dimensions,
+  ActivityIndicator,
 } from "react-native";
 import TherapistTopBar from "@/components/TherapistTopBar";
 import PatientCard from "@/components/PersonCard";
@@ -12,18 +13,17 @@ import { IMAGES } from "@/constants/images";
 import { SafeAreaView } from "react-native-safe-area-context";
 import NavbarComponent from "@/components/NavBar/NavBarComponent";
 import { router } from "expo-router";
-import { useListPatientsMutation } from "@/hooks/therapist/useListPatientsMutation";
-import { TPatient } from "@/models/therapist";
+import { useLocalPatients } from "@/hooks/useLocalPatients";
+import { useLocalAppointments } from "@/hooks/useLocalAppointments";
+import { LocalPatient } from "@/constants/localData/patients";
+import { LocalAppointment } from "@/constants/localData/appointments";
 import { useUserAnimal } from "@/hooks/useUserAnimal";
-import { useListAllAppointmentsMutation } from "@/hooks/therapist/useListAllAppointmentsMutation";
-import { TAppointmentWithPatient } from "@/models/Common";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import AppointmentCard from "@/components/patientProfileComponents/AppointmentCard";
-import { useUserInfo } from "@/hooks/useUserInfo";
+import { useLocalUserInfo } from "@/hooks/useLocalUserInfo";
 
 
 const PatientCardWithAnimal: React.FC<{
-  patient: TPatient;
+  patient: LocalPatient;
   width: number;
 }> = ({ patient, width }) => {
   const animalId = patient.animal_id || undefined;
@@ -36,7 +36,7 @@ const PatientCardWithAnimal: React.FC<{
       name={patient.name}
       avatar={animalImage}
       width={width}
-      circleColor={animalColor}
+      circleColor={patient.circleColor || animalColor}
       animalId={animalId}
       type="patient"
     />
@@ -53,49 +53,9 @@ const CARD_WIDTH =
 
   
 const TherapistHome = () => {
-  
-  const {mutate, data }= useListPatientsMutation()
-  const [displayPatients, setDisplayPatients] = useState<TPatient[]>([]);
-  const [appointments, setAppointments] = useState<TAppointmentWithPatient[]>([]);
-  const listAllAppointmentsMutation = useListAllAppointmentsMutation();
-  const { userInfo } = useUserInfo();
-
-  const fetchAppointments = async () => {
-    try {
-      const token = await AsyncStorage.getItem("accessToken");
-      if (!token) return;
-      listAllAppointmentsMutation.mutate(token, {
-        onSuccess: (response) => {
-          if (response.data) {
-            const formattedAppointments = response.data.map((appointment) => ({
-              ...appointment,
-            }));
-            setAppointments(formattedAppointments);
-          }
-        },
-      });
-    } catch (error) {
-      console.error("Error fetching appointments:", error);
-    }
-  };
-
-  useEffect(() => {
-    mutate();
-    fetchAppointments();
-  }, []);
-  useEffect(() => {
-    if (data?.data) {
-      setDisplayPatients(data.data);
-    }
-  }, [data]);
-
-  const upcomingAppointments = appointments
-    .sort((a, b) => {
-      const dateTimeA = new Date(`${a.date}T${a.time}`);
-      const dateTimeB = new Date(`${b.date}T${b.time}`);
-      return dateTimeA.getTime() - dateTimeB.getTime();
-    })
-    .slice(0, 2);
+  const { patients, loading: patientsLoading, error: patientsError } = useLocalPatients();
+  const { upcomingAppointments, loading: appointmentsLoading, refetch: refetchAppointments } = useLocalAppointments();
+  const { userInfo } = useLocalUserInfo();
 
   return (
     <View className="flex-1 bg-pink-200">
@@ -130,7 +90,7 @@ const TherapistHome = () => {
                     patientName={appointment.patient_name || "Paciente"}
                     date={appointment.date}
                     time={appointment.time}
-                    onAppointmentUpdate={fetchAppointments}
+                    onAppointmentUpdate={refetchAppointments}
                   />
                 </View>
               ))}
@@ -142,6 +102,28 @@ const TherapistHome = () => {
               </Text>
             </View>
           )}
+          
+          {/* Quick Schedule Button */}
+          <View className="mx-2 my-4">
+            <View className="flex-row space-x-3">
+              <TouchableOpacity
+                onPress={() => router.push("/(therapistPages)/schedule-appointment")}
+                className="flex-1 bg-orange-400 py-3 px-4 rounded-xl flex-row items-center justify-center"
+              >
+                <Text className="text-white font-UrbanistBold text-sm">
+                  Agendar Cita
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => router.push("/(therapistPages)/daily-schedule")}
+                className="flex-1 bg-blue-500 py-3 px-4 rounded-xl flex-row items-center justify-center"
+              >
+                <Text className="text-white font-UrbanistBold text-sm">
+                  Ver Agenda
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
 
           <View className="flex-row justify-between items-center mb-2 mt-8">
             <Text className="text-brown-800 font-bold text-lg font-UrbanistBold">
@@ -157,7 +139,7 @@ const TherapistHome = () => {
               </Text>
             </TouchableOpacity>
           </View>
-          { displayPatients.length == 0 ? (
+          { patients.length == 0 ? (
             <View className="flex items-center mt-8">
               <Text className=" text-xl font-UrbanistLight ">
                 Aun no tienes pacientes asignados
@@ -166,7 +148,7 @@ const TherapistHome = () => {
           ):
           (
           <View className="flex-row flex-wrap justify-between">
-            {displayPatients.map((p) => (
+            {patients.map((p: LocalPatient) => (
               <PatientCardWithAnimal
                 key={p.patient_id}
                 patient={p}

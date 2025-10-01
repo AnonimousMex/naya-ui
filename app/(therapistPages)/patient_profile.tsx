@@ -23,9 +23,9 @@ import { useCloseConnectionMutation } from "@/hooks/therapist/useCloseConnection
 import { TCloseConnection } from "@/models/therapist";
 import { getAnimalVariantImage } from "@/utils/animalAssets";
 import { useUserAnimal } from "@/hooks/useUserAnimal";
-import { useListAllAppointmentsMutation } from "@/hooks/therapist/useListAllAppointmentsMutation";
-import { TAppointmentWithPatient } from "@/models/Common";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useLocalAppointments } from "@/hooks/useLocalAppointments";
+import { useLocalPatients } from "@/hooks/useLocalPatients";
+import { LocalAppointment } from "@/constants/localData/appointments";
 import AppointmentCardComponent from "@/components/patientProfileComponents/AppointmentCard";
 
 
@@ -44,33 +44,14 @@ const PatientProfile = () => {
   
   const closeConnectionMutation = useCloseConnectionMutation();
   const [modalVisible, setModalVisible] = useState(false);
-  const [appointments, setAppointments] = useState<TAppointmentWithPatient[]>([]);
-  const listAllAppointmentsMutation = useListAllAppointmentsMutation();
+  const { getByPatient } = useLocalAppointments();
+  const { patients } = useLocalPatients();
 
-  const fetchPatientAppointments = async () => {
-    try {
-      const token = await AsyncStorage.getItem("accessToken");
-      if (!token) return;
-      listAllAppointmentsMutation.mutate(token, {
-        onSuccess: (response) => {
-          if (response.data) {
-            const patientAppointments = response.data.filter(
-              (appointment) => appointment.patient_id === id
-            );
-            setAppointments(patientAppointments);
-          }
-        },
-      });
-    } catch (error) {
-      console.error("Error fetching patient appointments:", error);
-    }
-  };
+  // Get patient data and appointments
+  const currentPatient = patients.find(p => p.patient_id === id);
+  const patientAppointments = getByPatient(id as string);
 
-  useEffect(() => {
-    fetchPatientAppointments();
-  }, [id]);
-
-  const nextAppointment = appointments
+  const nextAppointment = patientAppointments
     .sort((a, b) => {
       const dateTimeA = new Date(`${a.date}T${a.time}`);
       const dateTimeB = new Date(`${b.date}T${b.time}`);
@@ -124,7 +105,7 @@ const PatientProfile = () => {
                 patientName={nextAppointment.patient_name || name.toString()}
                 date={nextAppointment.date}
                 time={nextAppointment.time}
-                onAppointmentUpdate={fetchPatientAppointments}
+                onAppointmentUpdate={() => {}}
                 customTitle="Próxima Consulta"
                 customSubtitle={name.toString()}
               />
@@ -187,6 +168,22 @@ const PatientProfile = () => {
                     id: id,
                     name: name,
                     animalId: animalId || "",
+                  },
+                });
+              }}
+            />
+          </View>
+          <View className="mb-4">
+            <ButtonPatientProfile
+              bg="bg-orange-400"
+              name="Agendar Cita"
+              icon={ICONS.CALENDAR_ICON}
+              onPress={() => {
+                router.push({
+                  pathname: "/(therapistPages)/schedule-appointment",
+                  params: {
+                    patientId: id,
+                    patientName: name,
                   },
                 });
               }}

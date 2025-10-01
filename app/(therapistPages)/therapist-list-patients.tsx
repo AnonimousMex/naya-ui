@@ -5,6 +5,7 @@ import {
   Text,
   TouchableOpacity,
   Dimensions,
+  ActivityIndicator,
 } from "react-native";
 import PatientCard from "@/components/PersonCard";
 import { IMAGES } from "@/constants/images";
@@ -12,8 +13,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import NavbarComponent from "@/components/NavBar/NavBarComponent";
 import { router } from "expo-router";
 import { HeaderTitleComponent } from "@/components/HeaderTitleComponent";
-import { useListPatientsMutation } from "@/hooks/therapist/useListPatientsMutation";
-import { TPatient } from "@/models/therapist";
+import { useLocalPatients } from "@/hooks/useLocalPatients";
+import { LocalPatient } from "@/constants/localData/patients";
 import { useUserAnimal } from "@/hooks/useUserAnimal";
 
 
@@ -26,7 +27,7 @@ const CARD_WIDTH =
   NUM_COLUMNS;
 
 const PatientCardWithAnimal: React.FC<{
-  patient: TPatient;
+  patient: LocalPatient;
   width: number;
 }> = ({ patient, width }) => {
   const animalId = patient.animal_id || undefined;
@@ -39,7 +40,7 @@ const PatientCardWithAnimal: React.FC<{
       name={patient.name}
       avatar={animalImage}
       width={width}
-      circleColor={animalColor}
+      circleColor={patient.circleColor || animalColor}
       animalId={animalId}
       type="patient"
     />
@@ -47,19 +48,7 @@ const PatientCardWithAnimal: React.FC<{
 };
 
 const TherapistListPatients = () => {
-
-
-  const {mutate, data , }= useListPatientsMutation()
-  const [displayPatients, setDisplayPatients] = useState<TPatient[]>([]);
-  
-  useEffect(() => {
-    mutate();
-  }, [])
-  useEffect(() => {
-    if (data?.data) {
-      setDisplayPatients(data.data);
-    }
-  }, [data]);
+  const { patients, loading, error, activePatients } = useLocalPatients();
   
   return (
     <View className="flex-1 bg-pink-200">
@@ -71,23 +60,31 @@ const TherapistListPatients = () => {
           <HeaderTitleComponent mainText="Pacientes" />
         </View>
         <View className="px-5">
-          { displayPatients.length == 0 ? (
+          {loading ? (
             <View className="flex items-center mt-8">
-              <Text className=" text-xl font-UrbanistLight ">
+              <ActivityIndicator size="large" color="#8B4513" />
+              <Text className="mt-4 text-gray-600 font-UrbanistMedium">Cargando pacientes...</Text>
+            </View>
+          ) : error ? (
+            <View className="flex items-center mt-8">
+              <Text className="text-red-500 font-UrbanistMedium text-center">{error}</Text>
+            </View>
+          ) : patients.length === 0 ? (
+            <View className="flex items-center mt-8">
+              <Text className="text-xl font-UrbanistLight">
                 Aun no tienes pacientes asignados
               </Text>
             </View>
-          ):
-          (
-          <View className="flex-row flex-wrap justify-between">
-            {displayPatients.map((p) => (
-              <PatientCardWithAnimal
-                key={p.patient_id}
-                patient={p}
-                width={CARD_WIDTH}
-              />
-            ))}
-          </View>
+          ) : (
+            <View className="flex-row flex-wrap justify-between">
+              {patients.map((patient: LocalPatient) => (
+                <PatientCardWithAnimal
+                  key={patient.patient_id}
+                  patient={patient}
+                  width={CARD_WIDTH}
+                />
+              ))}
+            </View>
           )}
         </View>
       </ScrollView>

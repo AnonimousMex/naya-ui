@@ -5,18 +5,20 @@ import {
   Image,
   ScrollView,
   Linking,
+  ActivityIndicator,
 } from "react-native";
 import { SafeAreaView as SafeAreaViewContext } from "react-native-safe-area-context";
 import { ICONS } from "@/constants/images";
 import { router } from "expo-router";
 import { ProfileButtonComponent } from "@/components/ProfileButtonsComponent";
-import { useUserInfo } from "@/hooks/useUserInfo";
+import { useLocalUserInfo } from "@/hooks/useLocalUserInfo";
 import { useState } from "react";
 import { ParentsProfileModal } from "@/components/ParentsProfileModal";
 
 const ParentsProfile = () => {
-  const { userInfo } = useUserInfo();
+  const { userInfo, loading, logout } = useLocalUserInfo();
   const userEmail = userInfo?.email || "No hay correo registrado";
+  const userName = userInfo?.name || "Usuario";
   const [modalVisible, setModalVisible] = useState(false);
   const [modalType, setModalType] = useState<"profile" | "terms">("profile");
 
@@ -28,6 +30,18 @@ const ParentsProfile = () => {
   const closeModal = () => {
     setModalVisible(false);
   };
+
+  const handleLogout = async () => {
+    await logout();
+    router.replace("/(auth)/welcome");
+  };
+
+  // Redirigir si no hay usuario logueado
+  if (!loading && !userInfo) {
+    router.replace("/(auth)/welcome");
+    return null;
+  }
+
   const profileButtons = [
     {
       icon: ICONS.PERSON_ICON,
@@ -84,13 +98,29 @@ const ParentsProfile = () => {
         </View>
 
         <View className="mt-8 items-center">
-          <Text className="text-brown-800 font-UrbanistBold text-xl mb-10">
-            {userEmail}
-          </Text>
+          {loading ? (
+            <ActivityIndicator size="large" color="#0066CC" className="mb-10" />
+          ) : (
+            <>
+              <View className="items-center mb-10">
+                <Text className="text-brown-800 font-UrbanistBold text-2xl mb-2">
+                  {userName}
+                </Text>
+                <Text className="text-brown-800 font-UrbanistMedium text-lg">
+                  {userEmail}
+                </Text>
+                {userInfo?.user_type && (
+                  <Text className="text-gray-600 font-UrbanistMedium text-sm mt-1">
+                    Tipo: {userInfo.user_type === "PATIENT" ? "Paciente" : userInfo.user_type === "THERAPIST" ? "Terapeuta" : "Padre/Madre"}
+                  </Text>
+                )}
+              </View>
+            </>
+          )}
           <ProfileButtonComponent options={profileButtons} />
 
           <TouchableOpacity
-            onPress={() => router.push("/(auth)/welcome")}
+            onPress={handleLogout}
             className="bg-red-74 rounded-full px-4 py-4 mb-10 shadow-sm  items-center justify-center w-4/5 self-center"
           >
             <Text className="text-white text-xl font-UrbanistBold">
@@ -104,6 +134,7 @@ const ParentsProfile = () => {
         visible={modalVisible}
         onClose={closeModal}
         type={modalType}
+        userInfo={userInfo}
       />
     </SafeAreaViewContext>
   );

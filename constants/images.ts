@@ -25,7 +25,9 @@ import clockIcon from "@/assets/icons/clock-icon.png";
 import sandClockIcon from "@/assets/icons/sand-clock-icon.png";
 import goIcon from "@/assets/icons/go_icon.png";
 import defaultWomanTherapist from "@/assets/images/default_woman_therapist.png";
+import defaultMenTherapist from "@/assets/images/default_men_therapist.png";
 import therapistPhotoCV from "@/assets/images/therapist_photo_cv.png";
+import therapistMalePhotoCV from "@/assets/images/therapist_male_photo_cv.png.png";
 import changePasswordLion from "@/assets/images/change-password-lion.png";
 import calendarIcon from "@/assets/icons/calendar_icon.png";
 import calendarWhiteIcon from "@/assets/icons/calendar-white-icon.png";
@@ -226,6 +228,7 @@ export const ICONS = {
 
 export const IMAGES = {
   THERAPIST_PHOTO_CV: therapistPhotoCV,
+  THERAPIST_MALE_PHOTO_CV: therapistMalePhotoCV,
   CLOUDS_IMAGE: cloudsImage,
   ARROW_RIGHT: arrowRight,
   NAYA_LOGO: nayaLogo,
@@ -314,6 +317,7 @@ export const IMAGES = {
   STORY_BUTTON_LION_LOCKED: storyButtonLionLocked,
   STORY_BUTTON_PANDA_LOCKED: storyButtonPandaLocked,
   DEFAULT_WOMAN_THERAPIST: defaultWomanTherapist,
+  DEFAULT_MEN_THERAPIST: defaultMenTherapist,
   CHANGE_PASSWORD_LION: changePasswordLion,
   CONFUSED_BUNNY_1: confusedBunny1,
   CONFUSED_BUNNY_2: confusedBunny2,

@@ -1,43 +1,18 @@
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, TouchableOpacity, Text } from "react-native";
 import {
   SafeAreaView as SafeAreaViewContext,
   SafeAreaView,
 } from "react-native-safe-area-context";
 import { NavbarComponent } from "@/components/NavBar";
 import { HeaderTitleComponent } from "@/components/HeaderTitleComponent";
-import { useEffect, useState } from "react";
-import { useListAllAppointmentsMutation } from "@/hooks/therapist/useListAllAppointmentsMutation";
-import { TAppointmentWithPatient } from "@/models/Common";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useLocalAppointments } from "@/hooks/useLocalAppointments";
 import AppointmentCard from "@/components/patientProfileComponents/AppointmentCard";
+import { router } from "expo-router";
 
 const TherapistUpcomingAppoinments = () => {
-  const [appointments, setAppointments] = useState<TAppointmentWithPatient[]>([]);
-  const listAllAppointmentsMutation = useListAllAppointmentsMutation();
+  const { appointments, loading, refetch } = useLocalAppointments();
 
-  const fetchAppointments = async () => {
-    try {
-      const token = await AsyncStorage.getItem("accessToken");
-      if (!token) return;
-      listAllAppointmentsMutation.mutate(token, {
-        onSuccess: (response) => {
-          if (response.data) {
-            const formattedAppointments = response.data.map((appointment) => ({
-              ...appointment,
-            }));
-            setAppointments(formattedAppointments);
-          }
-        },
-      });
-    } catch (error) {
-      console.error("Error fetching appointments:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchAppointments();
-  }, []);
-
+  // Sort appointments by date and time
   const sortedAppointments = appointments.sort((a, b) => {
     const dateTimeA = new Date(`${a.date}T${a.time}`);
     const dateTimeB = new Date(`${b.date}T${b.time}`);
@@ -50,8 +25,19 @@ const TherapistUpcomingAppoinments = () => {
         contentContainerStyle={{ paddingBottom: 32 }}
         showsVerticalScrollIndicator={false}
       >
-        <View className="mt-10 px-7 mb-8">
+        <View className="mt-10 px-7 mb-4">
           <HeaderTitleComponent mainText="Consultas" />
+        </View>
+
+        <View className="px-7 mb-6">
+          <TouchableOpacity
+            onPress={() => router.push("/(therapistPages)/schedule-appointment")}
+            className="bg-orange-400 py-4 px-6 rounded-xl flex-row items-center justify-center"
+          >
+            <Text className="text-white font-UrbanistBold text-lg">
+              Agendar Nueva Cita
+            </Text>
+          </TouchableOpacity>
         </View>
 
         <View className="px-7">
@@ -63,7 +49,7 @@ const TherapistUpcomingAppoinments = () => {
                 patientName={appointment.patient_name || "Paciente"}
                 date={appointment.date}
                 time={appointment.time}
-                onAppointmentUpdate={fetchAppointments}
+                onAppointmentUpdate={refetch}
               />
             </View>
           ))}

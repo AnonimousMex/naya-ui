@@ -7,12 +7,15 @@ import { LOCAL_PSYCHOMETRIC_TEST } from '@/constants/localData/psychometricTest'
 import { STORY_AUDIOS, ANSWER_AUDIOS, AudioNumber } from '@/constants/audioConstants';
 import { useScreenDimensions } from '@/utils/dimensions';
 import { useUserHeaderData } from '@/hooks/useUserHeaderData';
+import { useLocalUserInfo } from '@/hooks/useLocalUserInfo';
 import { useAudio } from '@/hooks/useAudio';
 import { router, useFocusEffect } from 'expo-router';
 import LottieView from 'lottie-react-native';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Modal, Text, View, Image, Dimensions, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { TestAnswer, TestResult, calculatePredominantEmotion, saveTestResult } from '@/utils/psychometricTestStorage';
 
 // Energía fija para modo local
 const useEnergy = () => {
@@ -54,6 +57,7 @@ const PsycometricTest = () => {
 
   const { energy, fetchEnergy } = useEnergy();
   const { userName, avatar } = useUserHeaderData();
+  const { userInfo: localUserInfo } = useLocalUserInfo();
 
   // ----- Audio hooks -----
   const storyAudio = useAudio();
@@ -65,7 +69,8 @@ const PsycometricTest = () => {
   const [stories, setStories] = useState<StoryItem[]>([]);
   const [currentStoryIndex, setCurrentStoryIndex] = useState(0);
   const [currentStep, setCurrentStep] = useState<number>(STEP.INTRO);
-  const [showStory, setShowStory] = useState(false)
+  const [showStory, setShowStory] = useState(false);
+  const [userAnswers, setUserAnswers] = useState<TestAnswer[]>([]);
 
   // Para limpiar timers al desmontar o cambiar paso:
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -109,6 +114,7 @@ const PsycometricTest = () => {
         setStories(selectedStories);
         setCurrentStoryIndex(0);
         setCurrentStep(STEP.INTRO);
+        setUserAnswers([]); // Resetear respuestas para nuevo test
       } catch (err) {
         console.error('Error loading test:', err);
         setStories([]);
@@ -163,8 +169,31 @@ const PsycometricTest = () => {
       storyAudio.stopAudio();
       answerAudio.stopAudio();
       
-      // Guardado local de respuestas (sin backend)
-      console.log('Respuesta seleccionada:', answerId);
+      // Encontrar la respuesta seleccionada
+      const selectedAnswer = currentStory.answers.find(ans => ans.id === answerId);
+      
+      if (selectedAnswer) {
+        // Crear objeto de respuesta
+        const testAnswer: TestAnswer = {
+          storyId: currentStory.id,
+          storyTitle: currentStory.title,
+          answerId: selectedAnswer.id,
+          answerText: selectedAnswer.answer_text,
+          emotionName: selectedAnswer.emotion_name
+        };
+        
+        // Agregar respuesta al array
+        const updatedAnswers = [...userAnswers, testAnswer];
+        setUserAnswers(updatedAnswers);
+        
+        console.log('Respuesta guardada:', testAnswer);
+        
+        // Si es la última historia, guardar todos los resultados
+        if (currentStoryIndex === stories.length - 1) {
+          await saveTestResults(updatedAnswers);
+        }
+      }
+      
       await new Promise(res => setTimeout(res, 1000));
       // Mostrar "Modal de salida"
       setCurrentStep(STEP.OUTRO);
@@ -185,6 +214,31 @@ const PsycometricTest = () => {
       return (number >= 1 && number <= 10) ? (number as AudioNumber) : null;
     }
     return null;
+  };
+
+  // Función para guardar los resultados usando las utilidades importadas
+  const saveTestResults = async (finalAnswers: TestAnswer[]) => {
+    try {
+      const { predominantEmotion, emotionCounts } = calculatePredominantEmotion(finalAnswers);
+      
+      const finalUserName = localUserInfo?.name || userName || 'Usuario Anónimo';
+      
+      const testResult: TestResult = {
+        id: `test_${Date.now()}_${finalUserName}`,
+        userName: finalUserName,
+        date: new Date().toISOString(),
+        answers: finalAnswers,
+        predominantEmotion,
+        emotionCounts
+      };
+
+      console.log('Guardando resultado del test:', testResult);
+
+      await saveTestResult(testResult);
+      console.log('Resultados guardados:', testResult);
+    } catch (error) {
+      console.error('Error guardando resultados:', error);
+    }
   };
 
   const resolveImage = (key?: string) => {
@@ -233,7 +287,7 @@ const PsycometricTest = () => {
       <CloudBackground />
       <View className="absolute top-0 left-0 right-0 z-50 bg-transparent">
         <SafeAreaView edges={['top']} className="flex items-center justify-center mt-2">
-          <GameHeader energy={energy} name={userName} avatar={avatar ? IMAGES[avatar as keyof typeof IMAGES] : IMAGES.HAPPY_CAT_HEAD} />
+          <GameHeader energy={energy} name={localUserInfo?.name || userName} avatar={avatar ? IMAGES[avatar as keyof typeof IMAGES] : IMAGES.HAPPY_CAT_HEAD} />
         </SafeAreaView>
       </View>
 

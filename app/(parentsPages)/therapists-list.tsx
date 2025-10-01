@@ -10,8 +10,8 @@ import {
 import BlueTopBar from "@/components/BlueTopBar";
 import PersonCard from "@/components/PersonCard";
 import { IMAGES } from "@/constants/images";
-import { useTherapists } from "@/hooks/useTherapists";
-import { useUserInfo } from "@/hooks/useUserInfo";
+import { useLocalTherapists } from "@/hooks/useLocalTherapists";
+import { useLocalUserInfo } from "@/hooks/useLocalUserInfo";
 
 const description =
   "Dentro de esta sección podrás dar un vistazo a los terapeutas que están disponibles en nuestra app";
@@ -24,10 +24,24 @@ const cardWidth =
   (screenWidth - containerPadding - cardMargin * (numColumns + 1)) / numColumns;
 
 const TherapistHome = () => {
-  const { therapists, loading, error, refetch } = useTherapists();
-  const { userInfo } = useUserInfo();
+  const { therapists, loading, error, refetch } = useLocalTherapists();
+  const { userInfo } = useLocalUserInfo();
 
   const title = `¡Hola, ${userInfo?.name || 'Usuario'}!`;
+
+  // Función para convertir experiencias al formato esperado por PersonCard
+  const formatExperiences = (experiences: any[]) => {
+    return experiences.map(exp => {
+      const startYear = new Date(exp.start_date).getFullYear();
+      const endYear = exp.end_date ? new Date(exp.end_date).getFullYear() : 'Presente';
+      
+      return {
+        title: `${exp.position} - ${exp.institution}`,
+        years: `${startYear} - ${endYear}`,
+        description: exp.description
+      };
+    });
+  };
 
   if (loading) {
     return (
@@ -69,9 +83,14 @@ const TherapistHome = () => {
       <BlueTopBar title={title} description={description} />
       <View className="px-5">
         <View className="flex-row justify-between items-center mb-2 mt-8">
-          <Text className="text-brown-800 font-bold text-lg font-UrbanistBold">
-            Terapeutas disponibles ({therapists.length})
-          </Text>
+          <View>
+            <Text className="text-brown-800 font-bold text-lg font-UrbanistBold">
+              Terapeutas disponibles ({therapists.length})
+            </Text>
+            <Text className="text-gray-600 font-UrbanistMedium text-xs">
+              Datos locales - Modo offline
+            </Text>
+          </View>
           <TouchableOpacity onPress={refetch}>
             <Text className="text-orange-400 font-bold text-sm font-UrbanistBold">
               Actualizar
@@ -97,7 +116,7 @@ const TherapistHome = () => {
                   key={therapist.therapist_id}
                   id={therapist.therapist_id}
                   name={therapist.name}
-                  avatar={therapist.avatar || IMAGES.DEFAULT_WOMAN_THERAPIST}
+                  avatar={IMAGES[therapist.avatar as keyof typeof IMAGES] || IMAGES.DEFAULT_WOMAN_THERAPIST}
                   width={cardWidth}
                   circleColor={therapist.circleColor || "#C8B8B4"}
                   type="therapist"
@@ -106,7 +125,7 @@ const TherapistHome = () => {
                   email={therapist.email}
                   address={therapist.address}
                   specialties={therapist.specialties}
-                  experiences={therapist.experiences}
+                  experiences={formatExperiences(therapist.experiences)}
                 />
               ))}
             </View>

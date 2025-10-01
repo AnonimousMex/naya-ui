@@ -12,18 +12,28 @@ import { ICONS } from "@/constants/images";
 import { useUserInfo } from "@/hooks/useUserInfo";
 import { useUserAnimal } from "@/hooks/useUserAnimal";
 
+interface UserInfo {
+  id: string;
+  name: string;
+  email: string;
+  user_type: "PATIENT" | "THERAPIST" | "PARENT";
+  patient_id?: string | null;
+  animal_id?: string | null;
+}
+
 interface ParentsProfileModalProps {
   visible: boolean;
   onClose: () => void;
   type: "profile" | "terms";
+  userInfo?: UserInfo | null;
 }
 
 const ParentsProfileModal: React.FC<ParentsProfileModalProps> = ({
   visible,
   onClose,
   type,
+  userInfo,
 }) => {
-  const { userInfo } = useUserInfo();
   const { animalImage } = useUserAnimal();
 
   const renderProfileContent = () => (
