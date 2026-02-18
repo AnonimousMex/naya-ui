@@ -7,7 +7,7 @@
     "icon": "./assets/images/icon_rosado_1024.png",
     "scheme": "nayaui",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": false,
+    "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.tuorg.nayaui",
