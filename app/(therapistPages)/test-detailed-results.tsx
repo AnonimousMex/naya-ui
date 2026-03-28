@@ -1,7 +1,13 @@
-import { View, Text, ScrollView, Dimensions, Image, ActivityIndicator } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  Dimensions,
+  Image,
+  ActivityIndicator,
+} from "react-native";
 import Svg, { Path } from "react-native-svg";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { TestResultItem, TestStatistics } from "@/components/TestResultDetail";
 import { BackButton } from "@/components/BackButton";
 import { HeaderInformationComponent } from "@/components/HeaderInformationComponent";
 import { router, useLocalSearchParams } from "expo-router";
@@ -10,30 +16,7 @@ import { useEffect, useMemo, useState } from "react";
 import { HTTP } from "@/config/axios";
 import { URL_PATHS } from "@/constants/urlPaths";
 
-// ====== Tipos de respuesta del backend ======
-type InfoRes = {
-  status: number;
-  statusMessage: string;
-  data: { date: string; total_answers: number; patient_name: string };
-};
-
-type ResultsRes = {
-  status: number;
-  statusMessage: string;
-  data: { story: string; answer: string; emotion:string }[];
-  pagination: unknown | null;
-};
-
-type StatsItem = { emotion_id: string; emotion_name: string; percentage: number };
-type StatsRes = {
-  status: number;
-  statusMessage: string;
-  data: StatsItem[];
-  pagination: unknown | null;
-};
-
-// ====== Tipos que usa tu UI ======
-type EmotionKey = "happy" | "angry" | "sad" | "shame" | "fear";
+type EmotionKey = "happy" | "angry" | "sad" | "shame" | "fear" | "unknown";
 
 type TestInfoUI = {
   date: string;
@@ -44,60 +27,44 @@ type TestInfoUI = {
 type TestResultUI = {
   situation: string;
   answer: string;
-  emotion: string;
+  emotion: EmotionKey;
 };
 
 type TestStatsUI = Record<EmotionKey, number>;
 
-// ====== Mapeo de emociones (ES -> claves UI) ======
-const EMOTION_MAP: Record<string, EmotionKey | undefined> = {
+const EMOTION_MAP: Record<string, EmotionKey> = {
   Felicidad: "happy",
   Alegría: "happy",
+  happy: "happy",
   Enojo: "angry",
   Ira: "angry",
+  angry: "angry",
   Tristeza: "sad",
+  sad: "sad",
   Vergüenza: "shame",
   Pena: "shame",
+  shame: "shame",
   Miedo: "fear",
+  fear: "fear",
 };
 
-// Normaliza stats del backend (porcentajes) a llaves esperadas por TestStatistics
-const adaptStats = (items: StatsItem[]): TestStatsUI => {
-  const base: TestStatsUI = { happy: 0, angry: 0, sad: 0, shame: 0, fear: 0 };
-  items.forEach((it) => {
-    const key = EMOTION_MAP[it.emotion_name];
-    if (key) base[key] = it.percentage ?? 0;
-  });
-  return base;
+const EMOTION_COLORS: Record<EmotionKey, string> = {
+  happy: "#FFD166",
+  angry: "#EF476F",
+  sad: "#118AB2",
+  shame: "#9D4EDD",
+  fear: "#06D6A0",
+  unknown: "#BDBDBD",
 };
 
-// 💡 Siempre devuelve una emoción válida (por defecto "happy")
-const getDominantEmotion = (stats: TestStatsUI): EmotionKey => {
-  let maxKey: EmotionKey = "happy";
-  let maxVal = -1;
-  (Object.keys(stats) as EmotionKey[]).forEach((k) => {
-    if (stats[k] > maxVal) {
-      maxVal = stats[k];
-      maxKey = k;
-    }
-  });
-  return maxKey;
+const EMOTION_LABELS: Record<EmotionKey, string> = {
+  happy: "Felicidad",
+  angry: "Enojo",
+  sad: "Tristeza",
+  shame: "Vergüenza",
+  fear: "Miedo",
+  unknown: "Indefinida",
 };
-
-// Adapta info general
-const adaptInfo = (data: InfoRes["data"]): TestInfoUI => ({
-  date: data.date,
-  totalQuestions: data.total_answers,
-  performedBy: data.patient_name,
-});
-
-// Adapta resultados (story/answer) y asigna emoción dominante (si no viene por ítem)
-const adaptResults = (arr: ResultsRes["data"]): TestResultUI[] =>
-  arr.map((x) => ({
-    situation: x.story,
-    answer: x.answer,
-    emotion: x.emotion,
-  }));
 
 const TestDetailedResults = () => {
   const { width } = Dimensions.get("window");
@@ -105,15 +72,18 @@ const TestDetailedResults = () => {
   const paramId = params?.test_id;
 
   const testId = useMemo(
-    () => (Array.isArray(paramId) ? paramId[0] : (paramId as string | undefined)),
-    [paramId]
+    () =>
+      Array.isArray(paramId) ? paramId[0] : (paramId as string | undefined),
+    [paramId],
   );
 
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  
-  const [testID, setTestID] = useState<string | null>(null);
-  const [testInfo, setTestInfo] = useState<TestInfoUI | null>(null);
+
+  const [testInfo, setTestInfo] = useState<TestInfoUI>({
+    date: "Fecha no disp.",
+    totalQuestions: 0,
+    performedBy: "Paciente",
+  });
   const [testResults, setTestResults] = useState<TestResultUI[]>([]);
   const [statistics, setStatistics] = useState<TestStatsUI>({
     happy: 0,
@@ -121,191 +91,272 @@ const TestDetailedResults = () => {
     sad: 0,
     shame: 0,
     fear: 0,
+    unknown: 0,
   });
-  const [analysis, setAnalysis] = useState<{ tendency: string }>({ tendency: "" });
 
-  // Helper GET con body { test_id }
-  const getWithBody = async <T,>(url: string) => {
-    const body = { test_id: paramId };
-    const res = await HTTP.post<T>(
-      url,
-      body,
-    );
-    return res;
-  };
+  const [isCompletelyEmpty, setIsCompletelyEmpty] = useState(false);
 
   useEffect(() => {
-    const loadAll = async () => {
+    const fetchWhatWeCan = async () => {
       if (!testId) {
-        setError("Falta test_id");
+        setIsCompletelyEmpty(true);
         setLoading(false);
         return;
       }
-      setLoading(true);
-      setError(null);
+
+      let foundSomething = false;
+
       try {
-        // Llamadas en paralelo
-        const [infoRes, resultsRes, statsRes] = await Promise.all([ 
-          getWithBody<InfoRes>(URL_PATHS.TEST_THERAPIST.TEST_INFO),
-          getWithBody<ResultsRes>(URL_PATHS.TEST_THERAPIST.TEST_RESULTS),
-          getWithBody<StatsRes>(URL_PATHS.TEST_THERAPIST.TEST_STATICS),
-        ]);
+        const resResults = await HTTP.post(
+          URL_PATHS.TEST_THERAPIST.TEST_RESULTS,
+          { test_id: testId },
+        );
+        const rawData = (resResults.data as any)?.data || [];
 
-        const okInfo = infoRes.status === 200 && (infoRes.data as any)?.status === 200;
-        const okResults = resultsRes.status === 200 && (resultsRes.data as any)?.status === 200;
-        const okStats = statsRes.status === 200 && (statsRes.data as any)?.status === 200;
+        if (rawData.length > 0) {
+          foundSomething = true;
+          const adaptedResults: TestResultUI[] = rawData.map((x: any) => ({
+            situation: x.story || "Situación desconocida",
+            answer: x.answer || "Sin respuesta",
+            emotion: EMOTION_MAP[x.emotion] || "unknown",
+          }));
+          setTestResults(adaptedResults);
 
-        if (!okInfo || !okResults || !okStats) {
-          throw new Error(
-            `Respuestas no OK -> info:${infoRes.status}/${(infoRes.data as any)?.status} ` +
-              `results:${resultsRes.status}/${(resultsRes.data as any)?.status} ` +
-              `stats:${statsRes.status}/${(statsRes.data as any)?.status}`
-          );
+          setTestInfo((prev) => ({
+            ...prev,
+            totalQuestions: adaptedResults.length,
+          }));
         }
-
-        // Adaptar a UI
-        const info = adaptInfo((infoRes.data as any).data);
-        const stats = adaptStats((statsRes.data as any).data);
-        const dominant = getDominantEmotion(stats);
-        const results = adaptResults((resultsRes.data as any).data);
-
-        const analysisTextMap: Record<EmotionKey, string> = {
-          happy:
-            "Predominan respuestas asociadas a bienestar. Refuerza los hábitos que promueven emociones positivas.",
-          angry:
-            "Se detectan reacciones de enojo. Trabaja habilidades de regulación emocional y resolución de conflictos.",
-          sad:
-            "Hay tendencia a la tristeza. Considera actividades que fortalezcan la autoestima y el apoyo emocional.",
-          shame:
-            "Aparece vergüenza con frecuencia. Practica exposición gradual segura y refuerzo de autoaceptación.",
-          fear:
-            "Predomina el miedo. Enfoca estrategias de afrontamiento y desensibilización progresiva.",
-        };
-
-        setTestInfo(info);
-        setStatistics(stats);
-        setTestResults(results);
-        setAnalysis({ tendency: analysisTextMap[dominant] });
-      } catch (e: any) {
-        setError(e?.message || "Error al cargar resultados");
-        setTestInfo(null);
-        setTestResults([]);
-        setStatistics({ happy: 0, angry: 0, sad: 0, shame: 0, fear: 0 });
-      } finally {
-        setLoading(false);
+      } catch (e) {
+        console.log("No se pudieron cargar los resultados del test", e);
       }
+
+      try {
+        const resStats = await HTTP.post(
+          URL_PATHS.TEST_THERAPIST.TEST_STATICS,
+          { test_id: testId },
+        );
+        const rawStats = (resStats.data as any)?.data || [];
+
+        if (rawStats.length > 0) {
+          foundSomething = true;
+          const baseStats: TestStatsUI = {
+            happy: 0,
+            angry: 0,
+            sad: 0,
+            shame: 0,
+            fear: 0,
+            unknown: 0,
+          };
+          rawStats.forEach((it: any) => {
+            const key = EMOTION_MAP[it.emotion_name] || "unknown";
+            baseStats[key] = it.percentage ?? 0;
+          });
+          setStatistics(baseStats);
+        }
+      } catch (e) {
+        console.log("No se pudieron cargar las estadísticas", e);
+      }
+
+      try {
+        const resInfo = await HTTP.post(URL_PATHS.TEST_THERAPIST.TEST_INFO, {
+          test_id: testId,
+        });
+        const rawInfo = (resInfo.data as any)?.data;
+        if (rawInfo) {
+          foundSomething = true;
+          setTestInfo((prev) => ({
+            date: rawInfo.date || prev.date,
+            totalQuestions: rawInfo.total_answers || prev.totalQuestions,
+            performedBy: rawInfo.patient_name || prev.performedBy,
+          }));
+        }
+      } catch (e) {
+        console.log("No se pudo cargar la info general", e);
+      }
+
+      setIsCompletelyEmpty(!foundSomething);
+      setLoading(false);
     };
 
-    loadAll();
+    fetchWhatWeCan();
   }, [testId]);
 
-  const dateLabel = testInfo?.date ?? "";
+  const dominantEmotion = Object.keys(statistics).reduce((a, b) =>
+    statistics[a as EmotionKey] > statistics[b as EmotionKey] ? a : b,
+  ) as EmotionKey;
 
-  if (loading) {
+  if (loading)
     return (
       <SafeAreaView className="flex-1 items-center justify-center bg-pink-200">
-        <ActivityIndicator />
-        <Text className="mt-2 text-brown-800 font-UrbanistBold">Cargando...</Text>
+        <ActivityIndicator size="large" color="#EF476F" />
+        <Text className="mt-4 text-brown-800 font-UrbanistBold text-lg">
+          Cargando datos del paciente...
+        </Text>
       </SafeAreaView>
     );
-  }
 
-  if (error) {
+  if (isCompletelyEmpty)
     return (
       <SafeAreaView className="flex-1 items-center justify-center bg-pink-200 px-6">
-        <Text className="text-center text-red-600 font-UrbanistBold"> El test no se registro con respuestas</Text>
-        {/* <Text className="mt-2 text-center text-brown-800">
-          Verifica que el <Text className="font-UrbanistBold">test_id</Text> sea válido y que las rutas acepten body en GET.
-        </Text> */}
+        <Image
+          source={ICONS.WARNING_IMAGE}
+          style={{
+            width: 80,
+            height: 80,
+            tintColor: "#EF476F",
+            marginBottom: 16,
+          }}
+        />
+        <Text className="text-center text-red-600 font-UrbanistBold text-xl mb-4">
+          No hay datos registrados en este test
+        </Text>
+        <BackButton onPress={() => router.back()} />
       </SafeAreaView>
     );
-  }
+
+  const hasStats = Object.values(statistics).some((val) => val > 0);
 
   return (
     <SafeAreaView className="flex-1 bg-pink-200" edges={["top"]}>
       <View className="w-full flex-row justify-between pt-6 px-7 pb-4 z-10 bg-pink-200">
         <BackButton onPress={() => router.back()} />
-        <HeaderInformationComponent type="date" label={dateLabel} borderColor="#E4B18E" />
+        <HeaderInformationComponent
+          type="date"
+          label={testInfo.date}
+          borderColor="#E4B18E"
+        />
       </View>
 
       <ScrollView
-        className="flex-1 px-4 pt-2 bg-pink-200"
-        contentContainerStyle={{ paddingBottom: 0 }}
+        className="flex-1"
+        contentContainerStyle={{ paddingBottom: 40 }}
         showsVerticalScrollIndicator={false}
       >
-        <Text className="font-UrbanistBold text-2xl mb-4 text-brown-800 text-center">
-          Resultados detallados del test
+        <Text className="font-UrbanistBold text-2xl mb-2 text-brown-800 text-center px-4">
+          Reporte Clínico
+        </Text>
+        <Text className="font-UrbanistMedium text-base mb-6 text-brown-600 text-center px-4">
+          Paciente: {testInfo.performedBy}
         </Text>
 
-        {/* Tarjeta info general */}
-        <View className="items-center mb-4">
-          <View className="rounded-full p-5 bg-white shadow-md flex-row items-center justify-between">
-            <View className="ml-4 mr-9">
-              <Text className="font-UrbanistBold text-base text-brown-800 mb-1">
-                Realizado el {testInfo?.date}
-              </Text>
-              <Text className="font-UrbanistBold text-base text-brown-800 mb-1">
-                Total de preguntas: {testInfo?.totalQuestions}
-              </Text>
-              <Text className="font-UrbanistBold text-base text-brown-800">
-                Realizado por: {testInfo?.performedBy}
-              </Text>
-            </View>
-            <View className="w-16 h-16 rounded-full p-4 bg-brown-20">
+        {hasStats && (
+          <View className="bg-white mx-4 rounded-3xl p-5 mb-6 shadow-sm border border-pink-100">
+            <Text className="font-UrbanistBold text-lg text-brown-800 mb-4">
+              Espectro Emocional
+            </Text>
+            {(Object.entries(statistics) as [EmotionKey, number][])
+              .sort((a, b) => b[1] - a[1])
+              .filter(([_, val]) => val > 0)
+              .map(([key, value]) => (
+                <View key={key} className="mb-3">
+                  <View className="flex-row justify-between mb-1">
+                    <Text className="font-UrbanistMedium text-brown-700">
+                      {EMOTION_LABELS[key]}
+                    </Text>
+                    <Text className="font-UrbanistBold text-brown-800">
+                      {value.toFixed(1)}%
+                    </Text>
+                  </View>
+                  <View className="w-full h-3 bg-gray-100 rounded-full overflow-hidden">
+                    <View
+                      style={{
+                        width: `${value}%`,
+                        backgroundColor: EMOTION_COLORS[key],
+                      }}
+                      className="h-full rounded-full"
+                    />
+                  </View>
+                </View>
+              ))}
+          </View>
+        )}
+
+        {testResults.length > 0 && (
+          <View
+            className="bg-white mx-4 rounded-3xl p-5 mb-6 shadow-sm border-l-4"
+            style={{ borderLeftColor: EMOTION_COLORS[dominantEmotion] }}
+          >
+            <View className="flex-row items-center mb-2">
               <Image
                 source={ICONS.DETAILS_ICON}
-                style={{ width: "100%", height: "100%", resizeMode: "contain", tintColor: "white" }}
+                style={{
+                  width: 24,
+                  height: 24,
+                  tintColor: EMOTION_COLORS[dominantEmotion],
+                  marginRight: 8,
+                }}
               />
+              <Text className="font-UrbanistBold text-xl text-brown-800 flex-1">
+                Resumen de Respuestas
+              </Text>
             </View>
+            <Text className="font-UrbanistMedium text-sm text-brown-600 mb-2 leading-5">
+              Se han registrado {testResults.length} respuestas a situaciones en
+              este test. Revisa el desglose a continuación para detectar los
+              detonantes emocionales específicos del niño.
+            </Text>
           </View>
-        </View>
+        )}
 
-        {/* Lista de situaciones/respuestas */}
-        {testResults.map((item, idx) => (
-          <TestResultItem
-            key={idx}
-            situation={item.situation}
-            answer={item.answer}
-            emotion={item.emotion as EmotionKey}
-          />
-        ))}
-
-        {/* Ola separadora */}
         <View
-          style={{
-            position: "relative",
-            width: width,
-            height: 89.95,
-            zIndex: 10,
-            marginLeft: -16,
-            marginRight: -16,
-            marginTop: -30,
-          }}
+          style={{ position: "relative", width: width, height: 60, zIndex: 10 }}
         >
           <Svg
-            height="90"
+            height="60"
             width={width}
-            viewBox={`0 0 ${width} 90`}
+            viewBox={`0 0 ${width} 60`}
             style={{ position: "absolute", top: 0, left: 0, right: 0 }}
           >
-            <Path d={`M 0 90 Q ${width / 2} 0 ${width} 90`} fill="#F699B4" stroke="none" />
+            <Path
+              d={`M 0 60 Q ${width / 2} 0 ${width} 60`}
+              fill="#F699B4"
+              stroke="none"
+            />
           </Svg>
         </View>
 
-        {/* Estadísticas + análisis */}
-        <View className="mb-0 -mx-4 relative">
-          <View className="bg-pink-800 pt-7 px-4">
-            <TestStatistics stats={statistics} />
-
-            <View className="rounded-t-xl p-3 bg-white mt-4">
-              <Text className="font-UrbanistBold text-lg text-brown-800">Tendencia del niño</Text>
-            </View>
-            <View className="rounded-b-2xl p-4 mb-12 bg-[#FFF8E1]">
-              <Text className="font-UrbanistBold text-base text-brown-700">
-                {analysis.tendency}
+        <View className="bg-pink-400 pt-6 px-4 pb-10 min-h-[400px]">
+          {testResults.length > 0 ? (
+            <>
+              <Text className="font-UrbanistBold text-xl text-white mb-4 text-center">
+                Desglose de Situaciones ({testInfo.totalQuestions})
               </Text>
-            </View>
-          </View>
+              {testResults.map((item, idx) => (
+                <View
+                  key={idx}
+                  className="bg-white rounded-2xl p-4 mb-3 shadow-sm border-l-4"
+                  style={{ borderLeftColor: EMOTION_COLORS[item.emotion] }}
+                >
+                  <View className="flex-row justify-between items-start mb-2">
+                    <Text className="font-UrbanistBold text-brown-800 flex-1 pr-2 text-base">
+                      {item.situation}
+                    </Text>
+                    <View
+                      className="px-3 py-1 rounded-full"
+                      style={{
+                        backgroundColor: EMOTION_COLORS[item.emotion] + "30",
+                      }}
+                    >
+                      <Text
+                        className="font-UrbanistBold text-xs"
+                        style={{ color: EMOTION_COLORS[item.emotion] }}
+                      >
+                        {EMOTION_LABELS[item.emotion]}
+                      </Text>
+                    </View>
+                  </View>
+                  <Text className="font-UrbanistMedium text-brown-600 italic">
+                    "{item.answer}"
+                  </Text>
+                </View>
+              ))}
+            </>
+          ) : (
+            <Text className="font-UrbanistMedium text-white text-center mt-10">
+              No se encontraron respuestas detalladas para este test.
+            </Text>
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>
