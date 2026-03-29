@@ -4,13 +4,11 @@ import { useFonts } from "expo-font";
 import { useEffect, useCallback } from "react";
 import { SnackbarProvider } from "@/context";
 import * as NavigationBar from "expo-navigation-bar";
-import { StatusBar } from "expo-status-bar";
+import { StatusBar } from "react-native";
 import { queryClient } from "@/config/reactQuery";
 import "react-native-reanimated";
 import "../global.css";
 import { QueryClientProvider } from "@tanstack/react-query";
-// 🛑 IMPORTANTE: Importamos Platform para no romper iOS con cosas de Android
-import { Platform } from "react-native";
 
 export default function RootLayout() {
   const [loaded] = useFonts({
@@ -29,16 +27,10 @@ export default function RootLayout() {
     }
   }, [loaded]);
 
-  // 🛑 AQUÍ ESTÁ LA MAGIA: Forzamos el estilo oscuro CADA VEZ que el layout gana foco
   useFocusEffect(
     useCallback(() => {
       const setupBars = async () => {
-        // Tu código de NavigationBar (solo aplica para Android)
-        if (Platform.OS === "android") {
-          await NavigationBar.setButtonStyleAsync("dark");
-          // Forzamos también que la barra de navegación de abajo sea transparente/consistente si lo necesitas
-          await NavigationBar.setBackgroundColorAsync("transparent");
-        }
+        await NavigationBar.setButtonStyleAsync("dark");
       };
 
       setupBars();
@@ -54,13 +46,7 @@ export default function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <SnackbarProvider>
-        {/* 🛑 Aún necesitamos este componente aquí para el renderizado inicial */}
-        <StatusBar
-          style="dark"
-          backgroundColor="transparent"
-          translucent={true}
-        />
-
+        <StatusBar barStyle="dark-content" backgroundColor="transparent" />
         <Stack>
           <Stack.Screen name="index" options={{ headerShown: false }} />
           <Stack.Screen name="(auth)" options={{ headerShown: false }} />
