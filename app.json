@@ -33,6 +33,13 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
+      ],
+      [
+        "@sentry/react-native/expo",
+        {
+          "organization": "naya-l0",
+          "project": "react-native"
+        }
       ]
     ],
     "experiments": {

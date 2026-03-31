@@ -1,3 +1,4 @@
+import * as Sentry from "@sentry/react-native";
 import { Stack, useFocusEffect } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useFonts } from "expo-font";
@@ -6,11 +7,18 @@ import { SnackbarProvider } from "@/context";
 import * as NavigationBar from "expo-navigation-bar";
 import { StatusBar } from "react-native";
 import { queryClient } from "@/config/reactQuery";
+import { QueryClientProvider } from "@tanstack/react-query";
 import "react-native-reanimated";
 import "../global.css";
-import { QueryClientProvider } from "@tanstack/react-query";
 
-export default function RootLayout() {
+// Inicialización de Sentry
+Sentry.init({
+  dsn: "https://1ad48203ea3a520ed97384e4f1be5131@o4511136037470208.ingest.us.sentry.io/4511136043827200",
+  debug: true,
+  tracesSampleRate: 1.0,
+});
+
+function RootLayout() {
   const [loaded] = useFonts({
     "Urbanist-Bold": require("../assets/fonts/Urbanist-Bold.ttf"),
     "Urbanist-ExtraBold": require("../assets/fonts/Urbanist-ExtraBold.ttf"),
@@ -24,6 +32,8 @@ export default function RootLayout() {
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
+      // Descomenta la línea de abajo UNA VEZ para ver el error en el panel de Sentry
+      // Sentry.captureException(new Error("Métrica de prueba: Conexión Naya-UI exitosa"));
     }
   }, [loaded]);
 
@@ -32,16 +42,12 @@ export default function RootLayout() {
       const setupBars = async () => {
         await NavigationBar.setButtonStyleAsync("dark");
       };
-
       setupBars();
-
       return () => {};
     }, []),
   );
 
-  if (!loaded) {
-    return null;
-  }
+  if (!loaded) return null;
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -60,10 +66,16 @@ export default function RootLayout() {
             options={{ headerShown: false }}
           />
           <Stack.Screen name="(memociones)" options={{ headerShown: false }} />
-          <Stack.Screen name="(y_ese_ruido)/y-ese-ruido-main" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="(y_ese_ruido)/y-ese-ruido-main"
+            options={{ headerShown: false }}
+          />
           <Stack.Screen name="+not-found" />
         </Stack>
       </SnackbarProvider>
     </QueryClientProvider>
   );
 }
+
+// Exportación envuelta para Monitoreo
+export default Sentry.wrap(RootLayout);
