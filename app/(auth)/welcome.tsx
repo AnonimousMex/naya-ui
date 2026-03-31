@@ -53,11 +53,27 @@ const Welcome = () => {
             Registrarme
           </Text>
         </TouchableOpacity>
+
         <MainButton
           mainText="Continuar"
           onPress={() => router.push("/(auth)/sign-in")}
           className="w-80 py-3 mt-6"
         />
+
+        {/* 👇 BOTÓN TRAMPA PARA SENTRY (BORRAR DESPUÉS DE LA CAPTURA) 👇 */}
+        <TouchableOpacity
+          className="w-full py-3 mt-10 rounded-full border items-center bg-red-500"
+          onPress={() => {
+            throw new Error(
+              "💥 Error de prueba provocado para evidencia del reporte",
+            );
+          }}
+        >
+          <Text className="text-lg font-bold text-white">
+            🚨 Provocar Error Sentry
+          </Text>
+        </TouchableOpacity>
+        {/* 👆 FIN BOTÓN TRAMPA 👆 */}
       </View>
     </View>
   );

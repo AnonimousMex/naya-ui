@@ -8,7 +8,6 @@ import * as NavigationBar from "expo-navigation-bar";
 import { StatusBar } from "react-native";
 import { queryClient } from "@/config/reactQuery";
 import { QueryClientProvider } from "@tanstack/react-query";
-import "react-native-reanimated";
 import "../global.css";
 
 // Inicialización de Sentry
@@ -32,8 +31,6 @@ function RootLayout() {
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
-      // Descomenta la línea de abajo UNA VEZ para ver el error en el panel de Sentry
-      // Sentry.captureException(new Error("Métrica de prueba: Conexión Naya-UI exitosa"));
     }
   }, [loaded]);
 
@@ -56,7 +53,6 @@ function RootLayout() {
         <Stack>
           <Stack.Screen name="index" options={{ headerShown: false }} />
           <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-          <Stack.Screen name="(mainPages)" options={{ headerShown: false }} />
           <Stack.Screen
             name="(therapistPages)"
             options={{ headerShown: false }}
@@ -65,20 +61,8 @@ function RootLayout() {
             name="(parentsPages)"
             options={{ headerShown: false }}
           />
-          <Stack.Screen name="(memociones)" options={{ headerShown: false }} />
-<<<<<<< HEAD
-          <Stack.Screen
-            name="(y_ese_ruido)/y-ese-ruido-main"
-            options={{ headerShown: false }}
-          />
-=======
-          <Stack.Screen name="(emorganiza)" options={{ headerShown: false }} />
-          <Stack.Screen name="(y_ese_ruido)/y-ese-ruido-main" options={{ headerShown: false }} />
-          <Stack.Screen name="(detectiveEmociones)" options={{ headerShown: false }} />
-          <Stack.Screen name="(test)" options={{ headerShown: false }} />
->>>>>>> origin/develop
           <Stack.Screen name="+not-found" />
-        </Stack> 
+        </Stack>
       </SnackbarProvider>
     </QueryClientProvider>
   );
