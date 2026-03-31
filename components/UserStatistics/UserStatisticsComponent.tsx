@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Image } from 'react-native';
-import { IMAGES } from '@/constants/images';
+import { ICONS, IMAGES } from '@/constants/images';
 
 interface UserStatsRowProps {
   badges: number;
@@ -11,17 +11,17 @@ interface UserStatsRowProps {
 const UserStatsRow: React.FC<UserStatsRowProps> = ({ badges, streak, exp }) => {
   const stats = [
     {
-      image: IMAGES.MEDAL_ICON,
+      image: ICONS.MEDAL_ICON,
       value: badges,
       label: 'Insignias',
     },
     {
-      image: IMAGES.STREAK_ICON,
+      image: ICONS.STREAK_ICON,
       value: `${streak} Días`,
       label: 'Racha',
     },
     {
-      image: IMAGES.EXP_ICON,
+      image: ICONS.EXP_ICON,
       value: exp,
       label: 'EXP totales',
     },

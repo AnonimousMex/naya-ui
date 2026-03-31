@@ -7,6 +7,7 @@ export const URL_PATHS = {
     CHANGE_PASSWORD: "/auth/password-change-request",
     DAILY_MESSAGE: "/auth/daily",
     SELECT_PROFILE: "/auth/select-profile",
+    RESEND_VERIFICATION_CODE: "/auth/resend-verification-code",
   },
   ANIMAL: {
     LIST_ANIMALS: "/animals",
@@ -20,12 +21,31 @@ export const URL_PATHS = {
     LIST_PATIENTS: "/therapist/list-patients",
     CLOSE_CONNETION: "/disconnect-patient",
   },
+  PARENTS: {
+    LIST_THERAPISTS: "/parent/list-therapists",
+  },
   GAMES: {
     GET_MEMOCIONES_PAIRS: "/pairs",
-    GET_Y_ESE_RUIDO_SOUNDS: "/sounds"
+    GET_Y_ESE_RUIDO_SOUNDS: "/sounds",
+    GAME_LIST: "/games",
+    GET_DETECTIVE: "/detective/game"
   },
   ENERGIES: {
     GET_ENERGY: "/energy/current_energies",
     CONSUME_ENERGY: "/energy/consume",
+  },
+  ACHIEVEMENTS: {
+    UNLOCK_BADGE: "/unlock-badge",
+    LIST_BADGES: "/badges"
+  },
+  TEST: {
+    INIT_TEST: "/test/init-test",
+    SAVE_ANSWER: "/test/send-answer",
+    LIST_TESTS: "/test/list-test"
+  },
+  TEST_THERAPIST:{
+    TEST_INFO: "/test/test-details",
+    TEST_RESULTS: "/test/list-answers",
+    TEST_STATICS: "/test/percentage-answers"
   },
 };

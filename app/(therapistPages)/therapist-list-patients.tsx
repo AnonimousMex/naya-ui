@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   Dimensions,
 } from "react-native";
-import TherapistTopBar from "@/components/TherapistTopBar";
 import PatientCard from "@/components/PersonCard";
 import { IMAGES } from "@/constants/images";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -15,6 +14,7 @@ import { router } from "expo-router";
 import { HeaderTitleComponent } from "@/components/HeaderTitleComponent";
 import { useListPatientsMutation } from "@/hooks/therapist/useListPatientsMutation";
 import { TPatient } from "@/models/therapist";
+import { useUserAnimal } from "@/hooks/useUserAnimal";
 
 
 const CARD_MARGIN = 8;
@@ -24,6 +24,27 @@ const CONTAINER_PADDING = 40;
 const CARD_WIDTH =
   (SCREEN_WIDTH - CONTAINER_PADDING - CARD_MARGIN * (NUM_COLUMNS + 1)) /
   NUM_COLUMNS;
+
+const PatientCardWithAnimal: React.FC<{
+  patient: TPatient;
+  width: number;
+}> = ({ patient, width }) => {
+  const animalId = patient.animal_id || undefined;
+  const { animalImage, animalColor } = useUserAnimal(animalId);
+  
+  return (
+    <PatientCard
+      key={patient.patient_id}
+      id={patient.patient_id}
+      name={patient.name}
+      avatar={animalImage}
+      width={width}
+      circleColor={animalColor}
+      animalId={animalId}
+      type="patient"
+    />
+  );
+};
 
 const TherapistListPatients = () => {
 
@@ -60,14 +81,10 @@ const TherapistListPatients = () => {
           (
           <View className="flex-row flex-wrap justify-between">
             {displayPatients.map((p) => (
-              <PatientCard
+              <PatientCardWithAnimal
                 key={p.patient_id}
-                id={p.patient_id}
-                name={p.name}
-                avatar={p.avatar || IMAGES.HAPPY_AXOLOTL_HEAD} //Provisional
+                patient={p}
                 width={CARD_WIDTH}
-                circleColor={p.circleColor} //provisional
-                type="patient"
               />
             ))}
           </View>

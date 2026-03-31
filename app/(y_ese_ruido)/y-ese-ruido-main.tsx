@@ -6,10 +6,12 @@ import {
   Image,
   Dimensions,
   ActivityIndicator,
+  Modal,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { IMAGES } from "@/constants/images";
 import { GameHeader } from "@/components/GameHeader";
+import { useUserHeaderData } from "@/hooks/useUserHeaderData";
 import { router } from "expo-router";
 import { AutoDismissModal } from "@/components/AutoDismissModal";
 import { Audio } from "expo-av";
@@ -24,6 +26,11 @@ import { HTTP } from "@/config/axios";
 import { URL_PATHS } from "@/constants/urlPaths";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+// 🔹 Imports para insignia
+import { useUnlockBadgeMutation } from "@/hooks/badges/useUnlockBadgeMutation";
+import { formatError } from "@/utils/errorHandler";
+import { InsigniaDescriptionComponent } from "@/components/InsigniaDescription";
+
 const soundMap: Record<string, any> = {
   "/sounds/baby-cry-101477.mp3": require("@/assets/sounds/baby-cry-101477.mp3"),
   "/sounds/baby-laugh-2-329754.mp3": require("@/assets/sounds/baby-laugh-2-329754.mp3"),
@@ -34,7 +41,6 @@ const soundMap: Record<string, any> = {
 };
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
-const isSmallScreen = screenHeight < 700;
 
 const useEnergy = () => {
   const [energy, setEnergy] = useState(0);
@@ -52,7 +58,6 @@ const useEnergy = () => {
       );
       setEnergy(data.current_energy);
     } catch (e) {
-      console.error("Error al obtener energía:", e);
       setEnergy(0);
     }
   };
@@ -61,6 +66,10 @@ const useEnergy = () => {
 };
 
 const YEseRuidoScreen = () => {
+  const { energy, userName, avatar, fetchHeaderData } = useUserHeaderData();
+  useEffect(() => {
+    fetchHeaderData();
+  }, [fetchHeaderData]);
   const [modalVisible, setModalVisible] = useState(false);
   const [endModalVisible, setEndModalVisible] = useState(false);
   const [showChoices, setShowChoices] = useState(false);
@@ -75,11 +84,15 @@ const YEseRuidoScreen = () => {
   const responsiveBoxHeight = screenHeight * 0.6;
   const lottieSize = screenWidth * 0.55;
   const bunnySize = screenWidth * 0.35;
-  const { energy, fetchEnergy } = useEnergy();
+  const [selectedMedal, setSelectedMedal] = useState<{
+    title: string;
+    description: string;
+    image_path: string;
+  } | null>(null);
+  const [showMedalModal, setShowMedalModal] = useState(false);
 
-  useEffect(() => {
-    fetchEnergy();
-  }, []);
+  const { mutateAsync: unlockBadge } = useUnlockBadgeMutation();
+
 
   useEffect(() => {
     const fetchSounds = async () => {
@@ -139,7 +152,7 @@ const YEseRuidoScreen = () => {
     setShowChoices(true);
   };
 
-  const handleCorrectAnswerClose = () => {
+  const handleCorrectAnswerClose = async () => {
     setShowCorrectAnswer(false);
     setSelectedEmotion(null);
     setShowChoices(false);
@@ -147,7 +160,29 @@ const YEseRuidoScreen = () => {
     if (audioIndex < sounds.length - 1) {
       setAudioIndex(audioIndex + 1);
     } else {
-      router.replace("/(mainPages)/home");
+      try {
+        const token = await AsyncStorage.getItem("accessToken");
+        if (!token) throw new Error("No auth token found");
+
+        const { data } = await unlockBadge({
+          token,
+          badge_title: "Algo suena",
+        });
+
+        if (data?.title && data?.description && data?.image_path) {
+          setSelectedMedal({
+            title: data.title,
+            description: data.description,
+            image_path: data.image_path,
+          });
+          setShowMedalModal(true);
+          return;
+        }
+
+        router.replace("/(mainPages)/home");
+      } catch (err: any) {
+        router.replace("/(mainPages)/home");
+      }
     }
   };
 
@@ -173,8 +208,8 @@ const YEseRuidoScreen = () => {
       <View className="items-center px-4 mt-5">
         <GameHeader
           energy={energy}
-          name="Hugo"
-          avatar={IMAGES.HAPPY_AXOLOTL_HEAD}
+          name={userName}
+          avatar={avatar ?? IMAGES.UNKNOWN_HEAD}
         />
       </View>
 
@@ -259,6 +294,52 @@ const YEseRuidoScreen = () => {
           />
         </>
       )}
+
+      <Modal
+        visible={showMedalModal}
+        transparent
+        animationType="slide"
+        onRequestClose={() => {
+          setShowMedalModal(false);
+          router.replace("/(mainPages)/home");
+        }}
+      >
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: "rgba(0,0,0,0.5)",
+            justifyContent: "center",
+            alignItems: "center",
+            paddingTop: 80,
+          }}
+        >
+          <Pressable
+            style={{
+              position: "absolute",
+              top: 0,
+              right: 0,
+              bottom: 0,
+              left: 0,
+            }}
+            onPress={() => {
+              setShowMedalModal(false);
+              router.replace("/(mainPages)/home");
+            }}
+          />
+          {selectedMedal && (
+            <InsigniaDescriptionComponent
+              title={selectedMedal.title}
+              description={selectedMedal.description}
+              medalImageName={selectedMedal.image_path}
+              onClose={() => {
+              setShowMedalModal(false);
+              router.replace("/(mainPages)/home");
+              }}
+            />
+
+          )}
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };

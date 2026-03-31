@@ -4,45 +4,55 @@ import { BackButton } from '../../components/BackButton';
 import ContactInfoButton from '../../components/ContactInfoButton';
 import AddressBox from '../../components/AddressBox';
 import ExperienceList from '../../components/ExperienceList';
+import SpecialtyList from '../../components/SpecialtyList';
 import { IMAGES } from '@/constants/images';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 
-interface TherapistCVProps {
-	name: string;
-	description: string;
-	phone: string;
-	email: string;
-	experiences: Array<{ title: string; years: string; description: string }>;
-	address: string;
-	image: any;
-}
+export default function TherapistCV() {
+	const params = useLocalSearchParams();
+	
+	const name = params.name as string || 'Sin nombre registrado';
+	const description = params.description as string || 'No hay descripción disponible';
+	const phone = params.phone as string || 'No hay teléfono registrado';
+	const email = params.email as string || 'No hay email registrado';
+	const address = params.address as string || 'No hay dirección registrada';
+	
+	let specialties;
+	try {
+		specialties = params.specialties ? JSON.parse(params.specialties as string) : [];
+	} catch (error) {
+		specialties = [];
+	}
+	
+	if (specialties.length === 0) {
+		specialties = [
+			{
+				name: 'No hay especialidades registradas',
+				description: ''
+			}
+		];
+	}
+	
+	let experiences;
+	try {
+		experiences = params.experiences ? JSON.parse(params.experiences as string) : [];
+	} catch (error) {
+		experiences = [];
+	}
+	
+	if (experiences.length === 0) {
+		experiences = [
+			{
+				title: 'No hay experiencias registradas',
+				years: '',
+				description: 'No se han registrado experiencias profesionales',
+			}
+		];
+	}
+	
+	const imageKey = params.image as string || 'THERAPIST_PHOTO_CV';
+	const image = IMAGES[imageKey as keyof typeof IMAGES] || IMAGES.THERAPIST_PHOTO_CV;
 
-export default function TherapistCV({
-	name = 'Rodrigo Vega',
-	description = 'Soy Rodrigo, un psicólogo apasionado por los niños y su salud emocional en ellos',
-	phone = '4436459525',
-	email = 'hola@gmail.com',
-	experiences = [
-		{
-			title: 'DIF Maravatio',
-			years: '2025-2030',
-			description: 'Consultas, programa de salud emociona, etc.',
-		},
-		{
-			title: 'DIF Maravatio',
-			years: '2025-2030',
-			description: 'Consultas, programa de salud emociona, etc.',
-		},
-		{
-			title: 'DIF Maravatio',
-			years: '2025-2030',
-			description: 'Consultas, programa de salud emociona, etc.',
-		},
-	]
-		,
-	address = 'Col. husbx calle bz #221, morelia, mich',
-	image = IMAGES.THERAPIST_PHOTO_CV,
-}: TherapistCVProps) {
 	const { width, height } = Dimensions.get('window');
 	const isTablet = width >= 520;
 	const dynamicHeight = isTablet ? height * 0.5 : height * 0.4;
@@ -101,6 +111,10 @@ export default function TherapistCV({
 						<ContactInfoButton label={phone} />
 						<ContactInfoButton label={email} />
 					</View>
+					<Text className="text-orange-500 font-bold text-2xl mt-6 mb-2 text-center">
+						Especialidades
+					</Text>
+					<SpecialtyList specialties={specialties} />
 					<Text className="text-orange-500 font-bold text-2xl mt-6 mb-2 text-center">
 						Experiencia
 					</Text>

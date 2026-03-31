@@ -1,4 +1,4 @@
-import { View, Image, Text } from "react-native";
+import { View, Image, Text, TouchableOpacity } from "react-native";
 import React from "react";
 
 interface Appointment {
@@ -7,6 +7,7 @@ interface Appointment {
     image: any;
   };
   datetime: Date;
+  onPress?: () => void;
 }
 
 interface TherapistUpcomingAppointmentsProps {
@@ -38,9 +39,11 @@ const TherapistUpcomingAppointmentsComponent = ({ appointments }: TherapistUpcom
           });
 
           return (
-            <View
+            <TouchableOpacity
               key={index}
+              onPress={appt.onPress}
               className="flex-row items-center px-4 py-4 mb-4 rounded-[30px] shadow-sm bg-brown-50"
+              activeOpacity={0.7}
             >              
               <View className="rounded-full bg-white w-22 h-22 items-center justify-center">
                 <Image
@@ -57,7 +60,7 @@ const TherapistUpcomingAppointmentsComponent = ({ appointments }: TherapistUpcom
                   {dateStr}, {timeStr}
                 </Text>
               </View>
-            </View>
+            </TouchableOpacity>
           );
         })
       )}

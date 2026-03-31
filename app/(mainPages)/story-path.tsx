@@ -8,6 +8,7 @@ import {
   unlockNextStory,
 } from "@/constants/storyPathConfig";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { router } from "expo-router";
 
 const backgroundImageSource = Image.resolveAssetSource(
   STORY_PATH_CONFIG.background,
@@ -50,6 +51,7 @@ const StoryPath = () => {
             ),
           );
         }
+        router.push("/(test)/psychometric-test")
       }
     }
   };

@@ -55,12 +55,29 @@ export type TAppointment = {
   date: string;     
   time: string;    
 };
+
+export type TAppointmentWithPatient = {
+  id: string;
+  patient_id: string;
+  date: string;     
+  time: string;    
+  patient_name?: string;
+  patient_animal_id?: string;
+};
 export type TCancelAppointmentRequest = {     
   id: string;
 };
+export type TGame = {
+  id: string;
+  name: string;
+  description: string;
+  image_url: string;
+}
+
+export type TGameListResponse = TGame[];
 
 export type TListAppointmentResponse = TAppointment[];
-;
+
 
 export const emptyListAppointmentResponse: TSingleDataResponse<TListAppointmentResponse> = {
   status: 200,

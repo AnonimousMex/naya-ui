@@ -22,16 +22,27 @@ import { NavbarComponent } from "@/components/NavBar";
 import PatientAppointments from "@/components/PatientAppointments";
 import { BackButton } from "@/components/BackButton";
 import { IMAGES, ICONS } from "@/constants/images";
+import { useLocalSearchParams } from "expo-router";
 import { useCreateAppointmentMutation } from "@/hooks/therapist/useCreateAppointmentMuation";
+import { getAnimalVariantImage } from "@/utils/animalAssets";
+import { useUserAnimal } from "@/hooks/useUserAnimal";
 
 const PatientAppoinment = () => {
   const { showSnackbar } = useSnackbar();
   const { width, height } = Dimensions.get("window");
   const fontSize = width * 0.06;
-  const patientName = "Rodrigo";
-  const bgColor = "bg-pink-700";
-  const patient_id = "b676f339-3b9f-4f4f-b686-5237b5c3ae0e";
-  const patientAvatar = IMAGES.HAPPY_AXOLOTL_1;
+  
+  const params = useLocalSearchParams();
+  const patient_id = params.id as string;
+  const patientName = params.name as string;
+  const animalId = params.animalId as string;
+  
+  const { animalData, animalColor } = useUserAnimal(animalId);
+  
+  const patientAvatar = animalData?.animal_key 
+    ? getAnimalVariantImage(animalData.animal_key, "happy", 3)
+    : IMAGES.HAPPY_AXOLOTL_1;
+  
   const isTablet = width >= 520;
   const dynamicHeight = isTablet ? height * 0.6 : height * 0.4;
 
@@ -162,11 +173,12 @@ const PatientAppoinment = () => {
     <SafeAreaViewContext className="flex-1 bg-brown-50">
       <ScrollView contentContainerStyle={{ paddingBottom: 80 }} showsVerticalScrollIndicator>
         <View
-          className={`relative ${bgColor}`}
+          className="relative"
           style={{
             height: dynamicHeight,
             borderBottomLeftRadius: 30,
             borderBottomRightRadius: 30,
+            backgroundColor: animalColor || "#edcedb",
           }}
         >
           <View className="relative h-16 justify-center">
@@ -258,7 +270,6 @@ const PatientAppoinment = () => {
                   {selectedAppointment ? "Editar cita" : "Agendar nueva cita"}
                 </Text>
 
-                {/* Fecha */}
                 <Pressable onPress={() => setShowDatePicker(true)} className="flex-row items-center bg-slate-100 rounded-full p-3 mb-4 w-full">
                   <Image source={ICONS.CALENDAR_ICON} className="w-10 h-10 mr-3" resizeMode="contain" />
                   <Text className="text-slate-800 text-base font-bold font-urbanistBold">
@@ -294,7 +305,6 @@ const PatientAppoinment = () => {
                   />
                 )}
 
-                {/* Botones */}
                 <View className={`w-full mt-6 ${selectedAppointment ? "flex-row justify-between gap-5 space-x-3" : ""}`}>
                   {selectedAppointment ? (
                     <>

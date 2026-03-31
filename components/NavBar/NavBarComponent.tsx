@@ -2,6 +2,7 @@ import { ICONS, IMAGES } from "@/constants/images";
 import { router } from "expo-router";
 import React from "react";
 import { View, TouchableOpacity, Image } from "react-native";
+import { useUserAnimal } from "@/hooks/useUserAnimal";
 
 interface NavbarComponentProps {
   isTherapist?: boolean;
@@ -11,7 +12,7 @@ const NavbarComponent: React.FC<NavbarComponentProps> = ({
   isTherapist = false,
 }) => {
   const widthAndHeight = "w-9 h-9";
-  const bg = isTherapist ? "bg-pink-400" : "bg-red-900";
+  const { animalImage, animalColor } = useUserAnimal();
   const navBg = "bg-white";
 
   return (
@@ -19,7 +20,7 @@ const NavbarComponent: React.FC<NavbarComponentProps> = ({
       <View className="flex-row justify-around items-center h-[4rem] mx-4">
         <TouchableOpacity
           onPress={() =>
-            router.push(
+            router.navigate(
               isTherapist
                 ? "/(therapistPages)/therapist-home"
                 : "/(mainPages)/home",
@@ -75,13 +76,14 @@ const NavbarComponent: React.FC<NavbarComponentProps> = ({
           }
         >
           <View
-            className={`rounded-full w-11 h-11 ${bg} flex justify-center items-center overflow-hidden p-[0.5rem]`}
+            className={`rounded-full w-11 h-11 flex justify-center items-center overflow-hidden p-[0.5rem] ${isTherapist ? "bg-pink-400" : ""}`}
+            style={{
+              backgroundColor: isTherapist ? undefined : animalColor,
+            }}
           >
             <Image
               source={
-                isTherapist
-                  ? IMAGES.DEFAULT_WOMAN_THERAPIST
-                  : IMAGES.HAPPY_LION_HEAD
+                isTherapist ? IMAGES.DEFAULT_WOMAN_THERAPIST : animalImage
               }
               className="w-[140%] h-[110%] object-contain"
             />

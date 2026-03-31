@@ -1,0 +1,18 @@
+{
+  "cli": { "version": ">= 16.17.4", "appVersionSource": "remote" },
+  "build": {
+    "preview": {
+      "distribution": "internal",
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://naya-api-os0j.onrender.com/api/v1"
+      }
+    },
+    "production": {
+      "autoIncrement": true,
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://naya-api-os0j.onrender.com/api/v1"
+      }
+    }
+  },
+  "submit": { "production": {} }
+}

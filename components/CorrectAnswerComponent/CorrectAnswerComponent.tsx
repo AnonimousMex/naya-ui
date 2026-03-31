@@ -70,7 +70,7 @@ const CorrectAnswerComponent = ({ visible, onClose, emotion }: Props) => {
   const { title, body, tip, highlight } = emotion;
   const emotionTranslated = translateEmotion(emotion.text);
   const { image, color, borderColor } = EMOTION_STYLE_MAP[emotionTranslated] || {
-    image: IMAGES.HAPPY_PANDA_1,
+    image: IMAGES.ANGRY_AXOLOTL_2,
     color: "#f472b6",
     borderColor: "#ec4899",
   };

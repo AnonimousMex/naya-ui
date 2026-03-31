@@ -66,12 +66,19 @@ function RootLayout() {
             options={{ headerShown: false }}
           />
           <Stack.Screen name="(memociones)" options={{ headerShown: false }} />
+<<<<<<< HEAD
           <Stack.Screen
             name="(y_ese_ruido)/y-ese-ruido-main"
             options={{ headerShown: false }}
           />
+=======
+          <Stack.Screen name="(emorganiza)" options={{ headerShown: false }} />
+          <Stack.Screen name="(y_ese_ruido)/y-ese-ruido-main" options={{ headerShown: false }} />
+          <Stack.Screen name="(detectiveEmociones)" options={{ headerShown: false }} />
+          <Stack.Screen name="(test)" options={{ headerShown: false }} />
+>>>>>>> origin/develop
           <Stack.Screen name="+not-found" />
-        </Stack>
+        </Stack> 
       </SnackbarProvider>
     </QueryClientProvider>
   );

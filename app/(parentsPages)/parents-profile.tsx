@@ -10,14 +10,29 @@ import { SafeAreaView as SafeAreaViewContext } from "react-native-safe-area-cont
 import { ICONS } from "@/constants/images";
 import { router } from "expo-router";
 import { ProfileButtonComponent } from "@/components/ProfileButtonsComponent";
+import { useUserInfo } from "@/hooks/useUserInfo";
+import { useState } from "react";
+import { ParentsProfileModal } from "@/components/ParentsProfileModal";
 
 const ParentsProfile = () => {
-  const userEmail = "@hugo.lemus";
+  const { userInfo } = useUserInfo();
+  const userEmail = userInfo?.email || "No hay correo registrado";
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalType, setModalType] = useState<"profile" | "terms">("profile");
+
+  const openModal = (type: "profile" | "terms") => {
+    setModalType(type);
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+  };
   const profileButtons = [
     {
       icon: ICONS.PERSON_ICON,
       text: "Información personal",
-      onPress: () => router.push("/(parentsPages)/parents-profile"),
+      onPress: () => openModal("profile"),
     },
     {
       icon: ICONS.LOCK_ICON,
@@ -32,7 +47,7 @@ const ParentsProfile = () => {
     {
       icon: ICONS.VERIFIED_ICON,
       text: "Terminos y condiciones",
-      onPress: () => router.push("/(auth)/welcome"),
+      onPress: () => openModal("terms"),
     },
   ];
 
@@ -79,6 +94,12 @@ const ParentsProfile = () => {
           </TouchableOpacity>
         </View>
       </ScrollView>
+      
+      <ParentsProfileModal
+        visible={modalVisible}
+        onClose={closeModal}
+        type={modalType}
+      />
     </SafeAreaViewContext>
   );
 };
