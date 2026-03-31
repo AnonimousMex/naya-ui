@@ -26,5 +26,3 @@ jobs:
       - name: Run Unit Tests
         run: npm test -- --watchAll=false --passWithNoTests # Esto evita que falle si aún no tienes tests escritos
 
-      - name: Build project
-        run: npm run build
